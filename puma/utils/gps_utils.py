@@ -95,13 +95,16 @@ class GpsUtils:
         self.start_route()
 
     def start_route(self):
-        # todo: make method to stop route, and stop these threads properly
         consumer_thread = threading.Thread(target=self._route_loop)
         consumer_thread.daemon = True
         consumer_thread.start()
-        consumer_thread = threading.Thread(target=self._appium_loop())
+        consumer_thread = threading.Thread(target=self._appium_loop)
         consumer_thread.daemon = True
         consumer_thread.start()
+
+    def stop_route(self):
+        self._next_locations = None
+        self._current_location = None
 
     def update_speed(self, speed: float):
         self._current_speed = speed
