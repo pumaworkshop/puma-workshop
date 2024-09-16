@@ -1,10 +1,11 @@
 import threading
 import time
 from time import sleep
-from typing import Optional
+from typing import Optional, Callable
 
 import geopy.distance
 import gpxpy
+import requests
 from appium.webdriver.webdriver import WebDriver
 from geopy import Point
 from gpxpy.gpx import GPXTrackPoint
@@ -95,9 +96,56 @@ class GpsUtils:
         self.start_route()
 
     def execute_route_with_points(self, point_list: [Point]):
+        """
+        This method executes a route by updating the GPS location of the device.
+        The points it will follow are defined in the list provided by the user.
+        :param point_list: the list with points of the route
+        """
         self._next_locations = point_list
         self._current_location = None
         self.start_route()
+
+    def execute_route_with_queries(self, start_loc: str, destination: str, transport_mode: str, start_visual_function: Callable[[str, str], None] = None):
+        """
+        This method executes a route by updating the GPS location of the device.
+        The points this route will follow are calculated based upon the two locations provided by the user.
+        The locations will be queried with nominatim, the route is calculated with OSM, and the nodes
+        are translated by Overpass.
+        :param start_loc: the location to start from as string value
+        :param destination: the destination location as string value
+        :param transport_mode: the mode of transportation that is used, this can only be: 'car', 'foot', or 'bike'
+        :param start_visual_function: an optional method that will be called after the route is calculated, but before the route points are being updated,
+        this can be used to start the directions in a navigation based application after the start location has been set.
+        """
+        config = dict(user_agent="Maps")
+        cls = geopy.get_geocoder_for_service("nominatim")
+        geocoder = cls(**config)
+        start_location = geocoder.geocode(start_loc)
+        destination_location = geocoder.geocode(destination)
+        start_lat = start_location.latitude
+        start_lon = start_location.longitude
+        end_lat = destination_location.latitude
+        end_lon = destination_location.longitude
+        self.driver.set_location(start_lat, start_lon)
+
+        URL = f"http://router.project-osrm.org/route/v1/{transport_mode}/{start_lon},{start_lat};{end_lon},{end_lat}?alternatives=false&annotations=nodes"  # car / bike / foot
+        r = requests.get(url=URL)
+        data = r.json()
+        nodes = data["routes"][0]["legs"][0]["annotation"]["nodes"]
+        overpass_query = f"[out:json];({''.join('node(' + str(x) + ');' for x in nodes)});(._;>;);out;"
+        r2 = requests.post(url='https://overpass-api.de/api/interpreter', verify=False, data=overpass_query)
+        data2 = r2.json()
+
+        point_dict = {}
+        point_list = []
+        for element in data2['elements']:
+            point_dict.update({element['id']: Point(element['lat'], element['lon'])})
+        for x in nodes:
+            point_list.append(point_dict.get(x))
+
+        if start_visual_function is not None:
+            start_visual_function(destination, transport_mode)
+        self.execute_route_with_points(point_list)
 
     def start_route(self):
         consumer_thread = threading.Thread(target=self._route_loop)
