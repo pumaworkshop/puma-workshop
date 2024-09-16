@@ -13,14 +13,19 @@ from gpxpy.gpx import GPXTrackPoint
 
 class GpsUtils:
 
-    def __init__(self, driver: WebDriver):
+    def __init__(self, driver: WebDriver,
+                 target_speed: int,
+                 absolute_speed_variance: int = None,
+                 relative_speed_variance: float = None):
         # static settings
-        self.update_speed(80, variance_absolute=5)
-        self._location_update_interval = 1
+        self.location_update_interval = 1
         # dynamic fields
         self.driver = driver
+        # initial speed is 0
+        self.update_speed(target_speed,
+                          variance_absolute=absolute_speed_variance,
+                          variance_relative=relative_speed_variance)
         # fields relating to current and future locations
-        self._current_speed = 0
         self._next_point = None
         self._current_location: Optional[Point] = None
         self._next_locations: [Point] = []
@@ -68,7 +73,6 @@ class GpsUtils:
             time_elapsed = now - self._last_location_update
             # calculate current speed with variance
             self._current_speed = random.uniform(self._target_speed_lower_bound, self._target_speed_upper_bound)
-            print(f"current speed: {self._current_speed}")
             distance_to_travel = time_elapsed * ((self._current_speed * 1000) / 3600)  # km/h to m/s
             self._travel_distance(distance_to_travel)
         self._last_location_update = now
@@ -85,7 +89,7 @@ class GpsUtils:
             self._update_location()
             stop = time.time()
             delay = stop - start
-            sleep(max(self._location_update_interval - delay, 0.1))
+            sleep(max(self.location_update_interval - delay, 0.1))
 
     def _appium_loop(self):
         while self._current_location:
@@ -93,18 +97,18 @@ class GpsUtils:
             self._update_appium_location()
             stop = time.time()
             delay = stop - start
-            sleep(max(self._location_update_interval - delay, 0.1))
+            sleep(max(self.location_update_interval - delay, 0.1))
 
     def execute_route_with_gpx(self, gpx_file: str):
         self._load_gpx(gpx_file)
-        self.start_route()
+        self._start_route()
 
     def execute_route_with_points(self, point_list: [Point]):
         self._next_locations = point_list
         self._current_location = None
-        self.start_route()
+        self._start_route()
 
-    def start_route(self):
+    def _start_route(self):
         consumer_thread = threading.Thread(target=self._route_loop)
         consumer_thread.daemon = True
         consumer_thread.start()
@@ -116,24 +120,25 @@ class GpsUtils:
         self._next_locations = None
         self._current_location = None
 
-    def update_speed(self, speed: float, variance_relative: float = 0.0, variance_absolute: int = 0):
+    def update_speed(self, speed: float, variance_absolute: int = 0, variance_relative: float = 0.0):
         """
         Updates the speed at which the route is being traveled. Optionally, the speed can be variable by giving
         either an absolute or relative variance.
         This method can be called to update the speed as a route is being traveled.
         :param speed: The (average) speed the route will be traversed.
-        :param variance_relative: The relative variance in speed. A value of 0.05 means the speed will vary between 95%
-        and 105% of the given speed.
         :param variance_absolute: The absolute variance in speed. A value of 5 means the speed will vary between -5kmph
         and +5kmph of the given speed.
+        :param variance_relative: The relative variance in speed. A value of 0.05 means the speed will vary between 95%
+        and 105% of the given speed.
         """
-        if variance_relative:
-            self._target_speed_lower_bound = speed * max(0.0, 1 - variance_relative)
-            self._target_speed_upper_bound = speed * max(0.0, 1 + variance_relative)
-            return
+        self._current_speed = speed
         if variance_absolute:
             self._target_speed_lower_bound = max(0.0, speed - variance_absolute)
             self._target_speed_upper_bound = max(0.0, speed + variance_absolute)
+            return
+        if variance_relative:
+            self._target_speed_lower_bound = speed * max(0.0, 1 - variance_relative)
+            self._target_speed_upper_bound = speed * max(0.0, 1 + variance_relative)
             return
         # no variance: constant speed
         self._target_speed_lower_bound = speed
