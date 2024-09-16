@@ -90,8 +90,13 @@ class GpsUtils:
             delay = stop - start
             sleep(max(self._location_update_interval - delay, 0.1))
 
-    def execute_route(self, gpx_file: str):
+    def execute_route_with_gpx(self, gpx_file: str):
         self._load_gpx(gpx_file)
+        self.start_route()
+
+    def execute_route_with_points(self, point_list: [Point]):
+        self._next_locations = point_list
+        self._current_location = None
         self.start_route()
 
     def start_route(self):
