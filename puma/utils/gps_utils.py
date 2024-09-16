@@ -83,6 +83,12 @@ class GpsUtils:
             self._current_location = next_pos
 
     def _update_location(self):
+        """
+        This method ONLY updates the _current_location and _last_location_update fields. it does not spoof the location.
+        This method will look at the current speed and how long ago the location was last updated, and travel a distance
+        according to said speed and duration.
+        This method does nothing if there is no next location.
+        """
         if not self._next_locations:
             return
         now = time.time()
@@ -96,13 +102,11 @@ class GpsUtils:
             self._travel_distance(distance_to_travel)
         self._last_location_update = now
 
-    def _update_appium_location(self):
-        self.driver.set_location(self._current_location.latitude,
-                                 self._current_location.longitude,
-                                 self._current_location.altitude,
-                                 self._current_speed, 5)
-
     def _route_loop(self):
+        """
+        This method will travel the loaded route, and stop looping when the last point is reached.
+        The loop will attempt to execute every location_update_interval seconds (with a minimum of once every 0.1s)
+        """
         while self._next_locations:
             start = time.time()
             self._update_location()
@@ -111,9 +115,17 @@ class GpsUtils:
             sleep(max(self.location_update_interval - delay, 0.1))
 
     def _appium_loop(self):
+        """
+        This method will loop and spoof the location through appium
+        It will exit if there is no set _current_location().
+        The loop will attempt to execute every location_update_interval seconds (with a minimum of once every 0.1s)
+        """
         while self._current_location:
             start = time.time()
-            self._update_appium_location()
+            self.driver.set_location(self._current_location.latitude,
+                                     self._current_location.longitude,
+                                     self._current_location.altitude,
+                                     self._current_speed, 5)
             stop = time.time()
             delay = stop - start
             sleep(max(self.location_update_interval - delay, 0.1))
