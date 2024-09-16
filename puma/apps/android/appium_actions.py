@@ -80,7 +80,7 @@ class AndroidAppiumActions:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self._screen_recorder is not None:
-            self._screen_recorder.__exit__(None, None, None)
+            self.stop_recording_and_save_video()
         self.driver.__exit__(exc_type, exc_val, exc_tb)
 
     def back(self):
@@ -126,15 +126,16 @@ class AndroidAppiumActions:
         self.driver.implicitly_wait(self.implicit_wait)
         return len(found) > 0
 
-    def start_recording(self):
+    def start_recording(self, output_directory: str):
         if self._screen_recorder is None:
+            self._screen_recorder_output_directory = output_directory
             self._screen_recorder = AdbScreenRecorder(self.adb)
             self._screen_recorder.start_recording()
 
-    def stop_recording_and_save_video(self, output_directory: str) -> [str]:
+    def stop_recording_and_save_video(self) -> [str]:
         if self._screen_recorder is None:
             return None
-        video_files = self._screen_recorder.stop_recording(output_directory)
+        video_files = self._screen_recorder.stop_recording(self._screen_recorder_output_directory)
         self._screen_recorder.__exit__(None, None, None)
         self._screen_recorder = None
         return video_files
