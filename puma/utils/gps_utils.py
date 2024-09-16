@@ -15,7 +15,7 @@ class GpsUtils:
 
     def __init__(self, driver: WebDriver):
         # static settings
-        self.update_target_speed(80, variance_absolute=5)
+        self.update_speed(80, variance_absolute=5)
         self._location_update_interval = 1
         # dynamic fields
         self.driver = driver
@@ -116,15 +116,25 @@ class GpsUtils:
         self._next_locations = None
         self._current_location = None
 
-    def update_target_speed(self, target_speed: float, variance_relative: float = 0.0, variance_absolute: int = 0):
+    def update_speed(self, speed: float, variance_relative: float = 0.0, variance_absolute: int = 0):
+        """
+        Updates the speed at which the route is being traveled. Optionally, the speed can be variable by giving
+        either an absolute or relative variance.
+        This method can be called to update the speed as a route is being traveled.
+        :param speed: The (average) speed the route will be traversed.
+        :param variance_relative: The relative variance in speed. A value of 0.05 means the speed will vary between 95%
+        and 105% of the given speed.
+        :param variance_absolute: The absolute variance in speed. A value of 5 means the speed will vary between -5kmph
+        and +5kmph of the given speed.
+        """
         if variance_relative:
-            self._target_speed_lower_bound = target_speed * max(0.0, 1 - variance_relative)
-            self._target_speed_upper_bound = target_speed * max(0.0, 1 + variance_relative)
+            self._target_speed_lower_bound = speed * max(0.0, 1 - variance_relative)
+            self._target_speed_upper_bound = speed * max(0.0, 1 + variance_relative)
             return
         if variance_absolute:
-            self._target_speed_lower_bound = max(0.0, target_speed - variance_absolute)
-            self._target_speed_upper_bound = max(0.0, target_speed + variance_absolute)
+            self._target_speed_lower_bound = max(0.0, speed - variance_absolute)
+            self._target_speed_upper_bound = max(0.0, speed + variance_absolute)
             return
         # no variance: constant speed
-        self._target_speed_lower_bound = target_speed
-        self._target_speed_upper_bound = target_speed
+        self._target_speed_lower_bound = speed
+        self._target_speed_upper_bound = speed
