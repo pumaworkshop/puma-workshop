@@ -1,3 +1,4 @@
+import random
 import threading
 import time
 from time import sleep
@@ -14,11 +15,12 @@ class GpsUtils:
 
     def __init__(self, driver: WebDriver):
         # static settings
-        self._current_speed = 90
+        self.update_target_speed(80, variance_absolute=5)
         self._location_update_interval = 1
         # dynamic fields
         self.driver = driver
         # fields relating to current and future locations
+        self._current_speed = 0
         self._next_point = None
         self._current_location: Optional[Point] = None
         self._next_locations: [Point] = []
@@ -64,6 +66,9 @@ class GpsUtils:
             self._current_location = self._next_locations.pop(0)
         else:
             time_elapsed = now - self._last_location_update
+            # calculate current speed with variance
+            self._current_speed = random.uniform(self._target_speed_lower_bound, self._target_speed_upper_bound)
+            print(f"current speed: {self._current_speed}")
             distance_to_travel = time_elapsed * ((self._current_speed * 1000) / 3600)  # km/h to m/s
             self._travel_distance(distance_to_travel)
         self._last_location_update = now
@@ -111,5 +116,15 @@ class GpsUtils:
         self._next_locations = None
         self._current_location = None
 
-    def update_speed(self, speed: float):
-        self._current_speed = speed
+    def update_target_speed(self, target_speed: float, variance_relative: float = 0.0, variance_absolute: int = 0):
+        if variance_relative:
+            self._target_speed_lower_bound = target_speed * max(0.0, 1 - variance_relative)
+            self._target_speed_upper_bound = target_speed * max(0.0, 1 + variance_relative)
+            return
+        if variance_absolute:
+            self._target_speed_lower_bound = max(0.0, target_speed - variance_absolute)
+            self._target_speed_upper_bound = max(0.0, target_speed + variance_absolute)
+            return
+        # no variance: constant speed
+        self._target_speed_lower_bound = target_speed
+        self._target_speed_upper_bound = target_speed
