@@ -17,11 +17,11 @@ class GpsUtils:
     def __init__(self, driver: WebDriver,
                  target_speed: int,
                  absolute_speed_variance: int = None,
-                 relative_speed_variance: float = None):
-        # static settings
-        self.location_update_interval = 1
+                 relative_speed_variance: float = None,
+                 location_update_interval: float = 1):
         # dynamic fields
         self.driver = driver
+        self.location_update_interval = location_update_interval
         # initial speed is 0
         self.update_speed(target_speed,
                           variance_absolute=absolute_speed_variance,
@@ -32,28 +32,46 @@ class GpsUtils:
         self._next_locations: [Point] = []
         self._last_location_update: Optional[float] = None
 
-    def _load_gpx(self, gpx_file: str):
-        points: [GPXTrackPoint] = []
-        with open(gpx_file, 'r') as opened_file:
-            gpx = gpxpy.parse(opened_file)
-            for track in gpx.tracks:
-                for segment in track.segments:
-                    points.extend(segment.points)
-        # transform GPXTrackPoint to Point objects. Do not include p.elevation because calculating distances between
-        # points with an elevation is not supported by geopy
-        self._next_locations = [Point(p.latitude, p.longitude, 0) for p in points]
-        self._current_location = None
+    def update_speed(self, speed: float, variance_absolute: int = 0, variance_relative: float = 0.0):
+        """
+        Updates the speed at which the route is being traveled. Optionally, the speed can be variable by giving
+        either an absolute or relative variance.
+        This method can be called to update the speed as a route is being traveled.
+        :param speed: The (average) speed the route will be traversed.
+        :param variance_absolute: The absolute variance in speed. A value of 5 means the speed will vary between -5kmph
+        and +5kmph of the given speed.
+        :param variance_relative: The relative variance in speed. A value of 0.05 means the speed will vary between 95%
+        and 105% of the given speed.
+        """
+        self._current_speed = speed
+        if variance_absolute:
+            self._target_speed_lower_bound = max(0.0, speed - variance_absolute)
+            self._target_speed_upper_bound = max(0.0, speed + variance_absolute)
+            return
+        if variance_relative:
+            self._target_speed_lower_bound = speed * max(0.0, 1 - variance_relative)
+            self._target_speed_upper_bound = speed * max(0.0, 1 + variance_relative)
+            return
+        # no variance: constant speed
+        self._target_speed_lower_bound = speed
+        self._target_speed_upper_bound = speed
 
     def _travel_distance(self, distance_to_travel):
+        """
+        This method ONLY updates self._current_location along the loaded route, given a distance that should be
+        traveled. This methods does nothing if there are no next locations, or if the given distance is not strictly
+        positive.
+        """
         # only travel if there's a waypoint as next location, and if distance is > 0
         if not self._next_locations or distance_to_travel <= 0:
             return
         distance_to_next_point = geopy.distance.geodesic(self._current_location, self._next_locations[0]).m
-
+        # distance to next point < distance to travel: recursive function call.
         if distance_to_next_point < distance_to_travel:
             self._current_location = self._next_locations.pop(0)
             self._travel_distance(distance_to_travel - distance_to_next_point)
         else:
+            # travel the required distance along the line between the current position and the next position
             percent_to_go = distance_to_travel / distance_to_next_point
             pos1 = self._current_location
             pos2 = self._next_locations[0]
@@ -100,10 +118,6 @@ class GpsUtils:
             delay = stop - start
             sleep(max(self.location_update_interval - delay, 0.1))
 
-    def execute_route_with_gpx(self, gpx_file: str):
-        self._load_gpx(gpx_file)
-        self._start_route()
-
     def execute_route_with_points(self, point_list: [Point]):
         """
         This method executes a route by updating the GPS location of the device.
@@ -114,7 +128,21 @@ class GpsUtils:
         self._current_location = None
         self._start_route()
 
-    def execute_route_with_queries(self, start_loc: str, destination: str, transport_mode: str, start_visual_function: Callable[[str, str], None] = None):
+    def execute_route_with_gpx(self, gpx_file: str):
+        # Parse GPX to point list
+        points: [GPXTrackPoint] = []
+        with open(gpx_file, 'r') as opened_file:
+            gpx = gpxpy.parse(opened_file)
+            for track in gpx.tracks:
+                for segment in track.segments:
+                    points.extend(segment.points)
+        # transform GPXTrackPoint to Point objects. Do not include p.elevation because calculating distances between
+        # points with an elevation is not supported by geopy
+        points = [Point(p.latitude, p.longitude, 0) for p in points]
+        self.execute_route_with_points(points)
+
+    def execute_route_with_queries(self, start_loc: str, destination: str, transport_mode: str,
+                                   start_visual_function: Callable[[str, str], None] = None):
         """
         This method executes a route by updating the GPS location of the device.
         The points this route will follow are calculated based upon the two locations provided by the user.
@@ -167,27 +195,3 @@ class GpsUtils:
     def stop_route(self):
         self._next_locations = None
         self._current_location = None
-
-    def update_speed(self, speed: float, variance_absolute: int = 0, variance_relative: float = 0.0):
-        """
-        Updates the speed at which the route is being traveled. Optionally, the speed can be variable by giving
-        either an absolute or relative variance.
-        This method can be called to update the speed as a route is being traveled.
-        :param speed: The (average) speed the route will be traversed.
-        :param variance_absolute: The absolute variance in speed. A value of 5 means the speed will vary between -5kmph
-        and +5kmph of the given speed.
-        :param variance_relative: The relative variance in speed. A value of 0.05 means the speed will vary between 95%
-        and 105% of the given speed.
-        """
-        self._current_speed = speed
-        if variance_absolute:
-            self._target_speed_lower_bound = max(0.0, speed - variance_absolute)
-            self._target_speed_upper_bound = max(0.0, speed + variance_absolute)
-            return
-        if variance_relative:
-            self._target_speed_lower_bound = speed * max(0.0, 1 - variance_relative)
-            self._target_speed_upper_bound = speed * max(0.0, 1 + variance_relative)
-            return
-        # no variance: constant speed
-        self._target_speed_lower_bound = speed
-        self._target_speed_upper_bound = speed
