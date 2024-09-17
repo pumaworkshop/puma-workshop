@@ -38,7 +38,6 @@ class AndroidAppiumActions:
     def __init__(self,
                  udid: str,
                  app_package: str,
-                 app_activity: str,
                  desired_capabilities: Dict[str, str] = None,
                  implicit_wait: int = 1,
                  appium_server: str = 'http://localhost:4723'):
@@ -54,7 +53,6 @@ class AndroidAppiumActions:
         self.options = _get_android_default_options()
         self.options.udid = udid
         self.options.app_package = app_package
-        self.options.app_activity = app_activity
         if desired_capabilities:
             self.options.load_capabilities(desired_capabilities)
         # connect to appium server

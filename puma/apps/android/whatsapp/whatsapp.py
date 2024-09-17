@@ -9,7 +9,6 @@ from selenium.webdriver.common.by import By
 from puma.apps.android.appium_actions import supported_version, AndroidAppiumActions
 
 WHATSAPP_PACKAGE = 'com.whatsapp'
-WHATSAPP_DEFAULT_ACTIVITY = 'com.whatsapp.HomeActivity'
 
 
 @supported_version("2.24.11.79")
@@ -25,7 +24,6 @@ class WhatsappActions(AndroidAppiumActions):
         AndroidAppiumActions.__init__(self,
                                       device_udid,
                                       WHATSAPP_PACKAGE,
-                                      WHATSAPP_DEFAULT_ACTIVITY,
                                       desired_capabilities=desired_capabilities,
                                       implicit_wait=implicit_wait,
                                       appium_server=appium_server)
@@ -62,7 +60,8 @@ class WhatsappActions(AndroidAppiumActions):
         chats_of_interest = self.get_conversation_row_elements(subject)
         if len(chats_of_interest) > 1:
             chats_of_interest_text = ", ".join([chat.text for chat in chats_of_interest])
-            print(f"[WARNING]: Multiple chats found that contain the subject {subject}: {chats_of_interest_text}. Selecting the first one.")
+            print(
+                f"[WARNING]: Multiple chats found that contain the subject {subject}: {chats_of_interest_text}. Selecting the first one.")
         chats_of_interest[0].click()
 
     def create_new_chat(self, contact, first_message):
@@ -212,7 +211,8 @@ class WhatsappActions(AndroidAppiumActions):
         # Go to gallery
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/input_attach_button").click()
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/pickfiletype_gallery_holder").click()
-        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.LinearLayout[@content-desc="Gallery"]').click()
+        self.driver.find_element(by=AppiumBy.XPATH,
+                                 value='//android.widget.LinearLayout[@content-desc="Gallery"]').click()
         self.scroll_to_find_element(text_contains=directory_name).click()
         sleep(1)
         self.driver.find_element(by=By.CLASS_NAME, value="android.widget.ImageView").click()
@@ -426,11 +426,13 @@ class WhatsappActions(AndroidAppiumActions):
         self.return_to_homescreen()
         call_type = "Video call" if video_call else "Voice call"
         self.navigate_to_call_tab()
-        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="Search"]').click()
+        self.driver.find_element(by=AppiumBy.XPATH,
+                                 value='//android.widget.ImageButton[@content-desc="Search"]').click()
         search_bar = self.driver.find_element(by=AppiumBy.XPATH,
                                               value='//android.widget.EditText[@resource-id="com.whatsapp:id/search_view_edit_text"]')
         search_bar.send_keys(contact)
-        self.driver.find_element(by=AppiumBy.XPATH, value=f'(//android.widget.ImageView[@content-desc="{call_type}"])[1]').click()  # Take the top one without checking the name, since we already searched for the contact
+        self.driver.find_element(by=AppiumBy.XPATH,
+                                 value=f'(//android.widget.ImageView[@content-desc="{call_type}"])[1]').click()  # Take the top one without checking the name, since we already searched for the contact
 
     def end_call(self):
         """
@@ -444,7 +446,8 @@ class WhatsappActions(AndroidAppiumActions):
         """
         self.open_notifications()
         sleep(2)
-        self.driver.find_element(by=AppiumBy.XPATH, value="//android.widget.Button[@content-desc='Answer' or @content-desc='Video']").click()
+        self.driver.find_element(by=AppiumBy.XPATH,
+                                 value="//android.widget.Button[@content-desc='Answer' or @content-desc='Video']").click()
 
     def decline_call(self):
         """
