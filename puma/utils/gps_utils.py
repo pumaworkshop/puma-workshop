@@ -11,16 +11,34 @@ from appium.webdriver.webdriver import WebDriver
 from geopy import Point
 from gpxpy.gpx import GPXTrackPoint
 
+from puma.apps.android.appium_actions import AndroidAppiumActions
 
-class GpsUtils:
 
-    def __init__(self, driver: WebDriver,
+class RouteSimulator:
+    """
+    Class that allows you to spoof the location along a given route on a device available through appium.
+    Starting a route is done with the execute_route_(...) methods. See their documentation on how to call these methods.
+    The speed can be changed while the route is being traveled. See update_speed().
+    Location spoofing can be stopped with stop_route().
+    """
+
+    def __init__(self, driver: WebDriver | AndroidAppiumActions,
                  target_speed: int,
                  absolute_speed_variance: int = None,
                  relative_speed_variance: float = None,
                  location_update_interval: float = 1):
+        """
+        :param driver: the Appium driver or the Puma Actions object (which contains an Appium driver).
+        :param target_speed: the speed at which should be traveled when a route is started.
+        :param absolute_speed_variance: (optional) the variance in speed, in kmph. see update_speed()
+        :param relative_speed_variance: (optional) the relative variance in speed. see update_speed()
+        :param location_update_interval: (optional) how often the location needs to be updates. default once per second
+        """
         # dynamic fields
-        self.driver = driver
+        if isinstance(driver, WebDriver):
+            self.driver = driver
+        else:
+            self.driver = driver.driver
         self.location_update_interval = location_update_interval
         # initial speed is 0
         self.update_speed(target_speed,
