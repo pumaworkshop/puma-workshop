@@ -38,7 +38,6 @@ class AndroidAppiumActions:
     def __init__(self,
                  udid: str,
                  app_package: str,
-                 app_activity: str,
                  desired_capabilities: Dict[str, str] = None,
                  implicit_wait: int = 1,
                  appium_server: str = 'http://localhost:4723'):
@@ -54,7 +53,6 @@ class AndroidAppiumActions:
         self.options = _get_android_default_options()
         self.options.udid = udid
         self.options.app_package = app_package
-        self.options.app_activity = app_activity
         if desired_capabilities:
             self.options.load_capabilities(desired_capabilities)
         # connect to appium server
@@ -172,3 +170,10 @@ class AndroidAppiumActions:
         TouchAction(self.driver) \
             .tap(None, found_text[0].bounding_box.middle[0], found_text[0].bounding_box.middle[1], 1) \
             .perform()
+
+    def set_idle_timeout(self, timeout: int):
+        # https://github.com/appium/appium-uiautomator2-driver#poor-elements-interaction-performance
+        # https://github.com/appium/appium-uiautomator2-driver#settings-api
+        settings = self.driver.get_settings()
+        settings.update({"waitForIdleTimeout": timeout})
+        self.driver.update_settings(settings)

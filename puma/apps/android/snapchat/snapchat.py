@@ -2,10 +2,10 @@ from time import sleep
 from typing import Dict
 
 from appium.webdriver.common.appiumby import AppiumBy
+
 from puma.apps.android.appium_actions import AndroidAppiumActions, supported_version
 
 SNAPCHAT_PACKAGE = 'com.snapchat.android'
-SNAPCHAT_DEFAULT_ACTIVITY = '.LandingPageActivity'
 
 
 @supported_version("12.90.0.46")
@@ -21,7 +21,6 @@ class SnapchatActions(AndroidAppiumActions):
         AndroidAppiumActions.__init__(self,
                                       device_udid,
                                       SNAPCHAT_PACKAGE,
-                                      SNAPCHAT_DEFAULT_ACTIVITY,
                                       desired_capabilities=desired_capabilities,
                                       implicit_wait=implicit_wait,
                                       appium_server=appium_server)
@@ -59,8 +58,8 @@ class SnapchatActions(AndroidAppiumActions):
         :return:
         """
         return (
-                self.is_present('//android.widget.FrameLayout[@content-desc="Camera Capture"]') and not
-                self.is_present('//android.widget.TextView[@text="Send To"]')
+                self.is_present('//android.widget.FrameLayout[@content-desc="Camera Capture"]')
+                and not self.is_present('//android.widget.TextView[@text="Send To"]')
         )
 
     def _go_to_main_tab(self, tab_name: str):
@@ -75,7 +74,7 @@ class SnapchatActions(AndroidAppiumActions):
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value=f'//android.widget.LinearLayout[@resource-id="com.snapchat.android:id/ngs_navigation_bar"]/android.view.ViewGroup[@content-desc="{tab_name}"]').click()
 
-    #TODO create a separate function for each tab, so the user cannot make any typos
+    # TODO create a separate function for each tab, so the user cannot make any typos
     def go_to_conversation_tab(self):
         """
         Navigate to the top of the conversation tab.
@@ -152,7 +151,8 @@ class SnapchatActions(AndroidAppiumActions):
                 caption)
             self.driver.back()
         # press send
-        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[lower-case(@content-desc)="send"]').click()
+        self.driver.find_element(by=AppiumBy.XPATH,
+                                 value='//android.widget.ImageButton[lower-case(@content-desc)="send"]').click()
 
         # select recipients, or post as story, and send
         if recipients:
@@ -162,4 +162,5 @@ class SnapchatActions(AndroidAppiumActions):
         else:
             self.driver.find_element(by=AppiumBy.XPATH,
                                      value='//javaClass[lower-case(@text)="my story · friends only"]/..').click()
-        self.driver.find_element(by=AppiumBy.XPATH, value='//android.view.View[lower-case(@content-desc)="send"]').click()
+        self.driver.find_element(by=AppiumBy.XPATH,
+                                 value='//android.view.View[lower-case(@content-desc)="send"]').click()
