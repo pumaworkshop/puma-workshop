@@ -1,6 +1,9 @@
+Version 2.0
+-----------
+25. Add support for GPS spoofing along a given route
+
 Version 1.1.0
 -------------
-25. Add support for GPS spoofing along a given route
 21. Improve README
 17. Update app tags for app-unrelated changes
 16. Telegram test: Remove duplicate alice and bob initialization
