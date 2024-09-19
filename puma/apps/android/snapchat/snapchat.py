@@ -58,8 +58,8 @@ class SnapchatActions(AndroidAppiumActions):
         :return:
         """
         return (
-                self.is_present('//android.widget.FrameLayout[@content-desc="Camera Capture"]') and not
-        self.is_present('//android.widget.TextView[@text="Send To"]')
+                self.is_present('//android.widget.FrameLayout[@content-desc="Camera Capture"]')
+                and not self.is_present('//android.widget.TextView[@text="Send To"]')
         )
 
     def _go_to_main_tab(self, tab_name: str):
