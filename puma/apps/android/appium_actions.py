@@ -63,7 +63,6 @@ class AndroidAppiumActions:
                               rendered). Default 1 second
         :param appium_server: url of the appium server
         """
-
         # prepare options
         self.options = _get_android_default_options()
         self.options.udid = udid
