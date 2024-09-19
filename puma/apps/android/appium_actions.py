@@ -12,10 +12,23 @@ from appium.webdriver import WebElement
 from appium.webdriver.common.appiumby import AppiumBy
 from appium.webdriver.common.touch_action import TouchAction
 from appium.webdriver.extensions.android.nativekey import AndroidKey
+from appium.webdriver.webdriver import WebDriver
 
 from puma.apps.android import logger
 from puma.computer_vision import ocr
 from puma.utils.video_utils import CACHE_FOLDER, log_error_and_raise_exception
+
+__drivers: dict[str, WebDriver] = {}
+
+
+def _get_appium_driver(appium_server: str, udid: str, options) -> WebDriver:
+    key = f"{appium_server}${udid}"
+    if key not in __drivers.keys():
+        print(f'driver NOT present for {key}')
+        __drivers[key] = webdriver.Remote(appium_server, options=options)
+    else:
+        print(f'driver present for {key}')
+    return __drivers[key]
 
 
 def _get_android_default_options():
@@ -35,6 +48,7 @@ def supported_version(version: str):
 
 
 class AndroidAppiumActions:
+
     def __init__(self,
                  udid: str,
                  app_package: str,
@@ -49,6 +63,7 @@ class AndroidAppiumActions:
                               rendered). Default 1 second
         :param appium_server: url of the appium server
         """
+
         # prepare options
         self.options = _get_android_default_options()
         self.options.udid = udid
@@ -56,7 +71,7 @@ class AndroidAppiumActions:
         if desired_capabilities:
             self.options.load_capabilities(desired_capabilities)
         # connect to appium server
-        self.driver = webdriver.Remote(appium_server, options=self.options)
+        self.driver = _get_appium_driver(appium_server, udid, self.options)
 
         # the implicit wait time is how long appium looks for an element (you can try to find an element before it is rendered)
         self.implicit_wait = implicit_wait
