@@ -1,5 +1,6 @@
 Version 2.0.0
 -------------
+28. Enable multiple Action objects using the same appium driver
 25. Add support for GPS spoofing along a given route
 
 Version 1.1.1
