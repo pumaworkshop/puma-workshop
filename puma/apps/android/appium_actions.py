@@ -69,7 +69,7 @@ class AndroidAppiumActions:
         # prepare options
         self.options = _get_android_default_options()
         self.options.udid = udid
-        self.options.app_package = app_package
+        self.app_package = app_package
         if desired_capabilities:
             self.options.load_capabilities(desired_capabilities)
         # connect to appium server
@@ -88,7 +88,7 @@ class AndroidAppiumActions:
         self.activate_app()
 
     def activate_app(self):
-        self.driver.activate_app(self.options.app_package)
+        self.driver.activate_app(self.app_package)
 
     def __enter__(self):
         return self
