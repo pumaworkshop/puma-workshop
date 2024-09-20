@@ -6,7 +6,6 @@ from appium.webdriver.common.appiumby import AppiumBy
 from puma.apps.android.appium_actions import supported_version, AndroidAppiumActions
 
 TELEGRAM_PACKAGE = 'org.telegram.messenger'
-TELEGRAM_DEFAULT_ACTIVITY = '.DefaultIcon'
 
 
 @supported_version("10.13.4")
@@ -23,7 +22,6 @@ class TelegramActions(AndroidAppiumActions):
         AndroidAppiumActions.__init__(self,
                                       device_udid,
                                       TELEGRAM_PACKAGE,
-                                      TELEGRAM_DEFAULT_ACTIVITY,
                                       desired_capabilities=desired_capabilities,
                                       implicit_wait=implicit_wait,
                                       appium_server=appium_server)

@@ -81,7 +81,6 @@ When adding support for a new application, make sure to add a new class to the c
 from puma.apps.android.appium_actions import supported_version, AndroidAppiumActions
 
 APPLICATION_PACKAGE = 'TODO'
-APPLICATION_DEFAULT_ACTIVITY = 'TODO'
 
 @supported_version("YOUR VERSION")
 class ApplicationActions(AndroidAppiumActions):
@@ -96,7 +95,6 @@ class ApplicationActions(AndroidAppiumActions):
         AndroidAppiumActions.__init__(self,
                                       device_udid,
                                       APPLICATION_PACKAGE,
-                                      APPLICATION_DEFAULT_ACTIVITY,
                                       desired_capabilities=desired_capabilities,
                                       implicit_wait=implicit_wait,
                                       appium_server=appium_server)

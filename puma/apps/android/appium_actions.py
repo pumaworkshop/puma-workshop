@@ -12,10 +12,26 @@ from appium.webdriver import WebElement
 from appium.webdriver.common.appiumby import AppiumBy
 from appium.webdriver.common.touch_action import TouchAction
 from appium.webdriver.extensions.android.nativekey import AndroidKey
+from appium.webdriver.webdriver import WebDriver
 
 from puma.apps.android import logger
 from puma.computer_vision import ocr
 from puma.utils.video_utils import CACHE_FOLDER, log_error_and_raise_exception
+
+__drivers: dict[str, WebDriver] = {}
+
+
+def _get_appium_driver(appium_server: str, udid: str, options) -> WebDriver:
+    key = f"{appium_server}${udid}"
+    if key not in __drivers.keys():
+        __drivers[key] = webdriver.Remote(appium_server, options=options)
+    else:
+        print(f'WARNING: there already was an initialized driver for appium server {appium_server} and udid {udid}. '
+              'This driver will be used, which might mean your appium capabilities are ignored as these cannot be'
+              'altered for a driver that has already been initialized. If you need specific capabilities, please '
+              'rewrite your Puma code to ensure the correct capabilities are loaded the first time you connect to '
+              f'server {appium_server} and device {udid}.')
+    return __drivers[key]
 
 
 def _get_android_default_options():
@@ -35,10 +51,10 @@ def supported_version(version: str):
 
 
 class AndroidAppiumActions:
+
     def __init__(self,
                  udid: str,
                  app_package: str,
-                 app_activity: str,
                  desired_capabilities: Dict[str, str] = None,
                  implicit_wait: int = 1,
                  appium_server: str = 'http://localhost:4723'):
@@ -54,11 +70,10 @@ class AndroidAppiumActions:
         self.options = _get_android_default_options()
         self.options.udid = udid
         self.options.app_package = app_package
-        self.options.app_activity = app_activity
         if desired_capabilities:
             self.options.load_capabilities(desired_capabilities)
         # connect to appium server
-        self.driver = webdriver.Remote(appium_server, options=self.options)
+        self.driver = _get_appium_driver(appium_server, udid, self.options)
 
         # the implicit wait time is how long appium looks for an element (you can try to find an element before it is rendered)
         self.implicit_wait = implicit_wait
@@ -80,7 +95,7 @@ class AndroidAppiumActions:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self._screen_recorder is not None:
-            self._screen_recorder.__exit__(None, None, None)
+            self.stop_recording_and_save_video()
         self.driver.__exit__(exc_type, exc_val, exc_tb)
 
     def back(self):
@@ -126,15 +141,16 @@ class AndroidAppiumActions:
         self.driver.implicitly_wait(self.implicit_wait)
         return len(found) > 0
 
-    def start_recording(self):
+    def start_recording(self, output_directory: str):
         if self._screen_recorder is None:
+            self._screen_recorder_output_directory = output_directory
             self._screen_recorder = AdbScreenRecorder(self.adb)
             self._screen_recorder.start_recording()
 
-    def stop_recording_and_save_video(self, output_directory: str) -> [str]:
+    def stop_recording_and_save_video(self) -> [str]:
         if self._screen_recorder is None:
             return None
-        video_files = self._screen_recorder.stop_recording(output_directory)
+        video_files = self._screen_recorder.stop_recording(self._screen_recorder_output_directory)
         self._screen_recorder.__exit__(None, None, None)
         self._screen_recorder = None
         return video_files
@@ -171,3 +187,10 @@ class AndroidAppiumActions:
         TouchAction(self.driver) \
             .tap(None, found_text[0].bounding_box.middle[0], found_text[0].bounding_box.middle[1], 1) \
             .perform()
+
+    def set_idle_timeout(self, timeout: int):
+        # https://github.com/appium/appium-uiautomator2-driver#poor-elements-interaction-performance
+        # https://github.com/appium/appium-uiautomator2-driver#settings-api
+        settings = self.driver.get_settings()
+        settings.update({"waitForIdleTimeout": timeout})
+        self.driver.update_settings(settings)
