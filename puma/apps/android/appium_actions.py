@@ -27,9 +27,9 @@ def _get_appium_driver(appium_server: str, udid: str, options) -> WebDriver:
         __drivers[key] = webdriver.Remote(appium_server, options=options)
     else:
         print(f'WARNING: there already was an initialized driver for appium server {appium_server} and udid {udid}. '
-              f'This driver will be used, which might mean your appium capabilities are ignored as these cannot be'
-              f'altered for a driver that has already been initialized. If you need specific capabilities, please '
-              f'rewrite your Puma code to ensure the correct capabilities are loaded the first time you connect to '
+              'This driver will be used, which might mean your appium capabilities are ignored as these cannot be'
+              'altered for a driver that has already been initialized. If you need specific capabilities, please '
+              'rewrite your Puma code to ensure the correct capabilities are loaded the first time you connect to '
               f'server {appium_server} and device {udid}.')
     return __drivers[key]
 
