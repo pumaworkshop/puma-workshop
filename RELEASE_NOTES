@@ -1,3 +1,7 @@
+Version 2.0.2
+-------------
+Allow Telegram package to be overwritten in constructor
+
 Version 2.0.1
 -------------
 Fix bug when starting appium session for specific packages

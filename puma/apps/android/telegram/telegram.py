@@ -13,6 +13,7 @@ class TelegramActions(AndroidAppiumActions):
 
     def __init__(self,
                  device_udid,
+                 package_name: str = TELEGRAM_PACKAGE,
                  desired_capabilities: Dict[str, str] = None,
                  implicit_wait=1,
                  appium_server='http://localhost:4723'):
@@ -21,10 +22,11 @@ class TelegramActions(AndroidAppiumActions):
         """
         AndroidAppiumActions.__init__(self,
                                       device_udid,
-                                      TELEGRAM_PACKAGE,
+                                      package_name,
                                       desired_capabilities=desired_capabilities,
                                       implicit_wait=implicit_wait,
                                       appium_server=appium_server)
+        self.package_name = package_name
 
     def _currently_at_homescreen(self) -> bool:
         return self.is_present('//android.widget.FrameLayout[@content-desc="New Message"]')
@@ -53,8 +55,8 @@ class TelegramActions(AndroidAppiumActions):
         """
         Returns to the start screen of Telegram
         """
-        if self.driver.current_package != TELEGRAM_PACKAGE:
-            self.driver.activate_app(TELEGRAM_PACKAGE)
+        if self.driver.current_package != self.package_name:
+            self.driver.activate_app(self.package_name)
         while not self._currently_at_homescreen():
             self.driver.back()
         self._load_conversation_titles()
