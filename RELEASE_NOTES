@@ -1,4 +1,4 @@
-Version 2.0.2
+Version 2.1.0
 -------------
 34. Update Appium python client to latest version (4.2), and make dependency more lenient
 32. Allow Telegram package to be overwritten in constructor
