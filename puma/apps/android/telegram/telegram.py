@@ -19,8 +19,10 @@ class TelegramActions(AndroidAppiumActions):
                  implicit_wait=1,
                  appium_server='http://localhost:4723'):
         """
-        Class with an API for Telegram Android using Appium. Can be used with an emulator or real device attached to the computer.
-        Telegram has two different app versions, one from the app store and one from the website.
+        Class with an API for Telegram Android using Appium. Can be used with an emulator or real device attached to the
+        computer.
+        This class can be used for both the Play Store version and the version found at telegram.org. When using the
+        latter however, you need to use the `telegram_web_version` parameter, and set it to True.
         """
         AndroidAppiumActions.__init__(self,
                                       device_udid,

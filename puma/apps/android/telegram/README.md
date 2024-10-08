@@ -8,12 +8,19 @@ The application can be downloaded in [the Google PlayStore](https://play.google.
 
 ### Initialization
 
-Initialization is standard:
-
+Initialization is standard but has one optional parameter
+When using the most common version of Telegram (the version published to the Google Play Store) yo can use standard 
+initialization:
 ```python
 from puma.apps.android.telegram.telegram import TelegramActions
 phone = TelegramActions("emulator-5444")
 ```
+If you're using the Telegram apk found at [telegram.org](https://telegram.org/android), you can use the optional
+parameter `telegram_web_version`: 
+```python
+phone = TelegramActions("emulator-5444", telegram_web_version=True)
+```
+This is needed because these two versions of the Telegram Android app use different package names.
 
 ### Navigating the UI
 
