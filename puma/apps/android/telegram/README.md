@@ -8,8 +8,8 @@ The application can be downloaded in [the Google PlayStore](https://play.google.
 
 ### Initialization
 
-Initialization is standard but has one optional parameter
-When using the most common version of Telegram (the version published to the Google Play Store) yo can use standard 
+Initialization is standard but has one optional parameter.
+When using the most common version of Telegram (the version published to the Google Play Store) you can use standard 
 initialization:
 ```python
 from puma.apps.android.telegram.telegram import TelegramActions
