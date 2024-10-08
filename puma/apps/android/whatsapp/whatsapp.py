@@ -3,7 +3,6 @@ from time import sleep
 from typing import Dict, List, Union
 
 from appium.webdriver.common.appiumby import AppiumBy
-from appium.webdriver.common.touch_action import TouchAction
 from selenium.webdriver.common.by import By
 
 from puma.apps.android.appium_actions import supported_version, AndroidAppiumActions
@@ -242,17 +241,14 @@ class WhatsappActions(AndroidAppiumActions):
         # Press sticker tab
         # TODO: make coordinates configurable or calculate what they should be
         # self.press_coordinates(663, 2136) # Pixel 5
-        self._press_coordinates(663, 2032)  # Samsung G955F
+        self._click_coordinates(663, 2032)  # Samsung G955F
         sleep(1)
         # Press sticker
         # self.press_coordinates(150, 1600) # Pixel 5
-        self._press_coordinates(128, 1502)  # Samsung G955F
+        self._click_coordinates(128, 1502)  # Samsung G955F
 
-    def _press_coordinates(self, x, y):
-        actions = TouchAction(self.driver)
-        actions.press(x=x, y=y)
-        actions.release()
-        actions.perform()
+    def _click_coordinates(self, x, y):
+        self.driver.execute_script('mobile: clickGesture', {'x': x, 'y': y})
 
     def send_voice_recording(self, duration: int = 1000, chat: str = None):
         """
@@ -552,11 +548,13 @@ class WhatsappActions(AndroidAppiumActions):
         :param duration: Duration of the press in millisec.
         :return:
         """
-        long_press = TouchAction(self.driver)
-        print(f"holding down button for {duration}ms")
-        long_press.long_press(element, duration=duration)
-        long_press.release()
-        long_press.perform()
+        location = element.location
+        size = element.size
+
+        # Calculate the center of the element
+        x = location['x'] + size['width'] // 2
+        y = location['y'] + size['height'] // 2
+        self.driver.execute_script('mobile: longClickGesture', {'x': x, 'y': y, 'duration': duration})
 
     def leave_group(self, group_name):
         """
