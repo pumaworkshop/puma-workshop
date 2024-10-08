@@ -6,6 +6,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from puma.apps.android.appium_actions import supported_version, AndroidAppiumActions
 
 TELEGRAM_PACKAGE = 'org.telegram.messenger'
+TELEGRAM_WEB_PACKAGE = 'org.telegram.messenger.web'
 
 
 @supported_version("10.13.4")
@@ -13,20 +14,21 @@ class TelegramActions(AndroidAppiumActions):
 
     def __init__(self,
                  device_udid,
-                 package_name: str = TELEGRAM_PACKAGE,
+                 telegram_web_version: bool = False,
                  desired_capabilities: Dict[str, str] = None,
                  implicit_wait=1,
                  appium_server='http://localhost:4723'):
         """
         Class with an API for Telegram Android using Appium. Can be used with an emulator or real device attached to the computer.
+        Telegram has two different app versions, one from the app store and one from the website.
         """
         AndroidAppiumActions.__init__(self,
                                       device_udid,
-                                      package_name,
+                                      TELEGRAM_WEB_PACKAGE if telegram_web_version else TELEGRAM_PACKAGE,
                                       desired_capabilities=desired_capabilities,
                                       implicit_wait=implicit_wait,
                                       appium_server=appium_server)
-        self.package_name = package_name
+        self.package_name = TELEGRAM_WEB_PACKAGE if telegram_web_version else TELEGRAM_PACKAGE
 
     def _currently_at_homescreen(self) -> bool:
         return self.is_present('//android.widget.FrameLayout[@content-desc="New Message"]')
