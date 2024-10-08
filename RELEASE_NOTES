@@ -1,6 +1,7 @@
 Version 2.0.2
 -------------
-Allow Telegram package to be overwritten in constructor
+32. Allow Telegram package to be overwritten in constructor
+30. Update Pillow and setuptools dependencies due to vulnerabilities
 
 Version 2.0.1
 -------------
