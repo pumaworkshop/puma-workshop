@@ -49,6 +49,8 @@ class TelegramActions(AndroidAppiumActions):
             print('some conversations still do not have a title loaded, clicking...')
             convos[0].click()
             self.driver.back()
+            if not self._currently_at_homescreen():
+                self.driver.back()
         print('all conversations loaded!')
 
     def return_to_homescreen(self):
@@ -166,6 +168,7 @@ class TelegramActions(AndroidAppiumActions):
         # click the attachment icon
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value='//android.widget.ImageView[lower-case(@content-desc)="attach media"]').click()
+        sleep(wait_time)
         # click the camera: this might be unstable due to bad xpath expression
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout[2]').click()
@@ -268,7 +271,7 @@ class TelegramActions(AndroidAppiumActions):
 
     def _if_chat_go_to_chat(self, chat: str):
         if chat is not None:
-            self.return_to_homescreen()
             self.select_chat(chat)
+            sleep(1)
         if not self._currently_in_conversation():
             raise Exception('Expected to be in conversation screen now, but screen contents are unknown')
