@@ -327,6 +327,9 @@ class WhatsappActions(AndroidAppiumActions):
         self.open_settings_you()
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/change_photo_btn").click()
         self.driver.find_element(by=AppiumBy.XPATH, value="//*[@text='Gallery']").click()
+        gallery_tab = '//android.widget.LinearLayout[@content-desc="Gallery"]'
+        if self.is_present(gallery_tab):
+            self.driver.find_element(by=AppiumBy.XPATH, value=gallery_tab).click()
         self.scroll_to_find_element(text_contains=photo_dir_name).click()
         sleep(1)
         self.driver.find_element(by=By.CLASS_NAME, value="android.widget.ImageView").click()
