@@ -10,7 +10,7 @@ from puma.apps.android.appium_actions import supported_version, AndroidAppiumAct
 WHATSAPP_PACKAGE = 'com.whatsapp'
 
 
-@supported_version("2.24.11.79")
+@supported_version("2.24.20.89")
 class WhatsappActions(AndroidAppiumActions):
     def __init__(self,
                  device_udid,
@@ -151,7 +151,7 @@ class WhatsappActions(AndroidAppiumActions):
         message_element = self.driver.find_element(by=AppiumBy.XPATH, value=
         f"//*[@resource-id='com.whatsapp:id/conversation_text_row']//*[@text='{message_text}']")
         self._long_press_element(message_element)
-        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.TextView[@content-desc="Delete"]').click()
+        self.driver.find_element(by=AppiumBy.XPATH, value='//*[@content-desc="Delete"]').click()
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value="//*[@resource-id='com.whatsapp:id/buttonPanel']//*[@text='Delete for everyone']").click()
 
@@ -167,7 +167,7 @@ class WhatsappActions(AndroidAppiumActions):
         self._if_chat_go_to_chat(chat)
         message_element = self.scroll_to_find_element(text_contains=message_to_reply_to)
         self._long_press_element(message_element)
-        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.TextView[@content-desc="Reply"]').click()
+        self.driver.find_element(by=AppiumBy.XPATH, value='//*[@content-desc="Reply"]').click()
         text_box = self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/entry")
         text_box.send_keys(reply_text)
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/send").click()
@@ -212,8 +212,10 @@ class WhatsappActions(AndroidAppiumActions):
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/pickfiletype_gallery_holder").click()
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value='//android.widget.LinearLayout[@content-desc="Gallery"]').click()
-        self.scroll_to_find_element(text_contains=directory_name).click()
-        sleep(1)
+        directory_tile = f'//android.widget.TextView[@resource-id="com.whatsapp:id/title" and @text="{directory_name}"]'
+        self.swipe_to_find_element(xpath=directory_tile).click()
+
+        sleep(0.5)
         self.driver.find_element(by=By.CLASS_NAME, value="android.widget.ImageView").click()
 
         if caption:
@@ -250,7 +252,7 @@ class WhatsappActions(AndroidAppiumActions):
     def _click_coordinates(self, x, y):
         self.driver.execute_script('mobile: clickGesture', {'x': x, 'y': y})
 
-    def send_voice_recording(self, duration: int = 1000, chat: str = None):
+    def send_voice_recording(self, duration: int = 2000, chat: str = None):
         """
         Sends a voice message in the current conversation.
         Assumes we are in the conversation in which we want to send the voice message.
@@ -437,7 +439,12 @@ class WhatsappActions(AndroidAppiumActions):
         """
         Ends the current call. Assumes the call screen is open.
         """
-        self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/footer_end_call_btn").click()
+        end_call_button = '//android.widget.Button[@resource-id="com.whatsapp:id/end_call_button"]'
+        if not self.is_present(end_call_button):
+            # tap screen to make call button visible
+            background = '//android.widget.RelativeLayout[@resource-id="com.whatsapp:id/call_screen"]'
+            self.driver.find_element(by=AppiumBy.XPATH, value=background).click()
+        self.driver.find_element(by=AppiumBy.XPATH, value=end_call_button).click()
 
     def answer_call(self):
         """

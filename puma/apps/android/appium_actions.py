@@ -1,4 +1,5 @@
 import os
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Dict
@@ -12,6 +13,7 @@ from appium.webdriver import WebElement
 from appium.webdriver.common.appiumby import AppiumBy
 from appium.webdriver.extensions.android.nativekey import AndroidKey
 from appium.webdriver.webdriver import WebDriver
+from selenium.common import NoSuchElementException
 
 from puma.apps.android import logger
 from puma.computer_vision import ocr
@@ -133,6 +135,28 @@ class AndroidAppiumActions:
 
         java_code = f'new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector(){resource_id_part}{text_part}{text_contains_part}.instance(0))'
         return self.driver.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR, value=java_code)
+
+    def swipe_to_find_element(self, xpath: str, max_swipes: int = 10) -> WebElement:
+        for attempt in range(max_swipes):
+            if self.is_present(xpath):
+                return self.driver.find_element(AppiumBy.XPATH, xpath)
+            else:
+                # Element not found, perform swipe down
+                print(f"Attempt {attempt + 1}: Element not found, swiping down")
+                # Get the window size to determine the swipe dimensions
+                window_size = self.driver.get_window_size()
+                start_x = window_size['width'] / 2
+                start_y = window_size['height'] * 0.8
+                end_y = window_size['height'] * 0.2
+
+                # Perform the swipe down
+                self.driver.swipe(start_x, start_y, start_x, end_y, 500)
+
+                # Wait a bit before the next attempt
+                time.sleep(0.5)
+
+        # If the loop completes, the element was not found
+        raise NoSuchElementException(msg=f'After {max_swipes} swipes, cannot find element with xpath {xpath}')
 
     def is_present(self, xpath: str, implicit_wait: int = 0) -> bool:
         self.driver.implicitly_wait(implicit_wait)
