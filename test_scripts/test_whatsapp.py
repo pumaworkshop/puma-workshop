@@ -27,7 +27,8 @@ class TestWhatsapp(unittest.TestCase):
     - Appium running
     - A 3rd registered WhatsApp account Charlie (for some tests this is required)
     """
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         if not device_udids["Alice"]:
             print("No udid was configured for Alice. Please add at the top of the script.\nExiting....")
             exit(1)
@@ -45,7 +46,8 @@ class TestWhatsapp(unittest.TestCase):
         self.photo_directory_name = "photos"
 
         self.alice.return_to_homescreen()
-        self.bob.return_to_homescreen()
+        if self.bob_configured:
+            self.bob.return_to_homescreen()
 
     def conversation_present(self, subject):
         return self.alice.get_conversation_row_elements(subject)[0] is not None
