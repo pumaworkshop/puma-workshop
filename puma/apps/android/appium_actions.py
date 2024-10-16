@@ -10,7 +10,6 @@ from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver import WebElement
 from appium.webdriver.common.appiumby import AppiumBy
-from appium.webdriver.common.touch_action import TouchAction
 from appium.webdriver.extensions.android.nativekey import AndroidKey
 from appium.webdriver.webdriver import WebDriver
 
@@ -69,7 +68,7 @@ class AndroidAppiumActions:
         # prepare options
         self.options = _get_android_default_options()
         self.options.udid = udid
-        self.options.app_package = app_package
+        self.app_package = app_package
         if desired_capabilities:
             self.options.load_capabilities(desired_capabilities)
         # connect to appium server
@@ -88,7 +87,7 @@ class AndroidAppiumActions:
         self.activate_app()
 
     def activate_app(self):
-        self.driver.activate_app(self.options.app_package)
+        self.driver.activate_app(self.app_package)
 
     def __enter__(self):
         return self
@@ -184,9 +183,9 @@ class AndroidAppiumActions:
                 log_error_and_raise_exception(logger, msg)
             else:
                 logger.warning(f'Found multiple occurrences of text {text_to_click} on screen, clicking first one')
-        TouchAction(self.driver) \
-            .tap(None, found_text[0].bounding_box.middle[0], found_text[0].bounding_box.middle[1], 1) \
-            .perform()
+        x = found_text[0].bounding_box.middle[0]
+        y = found_text[0].bounding_box.middle[1]
+        self.driver.execute_script('mobile: clickGesture', {'x': x, 'y': y})
 
     def set_idle_timeout(self, timeout: int):
         # https://github.com/appium/appium-uiautomator2-driver#poor-elements-interaction-performance

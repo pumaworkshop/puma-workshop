@@ -6,6 +6,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from puma.apps.android.appium_actions import supported_version, AndroidAppiumActions
 
 TELEGRAM_PACKAGE = 'org.telegram.messenger'
+TELEGRAM_WEB_PACKAGE = 'org.telegram.messenger.web'
 
 
 @supported_version("10.13.4")
@@ -13,18 +14,23 @@ class TelegramActions(AndroidAppiumActions):
 
     def __init__(self,
                  device_udid,
+                 telegram_web_version: bool = False,
                  desired_capabilities: Dict[str, str] = None,
                  implicit_wait=1,
                  appium_server='http://localhost:4723'):
         """
-        Class with an API for Telegram Android using Appium. Can be used with an emulator or real device attached to the computer.
+        Class with an API for Telegram Android using Appium. Can be used with an emulator or real device attached to the
+        computer.
+        This class can be used for both the Play Store version and the version found at telegram.org. When using the
+        latter however, you need to use the `telegram_web_version` parameter, and set it to True.
         """
         AndroidAppiumActions.__init__(self,
                                       device_udid,
-                                      TELEGRAM_PACKAGE,
+                                      TELEGRAM_WEB_PACKAGE if telegram_web_version else TELEGRAM_PACKAGE,
                                       desired_capabilities=desired_capabilities,
                                       implicit_wait=implicit_wait,
                                       appium_server=appium_server)
+        self.package_name = TELEGRAM_WEB_PACKAGE if telegram_web_version else TELEGRAM_PACKAGE
 
     def _currently_at_homescreen(self) -> bool:
         return self.is_present('//android.widget.FrameLayout[@content-desc="New Message"]')
@@ -47,14 +53,16 @@ class TelegramActions(AndroidAppiumActions):
             print('some conversations still do not have a title loaded, clicking...')
             convos[0].click()
             self.driver.back()
+            if not self._currently_at_homescreen():
+                self.driver.back()
         print('all conversations loaded!')
 
     def return_to_homescreen(self):
         """
         Returns to the start screen of Telegram
         """
-        if self.driver.current_package != TELEGRAM_PACKAGE:
-            self.driver.activate_app(TELEGRAM_PACKAGE)
+        if self.driver.current_package != self.package_name:
+            self.driver.activate_app(self.package_name)
         while not self._currently_at_homescreen():
             self.driver.back()
         self._load_conversation_titles()
@@ -164,6 +172,7 @@ class TelegramActions(AndroidAppiumActions):
         # click the attachment icon
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value='//android.widget.ImageView[lower-case(@content-desc)="attach media"]').click()
+        sleep(wait_time)
         # click the camera: this might be unstable due to bad xpath expression
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout[2]').click()
@@ -266,7 +275,7 @@ class TelegramActions(AndroidAppiumActions):
 
     def _if_chat_go_to_chat(self, chat: str):
         if chat is not None:
-            self.return_to_homescreen()
             self.select_chat(chat)
+            sleep(1)
         if not self._currently_in_conversation():
             raise Exception('Expected to be in conversation screen now, but screen contents are unknown')

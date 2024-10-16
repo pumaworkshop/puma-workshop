@@ -1,3 +1,13 @@
+Version 2.1.0
+-------------
+34. Update Appium python client to latest version (4.2), and make dependency more lenient
+32. Allow Telegram package to be overwritten in constructor
+30. Update Pillow and setuptools dependencies due to vulnerabilities
+
+Version 2.0.1
+-------------
+Fix bug when starting appium session for specific packages
+
 Version 2.0.0
 -------------
 28. Enable multiple Action objects using the same appium driver
