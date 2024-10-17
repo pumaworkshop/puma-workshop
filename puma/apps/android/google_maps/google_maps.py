@@ -77,11 +77,4 @@ class GoogleMapsActions(AndroidAppiumActions):
         osm_mode = 'car' if transport_type == TransportType.CAR else 'bike'
         self.route_simulator.execute_route_with_queries(from_query, to_query, osm_mode)
         self.start_navigation(to_query, transport_type)
-        print('updating speed')
         self.route_simulator.update_speed(speed)
-
-
-if __name__ == '__main__':
-    maps = GoogleMapsActions('32131JEHN38079')
-    maps.start_route('Laan van Ypenburg 6', 'schiphol airport', 110)
-    sleep(60)
