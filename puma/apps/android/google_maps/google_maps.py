@@ -4,7 +4,7 @@ from typing import Dict
 
 from appium.webdriver.common.appiumby import AppiumBy
 
-from puma.apps.android.appium_actions import AndroidAppiumActions
+from puma.apps.android.appium_actions import AndroidAppiumActions, supported_version
 from puma.utils.route_simulator import RouteSimulator
 
 GOOGLE_MAPS_PACKAGE = 'com.google.android.apps.maps'
@@ -15,6 +15,7 @@ class TransportType(Enum):
     BIKE = "bike"
 
 
+@supported_version("11.119.0101")
 class GoogleMapsActions(AndroidAppiumActions):
     def __init__(self,
                  device_udid,
