@@ -89,6 +89,9 @@ class AndroidAppiumActions:
     def activate_app(self):
         self.driver.activate_app(self.app_package)
 
+    def app_open(self) -> bool:
+        return str(self.driver.current_package) == self.app_package
+
     def __enter__(self):
         return self
 
