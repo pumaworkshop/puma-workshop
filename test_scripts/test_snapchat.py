@@ -23,8 +23,8 @@ class TestSnapchat(unittest.TestCase):
         - An existing conversation for Bob and Charlie (TODO: do this automatically)
     - Appium running
     """
-
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         if not device_udids["Alice"]:
             print("No udid was configured for Alice. Please add at the top of the script.\nExiting....")
             exit(1)

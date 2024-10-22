@@ -9,7 +9,7 @@ TELEGRAM_PACKAGE = 'org.telegram.messenger'
 TELEGRAM_WEB_PACKAGE = 'org.telegram.messenger.web'
 
 
-@supported_version("10.13.4")
+@supported_version("11.2.2")
 class TelegramActions(AndroidAppiumActions):
 
     def __init__(self,
@@ -234,8 +234,9 @@ class TelegramActions(AndroidAppiumActions):
             raise Exception('Tried to answer call, but couldn\'t find notification to answer any calls')
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value='//android.widget.Button[lower-case(@content-desc)="answer"]').click()
-        self.driver.find_element(by=AppiumBy.XPATH,
-                                 value='//android.widget.TextView[@resource-id="android:id/title" and @text="Ongoing Telegram call"]').click()
+        open_call_button = '//android.widget.TextView[@resource-id="android:id/title" and @text="Ongoing Telegram call"]'
+        if self.is_present(open_call_button):
+            self.driver.find_element(by=AppiumBy.XPATH, value=open_call_button).click()
 
     def decline_call(self):
         """
