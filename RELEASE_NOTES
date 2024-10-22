@@ -1,3 +1,10 @@
+Version 2.2.0
+-------------
+Add Google Maps support (based on v11.119.0101)
+Update WhatsApp support to v2.24.20.89
+Update Telegram support to v11.2.2
+Add workshop files
+
 Version 2.1.0
 -------------
 34. Update Appium python client to latest version (4.2), and make dependency more lenient
