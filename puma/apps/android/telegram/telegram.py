@@ -287,8 +287,3 @@ class TelegramActions(AndroidAppiumActions):
             sleep(1)
         if not self._currently_in_conversation():
             raise Exception('Expected to be in conversation screen now, but screen contents are unknown')
-
-
-if __name__ == '__main__':
-    phone = TelegramActions('34281JEHN03866')
-    phone.take_and_send_picture(chat='Bob Toucan', caption='test')
