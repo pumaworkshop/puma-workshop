@@ -3,15 +3,16 @@ from typing import Callable, Tuple
 
 from git import Repo, Remote
 
+from puma.apps.android.google_maps.google_maps import GoogleMapsActions
 from puma.apps.android.snapchat.snapchat import SnapchatActions
 from puma.apps.android.telegram.telegram import TelegramActions
 from puma.apps.android.whatsapp.whatsapp import WhatsappActions
-from puma.utils import PROJECT_ROOT
 
 all_app_actions = [
     SnapchatActions,
     TelegramActions,
-    WhatsappActions
+    WhatsappActions,
+    GoogleMapsActions
 ]
 APP_MODULE = 'puma.apps'
 
