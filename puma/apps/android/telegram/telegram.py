@@ -191,11 +191,15 @@ class TelegramActions(AndroidAppiumActions):
         sleep(wait_time)
         # take picture
         self.driver.find_element(by=AppiumBy.XPATH, value=shutter_xpath).click()
-        sleep(1)
         # add caption
         if caption is not None:
-            self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText').click()
-            self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText').send_keys(caption)
+            text_field = '//android.widget.EditText'
+            for i in range(10):
+                if self.is_present(text_field):
+                    break
+                sleep(1)
+            self.driver.find_element(by=AppiumBy.XPATH, value=text_field).click()
+            self.driver.find_element(by=AppiumBy.XPATH, value=text_field).send_keys(caption)
             self.driver.find_element(by=AppiumBy.XPATH,
                                      value='//android.widget.EditText/../../android.widget.ImageView').click()
         # press send
