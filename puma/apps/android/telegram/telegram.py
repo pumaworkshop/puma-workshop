@@ -172,18 +172,25 @@ class TelegramActions(AndroidAppiumActions):
         # click the attachment icon
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value='//android.widget.ImageView[lower-case(@content-desc)="attach media"]').click()
-        sleep(wait_time)
-        # click the camera: this might be unstable due to bad xpath expression
-        self.driver.find_element(by=AppiumBy.XPATH,
-                                 value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout[2]').click()
+
+        camera_preview_xpath = '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout[2]'
+        shutter_xpath = '//android.widget.Button[lower-case(@content-desc)="shutter"]'
+        for i in range(10):
+            if self.is_present(camera_preview_xpath):
+                self.driver.find_element(by=AppiumBy.XPATH, value=camera_preview_xpath).click()
+                if self.is_present(shutter_xpath):
+                    break
+            sleep(1)
+        if not self.is_present(shutter_xpath):
+            raise Exception("Clicking the camera preview to take a picture failed.")
+
         # switch camera if need be
         if front_camera:
             self.driver.find_element(by=AppiumBy.XPATH,
                                      value='//android.widget.ImageView[lower-case(@content-desc)="switch camera"]').click()
         sleep(wait_time)
         # take picture
-        self.driver.find_element(by=AppiumBy.XPATH,
-                                 value='//android.widget.Button[lower-case(@content-desc)="shutter"]').click()
+        self.driver.find_element(by=AppiumBy.XPATH, value=shutter_xpath).click()
         sleep(1)
         # add caption
         if caption is not None:
@@ -280,3 +287,8 @@ class TelegramActions(AndroidAppiumActions):
             sleep(1)
         if not self._currently_in_conversation():
             raise Exception('Expected to be in conversation screen now, but screen contents are unknown')
+
+
+if __name__ == '__main__':
+    phone = TelegramActions('34281JEHN03866')
+    phone.take_and_send_picture(chat='Bob Toucan', caption='test')
