@@ -1,10 +1,14 @@
-from puma.apps.android.whatsapp.whatsapp import WhatsappActions
-
 # Guidelines for creating test data
 
 At the NFI we have been making reference data for some time now, and through the years we discovered some best practices
 improving our process but also the quality of the test data itself. If you are also using Puma to create reference or
 test data, this document will help you to create your datasets better and faster.
+
+### Terminology
+
+In this document, the terms test data and reference data are used interchangeably. While they aren't the exact same, the
+difference is in the use of the data, not the contents of it. Since this document is only about how we create this data,
+in this document the terms can be considered synonymous.
 
 ## 0. Why make your own test data?
 
@@ -142,3 +146,48 @@ If you want to create large amounts of realistic user data (like thousands of ch
 and have an LLM create the conversations for you. How to do that is beyond the scope of this document, but current day
 LLMs are smart enough to understand the Puma API (just give it the python code and the LLM will understand) and ask it
 to generate the python code containing the number of messages you need, on topics you want.
+
+## 2. Creating the test data
+
+After you have your script describing the actions you will take, you can either use Puma to create the test data, or
+create it manually.
+
+When deciding whether to use Puma, consider the following:
+
+* Does Puma already support your application?
+* Will you create the reference data multiple times? (eg on different phones, OS versions, or app versions)
+* Are you creating a large amount of data (eg 100+ messages)?
+
+If the answer to any of these questions is yes, our experience is that Puma will save you time.
+
+If Puma doesn't support your app, and this is a one-time thing, and you're just doing a dozen or so user actions, we
+recommend just doing ti manually
+
+### Creating test data with Puma
+
+If your app is not supported in Puma, you will need to add support for it. To do so, read
+the [contributing documentation](CONTRIBUTING.md).
+
+After you have written the Puma code and your Puma script, you can now execute it. Be sure to properly prepare the
+device (enable USB debugging!) and install the application. It's a good idea to go into the app settings and grant all
+possible permissions to the app, to prevent popups from getting in the way of your Puma script.
+
+If this is the first time you're running your script, we recommend 'babysitting' it: it is very possible that some
+actions will fail, and when you see what happens it'll be easier to fix your code. Sometimes you can also manually
+intervene and do a tap that you forgot to put in your Puma code.
+
+If you are repeating this experiment, after babysitting your puma script once or twice all the problems should be ironed
+out and a complete hands-off approach should be possible: just start the script and go get some coffee!
+
+### Creating test data manually
+
+We highly recommend to manually create test data with two people: an operator who operates the device(s), and a
+coordinator who handles the script. The coordinator tells the operator which action to take next, and annotates the
+script with the time stamps. In case the operator makes a mistake (makes a typo or executes the wrong user action in
+the UI, or perhaps the coordinator gave th wrong instruction), the coordinator also writes this down.
+
+By doing this, you end up with a complete and correct script of all actions that were taken, including the time stamps.
+This is valuable metadata that you can store along your reference data after extraction, so when you analyze the
+reference data, you know exactly how it was created and what you could find n that data.
+
+## 3. Extracting and storing the test data
