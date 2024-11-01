@@ -1,3 +1,7 @@
+Version 2.2.1
+-------------
+38. Improve stability of sending Telegram pictures
+
 Version 2.2.0
 -------------
 Add Google Maps support (based on v11.119.0101)
