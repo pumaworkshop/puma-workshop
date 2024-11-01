@@ -10,6 +10,16 @@ In this document, the terms test data and reference data are used interchangeabl
 difference is in the use of the data, not the contents of it. Since this document is only about how we create this data,
 in this document the terms can be considered synonymous.
 
+### Multiple apps
+
+In this document we often talk about 'your application', and the assumption seems to be made that only one application
+is involved in the creation of your test data. Of course, this isn't necessarily the case: You might want to create
+reference data involving multiple applications.
+
+If this is the case, this document still applies: anywhere we mention 'your application' consider this as 'your one or
+more applications'. Puma is perfectly able to operate multiple apps at the same time, and all principles considered in
+this document apply to multiple applications just as well as they do to one.
+
 ## 0. Why make your own test data?
 
 Before we get into making test data, let's focus on whether you actually want to do so. After all: if you want some
@@ -186,8 +196,60 @@ coordinator who handles the script. The coordinator tells the operator which act
 script with the time stamps. In case the operator makes a mistake (makes a typo or executes the wrong user action in
 the UI, or perhaps the coordinator gave th wrong instruction), the coordinator also writes this down.
 
-By doing this, you end up with a complete and correct script of all actions that were taken, including the time stamps.
-This is valuable metadata that you can store along your reference data after extraction, so when you analyze the
-reference data, you know exactly how it was created and what you could find n that data.
+At first glance it might seem overkill to have two people 'just play around with a phone', but a mistake is made **very
+easily**. Having two people in this process greatly reduces the number of mistakes you will make (yes, mistakes will be
+made).
+
+By having the coordinator annotate everything, you end up with a complete and correct script of all actions that were
+taken, including the time stamps. This is valuable metadata that you can store along your reference data after
+extraction, so when you analyze the reference data, you know exactly how it was created and what you could find in that
+data.
 
 ## 3. Extracting and storing the test data
+
+### Extraction
+
+After you have executed the script, your reference data is now ready, you just need to extract it. How to do this
+depends on what data you need:
+
+1. If you do network analysis, I hope you didn't forget to record the network traffic!
+2. If you want a full device image, use your favorite tool to make this image
+3. If you only want specific app data, you'll need to delve into the device to find its location
+
+The first two cases are trivial, in the sense that if you're doing this sort of analysis you probably don't need any
+help to collect the data you want.
+
+In the last case, you might not know where to get the data. And you;re not alone: I don't know either. Where app store
+their data is dependent on the OS and the app itself.
+
+Luckily on modern mobile devices, apps cannot just store data anywhere they want. On android, relevant app data is
+usually stored in `/data/data/<package name of your app>`. Within this folder, the app can chose how to store its data.
+What we usually do is copy this entire folder and then explore this data.
+
+### Storing the test data
+
+After you extracted the data you want, you can now do your thing with it, but after that, you probably don't want to
+delete it.
+
+At the NFI, we store all reference data, along with metadata describing the reference data. This metadata file includes
+the following:
+
+* file type + version if applicable
+* Creation date + location
+* Device + OS on which it was created
+* Content description (eg `chat database of foo@bar.com, containing 213 messages`)
+* Reproduction steps: the exact and complete steps you took to create this data. This contains either a reference to
+  your Puma script, or the annotated script
+
+By storing these together, you can start building a full archive of high-quality reference data of which anyone can
+easily find out where data came from and how it was created. If anyone in the (far) future ever wants to reproduce your
+process, or expand on it, they can now easily do so.
+
+## 4. Conclusion
+
+The creation of test data is not a trivial thing, and doing it right even less so. In this document I tried to summarize
+the most important best practices. Some of them might sound trivial, but I can assure you we only thought of them after
+doing things differently first, resulting in either wasted time or test dat of lower quality.
+
+This document of course is far from the last thing to be said on the topic, and I'm sure we'll make changes to it in the
+future.
