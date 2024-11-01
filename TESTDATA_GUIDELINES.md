@@ -1,3 +1,5 @@
+from puma.apps.android.whatsapp.whatsapp import WhatsappActions
+
 # Guidelines for creating test data
 
 At the NFI we have been making reference data for some time now, and through the years we discovered some best practices
@@ -30,7 +32,7 @@ another database with pictures. THat probably isn't too hard, pictures after all
 But what about group chats? What about people being removed from a group chat or leaving by themselves? What about
 pictures that can be viewed once but haven't been opened yet? What changed avatars on the public profile?
 
-These are jsut examples of chat applications, but the same holds true for all other types of apps: with ever-expanding
+These are just examples of chat applications, but the same holds true for all other types of apps: with ever-expanding
 features of applications it becomes virtually impossible to find organic user data that contains all possible user
 actions. Or, more specific, all user actions of interest to your project you want to create reference data for.
 
@@ -59,4 +61,84 @@ Now that you're convinced to create your own test data, let's get to it. The fir
 be tempted to just start sending messages or start browsing in the app you want to generate reference data for, but from
 experience we learned creating test data is something best properly planned ahead.
 
-## 2.
+### Investigate the application
+
+As [stated before](#Completeness), apps these days have MANY features. Therefore, it's a good idea to explore the
+application you want to create test data with. Even if you use this app privately, you'll probably find feature you
+never knew.
+
+If you're creating the reference data for a specific goal (forensic research, network analysis, or something else),
+keep this goal in mind: if you're only doing forensic research on pictures, there's probably no need to delve into the
+details of calendar appointments... Although: make sure to check if those appointments can contain a picture or
+thumbnail!
+
+The goal of this investigation is having a concise list of application features you want to cover.
+
+### Create a script
+
+After you have a list of all features you want to cover, it's time to write a script. And this isn't necessarily a Puma
+script: Puma can help you to automate actions, but if your reference data is about an app that Puma doesn't support, and
+you're just going to cover 10 user actions, you'll probably save time by executing the actions manually to create your
+reference data.
+
+Still, even when you create the data manually, write down a **precise**, **chronological** and **complete** description
+of all actions you will take to create the reference data.
+
+By **precise** we mean there should be no room for ambiguity. `send a picture in whatsapp` is not precise: does this
+mean using the embedded camera to take a picture and send it, or does it mean sending a picture stored on the device?
+Be sure every action in your script unambiguously describes one specific user action in the application.
+
+By **complete** we mean you should obviously include all actions you will take, but also actions you do not take: after
+sending a picture from Alice to Bob, include in your script whether or not Bob opens the picture. When making a call
+from Alice to Bob, and Bob should answer, include how long Bob should wait before answering.
+
+By **chronological** we mean the way time works.
+
+If you use Puma, your script will look something like this:
+
+```python
+alice = WhatsappActions('emulator-5554')
+bob = WhatsappActions('emulator-5556')
+alice.send_message(f'1. This is the first message, sent by Alice to Bob, sent at {current_time()}', chat='Bob')
+sleep(60)
+bob.send_message(f'2. This message is sent by Bob to Alice, sent at {current_time()}', chat='Alice')
+```
+
+If you create the test data manually, your script won't be python code but will ook similar:
+
+```
+Alice to Bob at hh:mm: 1. This is the first message, sent by Alice to Bob, sent at hh:mm
+(wait 1 minute)
+Bob to Alice at hh:mm: 2. This message is sent by Bob to Alice, sent at hh:mm
+```
+
+You will notice we are waiting a full minute between the messages. We often do this (not between all messages, but
+between some) because we will use our reference data to analyze the file format. By waiting a full minute there is a
+distinct difference between the time stamps, making it easier for se to keep these timestamps apart and verify them.
+
+You can also see we're prepending the messages with a sequence number. We do this because it makes it easier for us to
+verify whether we could retrieve all sent messages form the reference data, and whether the order of messages is
+maintained in storage.
+
+Lastly, you're notice the messages aren't a simple `Hi!`. This is what we call self-descriptive data and for our
+research at the NFI we vastly prefer this over realistic messages.
+
+### Consider using self-descriptive data
+
+Depending on the goal of your reference data, you might want to consider using self-descriptive data. This is data of
+which the content describes itself, for example a chat message `This is a message from Alice to Bob sent at 2024-10-01
+14:53 UTC`, or a layer in a layered image file containing `This is text on layer 1, the letters are red, and there is
+a second layer with blue text`.
+
+Self-descriptive data comes in very handy when you're doing (forensic) analysis of a file format, as it makes it easier
+to interpret the data and prevent mistakes.
+
+### Generating large amounts of realistic data
+
+If the goal of your reference data is not to analyze the data content itself, but rather to create a large amount of
+synthetic that looks like real, organic user data, obviously self-descriptive data is not for you.
+
+If you want to create large amounts of realistic user data (like thousands of chat messages that look real), use Puma
+and have an LLM create the conversations for you. How to do that is beyond the scope of this document, but current day
+LLMs are smart enough to understand the Puma API (just give it the python code and the LLM will understand) and ask it
+to generate the python code containing the number of messages you need, on topics you want.
