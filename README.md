@@ -54,6 +54,7 @@ example implementations:
 * [WhatsApp](puma/apps/android/whatsapp/README.md)
 * [Telegram](puma/apps/android/telegram/README.md)
 * [Snapchat](puma/apps/android/snapchat/README.md)
+* [Google Maps](puma/apps/android/google_maps/README.md)
 
 Right now only Android is supported.
 
