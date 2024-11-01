@@ -1,4 +1,26 @@
 # Guidelines for creating test data
+<!-- TOC -->
+* [Guidelines for creating test data](#guidelines-for-creating-test-data)
+    * [Terminology](#terminology)
+    * [Multiple apps](#multiple-apps)
+  * [0. Why make your own test data?](#0-why-make-your-own-test-data)
+    * [Ground truth](#ground-truth)
+    * [Completeness](#completeness)
+    * [The GDPR (or similar privacy legislation)](#the-gdpr-or-similar-privacy-legislation)
+    * [Exotic applications](#exotic-applications)
+  * [1. Plan ahead](#1-plan-ahead)
+    * [Investigate the application](#investigate-the-application)
+    * [Create a script](#create-a-script)
+    * [Consider using self-descriptive data](#consider-using-self-descriptive-data)
+    * [Generating large amounts of realistic data](#generating-large-amounts-of-realistic-data)
+  * [2. Creating the test data](#2-creating-the-test-data)
+    * [Creating test data with Puma](#creating-test-data-with-puma)
+    * [Creating test data manually](#creating-test-data-manually)
+  * [3. Extracting and storing the test data](#3-extracting-and-storing-the-test-data)
+    * [Extraction](#extraction)
+    * [Storing the test data](#storing-the-test-data)
+  * [4. Conclusion](#4-conclusion)
+<!-- TOC -->
 
 At the NFI we have been making reference data for some time now, and through the years we discovered some best practices
 improving our process but also the quality of the test data itself. If you are also using Puma to create reference or
