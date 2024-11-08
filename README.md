@@ -8,11 +8,11 @@ Telegram message to Bob from Alice's phone".
 To execute actions on the mobile device, Puma uses [Appium](https://appium.io/), and open-source project for UI
 automation.
 
-Puma was created at the NFI to improve our process of creating test and reference datasets. Our best pactrices on
-creating test dat can be found here.
+Puma was created at the NFI to improve our process of creating test and reference datasets. Our best practices on
+creating test data can be found here.
 
-Puma is an open-source non-commercial project, and community contributions to add apps, or improve support of existing
-apps are welcome! If you want to contribute, please read [CONTRIBUTING.md](CONTRIBUTING.md).
+Puma is an open-source non-commercial project, and community contributions to add support for apps, or improve support
+of existing apps are welcome! If you want to contribute, please read [CONTRIBUTING.md](CONTRIBUTING.md).
 
 > :no_mobile_phones: Puma currently only supports Android apps. iOS apps are on our to-do list!
 
@@ -21,7 +21,7 @@ apps are welcome! If you want to contribute, please read [CONTRIBUTING.md](CONTR
 1. Install all required software (see the [requirements](#requirements) section).
     - install [ADB](#ADB)
     - install [Appium](#Appium)
-2. Connect your Android device (or start an emulator), make sure it is connected properly over ADB (See the
+2. Connect your Android device (or start an emulator), make sure it is connected properly over ADB (See the section on
    [troubleshooting](#Troubleshooting) if you encounter problems).
     - :warn: Make sure the phone is set to English, and [all other requirements](#Android-Devices-or-Emulators) are met!
 3. Get the UDID of your device by running `adb devices` (in the example below `954724ertyui74125` is the UDID of the
@@ -59,7 +59,7 @@ alice.send_message("Sorry for the spam :)")  # we can send a second message in t
 Congratulations, you just sent a WhatsApp message without touching your phone!
 You can now explore what other function are possible with Puma in [WhatsApp](puma/apps/android/whatsapp/README.md), or
 try a [different application](#supported-apps). Or you could even start working
-on [adding support for aa new app](CONTRIBUTING.md).
+on [adding support for a new app](CONTRIBUTING.md).
 
 ## Supported apps
 
@@ -90,9 +90,9 @@ to use an older release of Puma.
 To make it easy for users to lookup older versions, git tags will be used to tag app versions. So in the above example
 you'd simply have to look up the tag `Xyz_v2`.
 
-If you are running your script on a newer app version that the tag, it is advised to first run the test script of your
+If you are running your script on a newer app version than the tag, it is advised to first run the test script of your
 app (can be found in the [test scripts directory](test_scripts)). This test script includes each action that can be
-performed on the phone, and first running these will inform you if all actions are still supported, without messing up
+performed on the phone, and running these first will inform you if all actions are still supported, without messing up
 your experiment.
 
 #### Navigation
