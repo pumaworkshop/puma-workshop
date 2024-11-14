@@ -9,7 +9,9 @@ To execute actions on the mobile device, Puma uses [Appium](https://appium.io/),
 automation.
 
 Puma was created at the NFI to improve our process of creating test and reference datasets. Our best practices on
-creating test data can be found here.
+creating test data can be found [here](docs/TESTDATA_GUIDELINES.md). If you are wondering whether you should make your
+own test data, or whether you should use Puma for it, [this document](docs/TESTDATA_WHY.md) goes into the advantages of
+doing so.
 
 Puma is an open-source non-commercial project, and community contributions to add support for apps, or improve support
 of existing apps are welcome! If you want to contribute, please read [CONTRIBUTING.md](CONTRIBUTING.md).

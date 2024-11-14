@@ -1,13 +1,9 @@
 # Guidelines for creating test data
+
 <!-- TOC -->
 * [Guidelines for creating test data](#guidelines-for-creating-test-data)
     * [Terminology](#terminology)
     * [Multiple apps](#multiple-apps)
-  * [0. Why make your own test data?](#0-why-make-your-own-test-data)
-    * [Ground truth](#ground-truth)
-    * [Completeness](#completeness)
-    * [The GDPR (or similar privacy legislation)](#the-gdpr-or-similar-privacy-legislation)
-    * [Exotic applications](#exotic-applications)
   * [1. Plan ahead](#1-plan-ahead)
     * [Investigate the application](#investigate-the-application)
     * [Create a script](#create-a-script)
@@ -24,7 +20,12 @@
 
 At the NFI, we have been making reference data for some time now, and through the years we discovered some best
 practices improving our process, but also the quality of the data itself. If you are also using Puma to create
-reference or test data, this document will help you to create your datasets better and faster.
+reference or test data, this document will help you to create your datasets better and faster. But even if you don't use
+Puma, this document will help you in the process of creating test data.
+
+If you are wondering whether you should create your own test data over just using publicly available data, or if you are
+deciding whether to use Puma over manually creating test data, [this document](TESTDATA_WHY.md) goes into the advantages
+of creating the data yourself, and automating the process.
 
 ### Terminology
 
@@ -42,61 +43,12 @@ If this is the case, this document still applies: anywhere we mention 'your appl
 more applications'. Puma is perfectly able to operate multiple apps at the same time, and all principles considered in
 this document apply to multiple applications just as well as they do to one.
 
-## 0. Why make your own test data?
-
-Before we get into making test data, let's focus on whether you actually want to do so. After all: if you want some
-reference data on specific apps, you'll probably find some example files online with a quick Google search. Well,
-there's a few reasons why we at the NFI prefer to make our own datasets:
-
-### Ground truth
-
-Say for example you have a populated chat database you found online or got from some device, and you have a bunch of
-messages with a timestamp: how are you going to find out what that timestamp is? Is it the time the message was sent,
-received, or read? And was it the server time or the device time? And what if you cannot find any pictures in the
-database, does that mean this chat app doesn't store pictures in the database, or that you just happened to find a
-database of a user that has never sent or received a picture?
-
-When you create your own test data, you know which actions exactly were taken, which makes it much easier to figure out
-what your data means.
-
-### Completeness
-
-Say you ignore the last point, and you are convinced you will be able to figure out what the data means exactly, but now
-you notice that there isn't a single picture in the database. Now you have to go back to searching the internet for
-another database with pictures. That probably isn't too hard, pictures after all are pretty common. So let's say you do
-find a second database file containing pictures.
-
-But what about group chats? What about people being removed from a group chat or leaving by themselves? What about
-pictures that can be viewed once but haven't been opened yet? What changed avatars on the public profile?
-
-These are just examples of chat applications, but the same holds true for all other types of apps: with ever-expanding
-features of applications it becomes virtually impossible to find organic user data that contains all possible user
-actions. Or, more specifically, all user actions of interest to your project you want to create reference data for.
-
-If you create your own test data you can be sure it covers all relevant user actions for your use case.
-
-### The GDPR (or similar privacy legislation)
-
-Using data you found online might be easy and good enough for your use case, but if it contains personal data using that
-data is probably illegal under the GDPR, or at the very least a possible problem.
-
-When you create your own test data with dummy accounts, you can rest assured there won't be any problems, as you're not
-using real personal data.
-
-⚠️ Be careful even when creating your own data! Some applications will automatically store data from other users (for
-example public chat channels or "users nearby" features). If these features are included in your apps, you may still
-need consider the GDPR.
-
-### Exotic applications
-
-Lastly, the most obvious point: some applications simply aren't that common, so finding data from them online or from
-other sources is not an option.
 
 ## 1. Plan ahead
 
-Now that you're convinced to create your own test data, let's get to it. The first step is careful planning. You might
-be tempted to just start sending messages or start browsing in the app you want to generate reference data for, but from
-experience we learned creating test data is something best properly planned ahead.
+The first step is careful planning. You might be tempted to just start sending messages or start browsing in the app
+you want to generate reference data for, but from experience we learned creating test data is something best properly
+planned ahead.
 
 ### Investigate the application
 
@@ -183,30 +135,16 @@ topics you want.
 
 ## 2. Creating the test data
 
-After you have your script describing the actions you will take, you can either use Puma to create the test data, or
-create it manually.
-
-When deciding whether to use Puma, consider the following:
-
-* Does Puma already support your application?
-* Are you planning to create the reference data multiple times? (e.g. on different phones, OS versions, or app versions)
-* Are you creating a large amount of data (eg 100+ messages)?
-
-If the answer to any of these questions is yes, our experience is that Puma will save you time.
-
-If Puma doesn't support your app, and this is a one-time thing, and you're just doing a dozen or so user actions, we
-recommend just doing it manually
-
 > ⚠️ If your goal is to capture network traffic, don't forget to start recording network traffic when you start
 > generating traffic. We've been there.
 
 ### Creating test data with Puma
 
 If your app is not supported in Puma, you will need to add support for it. To do so, read
-the [contributing documentation](CONTRIBUTING.md).
+the [contributing documentation](../CONTRIBUTING.md).
 
 After you have written the Puma code and your Puma script, you can now execute it. Be sure to properly prepare the
-device ([enable USB debugging!](README.md#adb-device-cannot-connect)) and install the application. It's a good idea to
+device ([enable USB debugging!](../README.md#adb-device-cannot-connect)) and install the application. It's a good idea to
 go into the app settings and grant all possible permissions to the app, to prevent popups from getting in the way of
 your Puma script.
 
