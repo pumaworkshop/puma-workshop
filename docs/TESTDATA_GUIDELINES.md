@@ -182,14 +182,14 @@ depends on what data you need:
 2. If you want a full device image, use your favorite tool to make this image
 3. If you only want specific app data, you'll need to delve into the device to find its location
 
-The first two cases are trivial, in the sense that if you're doing this sort of analysis you probably don't need any
-help to collect the data you want.
+If you're handling one of the first two cases, you probably know which tool you need for the job.
 
 In the last case, you might not know where to get the data. The location of app data is dependent on the OS and the
 app itself.
 
 Luckily on modern mobile devices, apps cannot just store data anywhere they want. On Android, relevant app data is
-usually stored in `/data/data/<package name of your app>`. Within this folder, the app can choose how to store its data.
+usually stored in `/data/data/<package name of your app>`, with protected media files sometimes being stored in
+`/data/media/Android/data/<package name of your app>`. Within this folder, the app can choose how to store its data.
 What we usually do is copy this entire folder and then explore this data.
 
 ### Storing the test data

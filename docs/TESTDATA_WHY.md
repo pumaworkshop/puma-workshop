@@ -10,8 +10,8 @@
   * [Using Puma vs creating test data manually](#using-puma-vs-creating-test-data-manually)
 <!-- TOC -->
 
-Puma was created to improve our process of creating test and reference datasets. Before you do the same, it's good to
-ask yourself whether you want to make your own test and reference data, and whether you want to use Puma to do this.
+Puma was created at the NFI to improve our process of creating test and reference datasets. Before you do the same, it's
+good to ask yourself whether you want to make your own test data, and whether you want to use Puma to do this.
 
 ## Why make your own test data?
 
@@ -63,12 +63,15 @@ need consider the GDPR.
 Lastly, the most obvious point: some applications simply aren't that common, so finding data from them online or from
 other sources is not an option.
 
-## Using Puma vs creating test data manually
+## Using Puma vs. creating test data manually
 
-If you have decided to create your own test data, you can still decide to
+If you have decided to create your own test data, you can still decide to make manually make the data, or to automate
+the proces. You might think that, since this is Puma documentation, we would advocate to always automate the process,
+but we actually don't!
 
-After you have your script describing the actions you will take, you can either use Puma to create the test data, or
-create it manually.
+Puma requires app-specific code to be able to interact with the UI of a specific application, and while adding support
+for your app isn't very difficult (we've written [a guide helping you in this process](../CONTRIBUTING.md)) it does take
+time that you could also spend on manually creating reference data.
 
 When deciding whether to use Puma, consider the following:
 
@@ -79,4 +82,4 @@ When deciding whether to use Puma, consider the following:
 If the answer to any of these questions is yes, our experience is that Puma will save you time.
 
 If Puma doesn't support your app, and this is a one-time thing, and you're doing only a dozen or so user actions, we
-recommend making the test data doing it manually.
+recommend making the test data manually.
