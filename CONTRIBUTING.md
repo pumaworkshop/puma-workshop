@@ -3,21 +3,26 @@
 Thank you for considering contributing to our project! By following these guidelines, you will help ensure that our project remains consistent, maintainable, and easy to use.
 
 ## Table of Contents
-- [Development Installation](#development-installation)
-- [Issues](#issues)
-- [Pull Requests](#pull-requests)
-- [Coding Standards](#coding-standards)
-- [Documentation](#documentation)
-  - [App Version Support](#app-version-support)
-- [How to add a new application](#how-to-add-a-new-application)
-- [How to write Appium actions](#how-to-write-appium-actions)
-  - [Example: writing new Appium actions](#example-writing-new-appium-actions)
-  - [Case Sensitivity in XPATH](#case-sensitivity-in-xpath)
-  - [Elements that do not have identifying attributes](#elements-that-do-not-have-identifying-attributes)
-- [Supporting new app versions](#supporting-new-app-versions)
-- [Resources](#resources)
-- [Development requirements](#development-requirements)
-- [License](#license)
+<!-- TOC -->
+* [Contributing to the Appium Automation Project](#contributing-to-the-appium-automation-project)
+  * [Table of Contents](#table-of-contents)
+  * [Development Installation](#development-installation)
+  * [Issues](#issues)
+  * [Pull Requests](#pull-requests)
+  * [Development requirements](#development-requirements)
+  * [Coding Standards](#coding-standards)
+  * [Documentation](#documentation)
+    * [App Version Support:](#app-version-support)
+  * [How to add a new application](#how-to-add-a-new-application)
+  * [How to write Appium actions](#how-to-write-appium-actions)
+    * [Example: writing new Appium actions](#example-writing-new-appium-actions)
+    * [Navigation](#navigation)
+    * [Case Sensitivity in XPATH:](#case-sensitivity-in-xpath)
+    * [Elements that do not have identifying attributes](#elements-that-do-not-have-identifying-attributes)
+  * [Supporting new app versions](#supporting-new-app-versions)
+  * [Resources](#resources)
+  * [License](#license)
+<!-- TOC -->
 
 ## Development Installation
 To contribute to the project, follow the following installation steps: 
