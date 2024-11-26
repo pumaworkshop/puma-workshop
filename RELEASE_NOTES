@@ -1,5 +1,6 @@
-Version 2.2.1
+Version 2.3.0
 -------------
+45. Do no raise exception in telegram.end_call()
 43. Add guidelines on creating test data
 41. Add Google Maps documentation
 38. Improve stability of sending Telegram pictures
