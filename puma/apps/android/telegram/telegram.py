@@ -4,6 +4,7 @@ from typing import Dict
 from appium.webdriver.common.appiumby import AppiumBy
 
 from puma.apps.android.appium_actions import supported_version, AndroidAppiumActions
+from puma.apps.android.telegram import logger
 
 TELEGRAM_PACKAGE = 'org.telegram.messenger'
 TELEGRAM_WEB_PACKAGE = 'org.telegram.messenger.web'
@@ -230,10 +231,11 @@ class TelegramActions(AndroidAppiumActions):
         """
         Ends the current call. Assumes the call screen is open.
         """
-        if not self._currently_in_call():
-            raise Exception('Expected to be in a call, but could not detect call screen!')
-        self.driver.find_element(by=AppiumBy.XPATH,
-                                 value='//android.widget.Button[lower-case(@text)="end call"]').click()
+        if self._currently_in_call():
+            self.driver.find_element(by=AppiumBy.XPATH,
+                                     value='//android.widget.Button[lower-case(@text)="end call"]').click()
+        else:
+            logger.warn('Could not end call as current screen was not the call screen.')
 
     def answer_call(self):
         """
