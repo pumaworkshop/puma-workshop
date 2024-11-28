@@ -1,5 +1,6 @@
 Version 2.3.0
 -------------
+47. Add tests for versions being set correctly
 45. Do no raise exception in telegram.end_call()
 43. Add guidelines on creating test data
 41. Add Google Maps documentation
