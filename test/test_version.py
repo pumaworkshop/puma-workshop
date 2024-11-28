@@ -15,10 +15,6 @@ def read_release_notes(file_path: str) -> [str]:
         return file.readlines()
 
 
-def get_first_version_in_release_notes():
-    pass
-
-
 class TestVersion(unittest.TestCase):
 
     def setUp(self):
@@ -26,8 +22,7 @@ class TestVersion(unittest.TestCase):
         self.release_notes = read_release_notes(self.release_notes_path)
         self.first_version_in_release_notes = self._get_first_version_in_release_notes()
 
-
-    def _get_first_version_in_release_notes(self ):
+    def _get_first_version_in_release_notes(self):
         first_line = self.release_notes[0]
         match = re.search(r'(\d+\.\d+\.\d+)', first_line)
         return match.group(1) if match else None
@@ -44,6 +39,6 @@ class TestVersion(unittest.TestCase):
             self.skipTest("Skipping GitHub version test as no tag version was passed.")
 
         self.assertEqual(github_tag_version, self.first_version_in_release_notes,
-                          "GitHub tag version is not equal to top version in release notes")
+                         "GitHub tag version is not equal to top version in release notes")
         self.assertEqual(github_tag_version, version,
-                          "GitHub tag version is not equal to setup version")
+                         "GitHub tag version is not equal to setup version")
