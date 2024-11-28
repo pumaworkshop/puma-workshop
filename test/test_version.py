@@ -26,3 +26,7 @@ class TestVersion(unittest.TestCase):
         self.assertIsNotNone(first_version_in_release_notes)
         self.assertEqual(first_version_in_release_notes, version,
                          "Version in release notes is not equal to setup version")
+#TODO: add a workflow for test that is triggered upon commit
+# call this test from the publish yml so the tests are first run
+# ALso add release notes test?
+# Also add test to compare the release version in github with the release notes and version.py. Find out how to inject the release version from github in the script
