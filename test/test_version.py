@@ -1,3 +1,4 @@
+import os
 import re
 import unittest
 from puma.utils import PROJECT_ROOT
@@ -14,19 +15,35 @@ def read_release_notes(file_path: str) -> [str]:
         return file.readlines()
 
 
+def get_first_version_in_release_notes():
+    pass
+
+
 class TestVersion(unittest.TestCase):
+
     def setUp(self):
         self.release_notes_path = f"{PROJECT_ROOT}/RELEASE_NOTES"
         self.release_notes = read_release_notes(self.release_notes_path)
+        self.first_version_in_release_notes = self._get_first_version_in_release_notes()
 
-    def test_version_in_release_notes_same_as_setup(self):
+
+    def _get_first_version_in_release_notes(self ):
         first_line = self.release_notes[0]
         match = re.search(r'(\d+\.\d+\.\d+)', first_line)
-        first_version_in_release_notes = match.group(1) if match else None
-        self.assertIsNotNone(first_version_in_release_notes)
-        self.assertEqual(first_version_in_release_notes, version,
+        return match.group(1) if match else None
+
+    def test_version_in_release_notes_same_as_setup(self):
+        self.assertIsNotNone(self.first_version_in_release_notes)
+        self.assertEqual(self.first_version_in_release_notes, version,
                          "Version in release notes is not equal to setup version")
-#TODO: add a workflow for test that is triggered upon commit
-# call this test from the publish yml so the tests are first run
-# ALso add release notes test?
-# Also add test to compare the release version in github with the release notes and version.py. Find out how to inject the release version from github in the script
+
+    def test_versions_same_as_github(self):
+        github_tag_version = os.getenv("$GITHUB_TAG_VERSION")
+        # Only run this test when a release is made from GitHub (i.e. the above environment variable is set)
+        if github_tag_version is None:
+            self.skipTest("Skipping GitHub version test as no tag version was passed.")
+
+        self.assertEquals(github_tag_version, self.first_version_in_release_notes,
+                          "GitHub tag version is not equal to top version in release notes")
+        self.assertEquals(github_tag_version, version,
+                          "GitHub tag version is not equal to setup version")
