@@ -43,7 +43,7 @@ class TestVersion(unittest.TestCase):
         if github_tag_version is None:
             self.skipTest("Skipping GitHub version test as no tag version was passed.")
 
-        self.assertEquals(github_tag_version, self.first_version_in_release_notes,
+        self.assertEqual(github_tag_version, self.first_version_in_release_notes,
                           "GitHub tag version is not equal to top version in release notes")
-        self.assertEquals(github_tag_version, version,
+        self.assertEqual(github_tag_version, version,
                           "GitHub tag version is not equal to setup version")
