@@ -38,7 +38,7 @@ class TestVersion(unittest.TestCase):
                          "Version in release notes is not equal to setup version")
 
     def test_versions_same_as_github(self):
-        github_tag_version = os.getenv("$GITHUB_TAG_VERSION")
+        github_tag_version = os.getenv('GITHUB_TAG_VERSION')
         # Only run this test when a release is made from GitHub (i.e. the above environment variable is set)
         if github_tag_version is None:
             self.skipTest("Skipping GitHub version test as no tag version was passed.")
