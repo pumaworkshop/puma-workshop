@@ -2,7 +2,7 @@ import os
 import re
 import unittest
 from puma.utils import PROJECT_ROOT
-from puma.version import version
+from puma.version import version as setup_version
 
 
 def read_release_notes(file_path: str) -> [str]:
@@ -29,7 +29,7 @@ class TestVersion(unittest.TestCase):
 
     def test_version_in_release_notes_same_as_setup(self):
         self.assertIsNotNone(self.first_version_in_release_notes)
-        self.assertEqual(self.first_version_in_release_notes, version,
+        self.assertEqual(self.first_version_in_release_notes, setup_version,
                          "Version in release notes is not equal to setup version")
 
     def test_versions_same_as_github(self):
@@ -40,5 +40,5 @@ class TestVersion(unittest.TestCase):
 
         self.assertEqual(github_tag_version, self.first_version_in_release_notes,
                          "GitHub tag version is not equal to top version in release notes")
-        self.assertEqual(github_tag_version, version,
+        self.assertEqual(github_tag_version, setup_version,
                          "GitHub tag version is not equal to setup version")
