@@ -31,16 +31,16 @@ jobs:
         GITHUB_TAG_VERSION: ${{ github.event.release.tag_name }}
       run: |
         python -m unittest discover test
-#    - name: Build package
-#      run: python -m build
-#    - name: Publish package
-#      uses: pypa/gh-action-pypi-publish@v1.8.14
-#      with:
-#        user: __token__
-#        password: ${{ secrets.PYPI_API_TOKEN }}
-#    - name: Create app tags
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      run: |
-#        export PYTHONPATH=.
-#        python .github/scripts/publish_app_tags.py
+    - name: Build package
+      run: python -m build
+    - name: Publish package
+      uses: pypa/gh-action-pypi-publish@v1.8.14
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+    - name: Create app tags
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        export PYTHONPATH=.
+        python .github/scripts/publish_app_tags.py

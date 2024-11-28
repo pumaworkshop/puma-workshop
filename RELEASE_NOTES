@@ -1,4 +1,4 @@
-Version 0.0.5
+Version 2.3.0
 -------------
 45. Do no raise exception in telegram.end_call()
 43. Add guidelines on creating test data
