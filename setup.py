@@ -20,11 +20,10 @@ setup(
         "selenium==4.14.0",
         "Pillow==10.4.0",
         "pytesseract==0.3.10",
-        "adb-pywrapper==1.0.1",
         "geopy~=2.4.1",
         "setuptools~=75.1.0",
         "gpxpy~=1.6.2",
-        "adb_pywrapper~=1.0.1",
+        "adb_pywrapper~=1.0.2",
         "requests~=2.32.3"
     ],
 )
