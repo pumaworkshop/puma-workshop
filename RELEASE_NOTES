@@ -1,3 +1,7 @@
+Version 2.3.1
+-------------
+49. Remove duplicate dependency of adb-py, bump adb-py to 1.0.2
+
 Version 2.3.0
 -------------
 47. Add tests for versions being set correctly
