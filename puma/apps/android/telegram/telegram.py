@@ -205,8 +205,10 @@ class TelegramActions(AndroidAppiumActions):
                 sleep(1)
             self.driver.find_element(by=AppiumBy.XPATH, value=text_field).click()
             self.driver.find_element(by=AppiumBy.XPATH, value=text_field).send_keys(caption)
-            self.driver.find_element(by=AppiumBy.XPATH,
-                                     value='//android.widget.EditText/../../android.widget.ImageView').click()
+
+            if self.driver.is_keyboard_shown():
+                self.driver.find_element(by=AppiumBy.XPATH,
+                                         value='//android.widget.EditText/../../android.widget.ImageView').click()
         # press send
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value='//android.widget.ImageView[lower-case(@content-desc)="send"]').click()
