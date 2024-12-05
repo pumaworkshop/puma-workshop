@@ -16,8 +16,7 @@ setup(
     packages=find_packages(include=['puma*']),
     test_suite="test",
     install_requires=[
-        "appium-python-client~=4.2.0",
-        "selenium==4.14.0",
+        "appium-python-client~=4.3.0",
         "Pillow==10.4.0",
         "pytesseract==0.3.10",
         "geopy~=2.4.1",
