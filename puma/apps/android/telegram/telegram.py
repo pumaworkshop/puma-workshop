@@ -58,14 +58,18 @@ class TelegramActions(AndroidAppiumActions):
                 self.driver.back()
         print('all conversations loaded!')
 
-    def return_to_homescreen(self):
+    def return_to_homescreen(self, attempts=10):
         """
         Returns to the start screen of Telegram
+        :param attempts: Number of attempts to return to home screen. Avoids an infinite loop when a popup occurs.
         """
         if self.driver.current_package != self.package_name:
             self.driver.activate_app(self.package_name)
-        while not self._currently_at_homescreen():
+        while not self._currently_at_homescreen() and attempts > 0:
             self.driver.back()
+            attempts -= 1
+        if attempts == 0 and not self._currently_at_homescreen():
+            raise Exception('Tried to return to homescreen but ran out of attempts...')
         self._load_conversation_titles()
         sleep(1)
 
@@ -201,8 +205,10 @@ class TelegramActions(AndroidAppiumActions):
                 sleep(1)
             self.driver.find_element(by=AppiumBy.XPATH, value=text_field).click()
             self.driver.find_element(by=AppiumBy.XPATH, value=text_field).send_keys(caption)
-            self.driver.find_element(by=AppiumBy.XPATH,
-                                     value='//android.widget.EditText/../../android.widget.ImageView').click()
+
+            if self.driver.is_keyboard_shown():
+                self.driver.find_element(by=AppiumBy.XPATH,
+                                         value='//android.widget.EditText/../../android.widget.ImageView').click()
         # press send
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value='//android.widget.ImageView[lower-case(@content-desc)="send"]').click()

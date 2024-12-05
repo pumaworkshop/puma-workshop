@@ -1,5 +1,6 @@
 Version 2.3.2
 -------------
+53. Telegram: Fix pictures could sometimes not be sent
 51. Update appium-python-client version to 4.3.0
 
 Version 2.3.1
