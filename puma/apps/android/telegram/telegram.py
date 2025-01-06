@@ -93,6 +93,8 @@ class TelegramActions(AndroidAppiumActions):
         self.return_to_homescreen()
         xpath = f'//android.view.ViewGroup[starts-with(lower-case(@content-desc), "{chat.lower()}")]'
         self.driver.find_element(by=AppiumBy.XPATH, value=xpath).click()
+        if not self._currently_in_conversation(implicit_wait=1):
+            raise RuntimeError("Conversation was not opened after clicking the conversation")
 
     def select_group(self, group_name: str):
         """
