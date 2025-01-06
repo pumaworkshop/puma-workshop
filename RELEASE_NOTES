@@ -5,6 +5,7 @@ Version 2.3.2
 
 Version 2.3.1
 -------------
+57. Telegram: ending calls when not in an active call now raises an exception, bump adb-py to 1.0.3
 49. Remove duplicate dependency of adb-py, bump adb-py to 1.0.2
 
 Version 2.3.0
