@@ -1,5 +1,5 @@
 from time import sleep
-from typing import Dict
+from typing import Dict, Optional
 
 from appium.webdriver.common.appiumby import AppiumBy
 
@@ -233,6 +233,18 @@ class TelegramActions(AndroidAppiumActions):
                                      value='//android.widget.ImageButton[lower-case(@content-desc)="more options"]').click()
             self.driver.find_element(by=AppiumBy.XPATH,
                                      value='//android.widget.TextView[lower-case(@text)="video call"]').click()
+
+    def get_call_status(self) -> Optional[str]:
+        """
+        Returns a string describing the status of the current call, which is a text visible on the call screen.
+        If not currently in a call, this method returns None
+        Known statuses include 'Requesting', 'Waiting' and 'Ringing'.
+        """
+        if not self._currently_in_call():
+            return None
+        status_element = '//android.widget.LinearLayout[ends-with(@text, "Telegram Call")]/android.widget.FrameLayout/android.widget.TextView'
+        status_element = self.driver.find_element(by=AppiumBy.XPATH, value=status_element)
+        return status_element.get_attribute("text")
 
     def end_call(self):
         """
