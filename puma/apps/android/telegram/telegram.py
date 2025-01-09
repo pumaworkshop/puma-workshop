@@ -239,6 +239,8 @@ class TelegramActions(AndroidAppiumActions):
                                      value='//android.widget.ImageButton[lower-case(@content-desc)="more options"]').click()
             self.driver.find_element(by=AppiumBy.XPATH,
                                      value='//android.widget.TextView[lower-case(@text)="video call"]').click()
+        # wait a short while (max 2s) for the call to have started
+        self._currently_in_active_call(implicit_wait=2)
 
     def get_call_status(self) -> Optional[str]:
         """
