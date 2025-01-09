@@ -1,16 +1,15 @@
 from time import sleep
-from typing import Dict
+from typing import Dict, Optional
 
 from appium.webdriver.common.appiumby import AppiumBy
 
 from puma.apps.android.appium_actions import supported_version, AndroidAppiumActions
-from puma.apps.android.telegram import logger
 
 TELEGRAM_PACKAGE = 'org.telegram.messenger'
 TELEGRAM_WEB_PACKAGE = 'org.telegram.messenger.web'
 
 
-@supported_version("11.2.2")
+@supported_version("11.6.1")
 class TelegramActions(AndroidAppiumActions):
 
     def __init__(self,
@@ -33,17 +32,23 @@ class TelegramActions(AndroidAppiumActions):
                                       appium_server=appium_server)
         self.package_name = TELEGRAM_WEB_PACKAGE if telegram_web_version else TELEGRAM_PACKAGE
 
-    def _currently_at_homescreen(self) -> bool:
-        return self.is_present('//android.widget.FrameLayout[@content-desc="New Message"]')
+    def _currently_at_homescreen(self, **kwargs) -> bool:
+        return self.is_present('//android.widget.FrameLayout[@content-desc="New Message"]', **kwargs)
 
-    def _currently_in_conversation(self) -> bool:
-        return self.is_present('//android.widget.ImageView[@content-desc="Emoji, stickers, and GIFs"]')
+    def _currently_in_conversation(self, **kwargs) -> bool:
+        return self.is_present('//android.widget.ImageView[@content-desc="Emoji, stickers, and GIFs"]', **kwargs)
 
-    def _currently_in_camera(self) -> bool:
-        return self.is_present('//android.widget.Button[lower-case(@content-desc)="shutter"]')
+    def _currently_in_camera(self, **kwargs) -> bool:
+        return self.is_present('//android.widget.Button[lower-case(@content-desc)="shutter"]', **kwargs)
 
-    def _currently_in_call(self) -> bool:
-        return self.is_present('//android.widget.Button[@text="End Call"]')
+    def _currently_in_call(self, **kwargs) -> bool:
+        return self.is_present('//android.widget.Button[lower-case(@text)="end call"]', **kwargs)
+
+    def _currently_in_active_call(self, **kwargs) -> bool:
+        """
+        Returns true if currently in a call that is in actual progress (meaning: the other party answered the call).
+        """
+        return self.is_present('//android.widget.LinearLayout[@content-desc="Encryption key of this call"]', **kwargs)
 
     def _load_conversation_titles(self):
         while True:
@@ -94,6 +99,8 @@ class TelegramActions(AndroidAppiumActions):
         self.return_to_homescreen()
         xpath = f'//android.view.ViewGroup[starts-with(lower-case(@content-desc), "{chat.lower()}")]'
         self.driver.find_element(by=AppiumBy.XPATH, value=xpath).click()
+        if not self._currently_in_conversation(implicit_wait=1):
+            raise RuntimeError("Conversation was not opened after clicking the conversation")
 
     def select_group(self, group_name: str):
         """
@@ -232,16 +239,32 @@ class TelegramActions(AndroidAppiumActions):
                                      value='//android.widget.ImageButton[lower-case(@content-desc)="more options"]').click()
             self.driver.find_element(by=AppiumBy.XPATH,
                                      value='//android.widget.TextView[lower-case(@text)="video call"]').click()
+        # wait a short while (max 2s) for the call to have started
+        self._currently_in_active_call(implicit_wait=2)
+
+    def get_call_status(self) -> Optional[str]:
+        """
+        Returns a string describing the status of the current call, which is a text visible on the call screen.
+        If the call is in progress, no text indicates this, but this method will return "In progress".
+        If not currently in a call, this method returns None.
+        Known statuses include 'Requesting', 'Waiting' and 'Ringing'.
+        """
+        if not self._currently_in_call():
+            return None
+        if self._currently_in_active_call():
+            return "In progress"
+        status_element = '//android.widget.LinearLayout[ends-with(@text, "Telegram Call")]/android.widget.FrameLayout/android.widget.TextView'
+        status_element = self.driver.find_element(by=AppiumBy.XPATH, value=status_element)
+        return status_element.get_attribute("text")
 
     def end_call(self):
         """
         Ends the current call. Assumes the call screen is open.
         """
-        if self._currently_in_call():
-            self.driver.find_element(by=AppiumBy.XPATH,
-                                     value='//android.widget.Button[lower-case(@text)="end call"]').click()
-        else:
-            logger.warn('Could not end call as current screen was not the call screen.')
+        if not self._currently_in_call():
+            raise Exception('Cannot end call while not in call screen.')
+        self.driver.find_element(by=AppiumBy.XPATH,
+                                 value='//android.widget.Button[lower-case(@text)="end call"]').click()
 
     def answer_call(self):
         """
