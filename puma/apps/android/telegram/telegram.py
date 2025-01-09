@@ -44,6 +44,12 @@ class TelegramActions(AndroidAppiumActions):
     def _currently_in_call(self, **kwargs) -> bool:
         return self.is_present('//android.widget.Button[lower-case(@text)="end call"]', **kwargs)
 
+    def _currently_in_active_call(self, **kwargs) -> bool:
+        """
+        Returns true if currently in a call that is in actual progress (meaning: the other party answered the call).
+        """
+        return self.is_present('//android.widget.LinearLayout[@content-desc="Encryption key of this call"]', **kwargs)
+
     def _load_conversation_titles(self):
         while True:
             xpath = "//androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[not(@content-desc)]"
@@ -237,11 +243,14 @@ class TelegramActions(AndroidAppiumActions):
     def get_call_status(self) -> Optional[str]:
         """
         Returns a string describing the status of the current call, which is a text visible on the call screen.
-        If not currently in a call, this method returns None
+        If the call is in progress, no text indicates this, but this method will return "In progress".
+        If not currently in a call, this method returns None.
         Known statuses include 'Requesting', 'Waiting' and 'Ringing'.
         """
         if not self._currently_in_call():
             return None
+        if self._currently_in_active_call():
+            return "In progress"
         status_element = '//android.widget.LinearLayout[ends-with(@text, "Telegram Call")]/android.widget.FrameLayout/android.widget.TextView'
         status_element = self.driver.find_element(by=AppiumBy.XPATH, value=status_element)
         return status_element.get_attribute("text")
