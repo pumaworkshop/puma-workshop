@@ -9,7 +9,7 @@ TELEGRAM_PACKAGE = 'org.telegram.messenger'
 TELEGRAM_WEB_PACKAGE = 'org.telegram.messenger.web'
 
 
-@supported_version("11.2.2")
+@supported_version("11.6.1")
 class TelegramActions(AndroidAppiumActions):
 
     def __init__(self,
