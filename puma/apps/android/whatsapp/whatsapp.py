@@ -226,9 +226,10 @@ class WhatsappActions(AndroidAppiumActions):
             sleep(0.5)
             self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ListView/android.view.ViewGroup[last()]').click()
             directory_tile = f'//android.widget.TextView[@text="{directory_name}"]'
-            self.swipe_to_find_element(xpath=directory_tile)
+            self.swipe_to_find_element(xpath=directory_tile).click()
             sleep(0.5)
-            self.driver.find_element(by=AppiumBy.XPATH, value='(//android.widget.ImageView[@resource-id="com.google.android.providers.media.module:id/icon_thumbnail"])').click()
+            self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageView[@resource-id="com.google.android.providers.media.module:id/icon_thumbnail"]').click()
+            self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.Button[@resource-id="com.google.android.providers.media.module:id/button_add"]').click()
 
         if caption:
             text_box = self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/caption")
@@ -239,6 +240,9 @@ class WhatsappActions(AndroidAppiumActions):
 
         if view_once:
             self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/view_once_toggle").click()
+            popup_button = '//android.widget.Button[@resource-id="com.whatsapp:id/vo_sp_bottom_sheet_ok_button"]'
+            if self.is_present(popup_button):
+                self.driver.find_element(by=AppiumBy.XPATH, value=popup_button).click()
         sleep(1)
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/send").click()
 
