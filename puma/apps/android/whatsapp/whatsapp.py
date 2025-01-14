@@ -36,7 +36,8 @@ class WhatsappActions(AndroidAppiumActions):
                                '//android.widget.Button[@content-desc="Send message"]')
 
     def currently_in_conversation(self) -> bool:
-        return self.is_present('//android.widget.LinearLayout[@resource-id="com.whatsapp:id/conversation_root_layout"]')
+        return self.is_present('//android.widget.LinearLayout[@resource-id="com.whatsapp:id/conversation_root_layout"]',
+                               implicit_wait=1)
 
     def return_to_homescreen(self):
         if self.driver.current_package != WHATSAPP_PACKAGE:
@@ -61,6 +62,8 @@ class WhatsappActions(AndroidAppiumActions):
             chats_of_interest_text = ", ".join([chat.text for chat in chats_of_interest])
             print(
                 f"[WARNING]: Multiple chats found that contain the subject {subject}: {chats_of_interest_text}. Selecting the first one.")
+        if len(chats_of_interest) == 0:
+            raise Exception(f'Cannot find conversation with name {subject}')
         chats_of_interest[0].click()
 
     def create_new_chat(self, contact, first_message):
@@ -210,13 +213,22 @@ class WhatsappActions(AndroidAppiumActions):
         # Go to gallery
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/input_attach_button").click()
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/pickfiletype_gallery_holder").click()
-        self.driver.find_element(by=AppiumBy.XPATH,
-                                 value='//android.widget.LinearLayout[@content-desc="Gallery"]').click()
-        directory_tile = f'//android.widget.TextView[@resource-id="com.whatsapp:id/title" and @text="{directory_name}"]'
-        self.swipe_to_find_element(xpath=directory_tile).click()
-
-        sleep(0.5)
-        self.driver.find_element(by=By.CLASS_NAME, value="android.widget.ImageView").click()
+        if self.is_present('//android.widget.LinearLayout[@content-desc="Gallery"]'):
+            self.driver.find_element(by=AppiumBy.XPATH,
+                                     value='//android.widget.LinearLayout[@content-desc="Gallery"]').click()
+            directory_tile = f'//android.widget.TextView[@resource-id="com.whatsapp:id/title" and @text="{directory_name}"]'
+            self.swipe_to_find_element(xpath=directory_tile).click()
+            sleep(0.5)
+            self.driver.find_element(by=By.CLASS_NAME, value="android.widget.ImageView").click()
+        elif self.is_present('//android.widget.TextView[@resource-id="com.whatsapp:id/title"]'):
+            self.driver.find_element(by=AppiumBy.XPATH,
+                                     value='//android.widget.TextView[@resource-id="com.whatsapp:id/title"]').click()
+            sleep(0.5)
+            self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ListView/android.view.ViewGroup[last()]').click()
+            directory_tile = f'//android.widget.TextView[@text="{directory_name}"]'
+            self.swipe_to_find_element(xpath=directory_tile)
+            sleep(0.5)
+            self.driver.find_element(by=AppiumBy.XPATH, value='(//android.widget.ImageView[@resource-id="com.google.android.providers.media.module:id/icon_thumbnail"])').click()
 
         if caption:
             text_box = self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/caption")
@@ -439,8 +451,8 @@ class WhatsappActions(AndroidAppiumActions):
         """
         Ends the current call. Assumes the call screen is open.
         """
-        end_call_button = '//android.widget.Button[@resource-id="com.whatsapp:id/end_call_button"]'
-        if not self.is_present(end_call_button):
+        end_call_button = '//*[@content-desc="Leave call" or @resource-id="com.whatsapp:id/end_call_button" or @resource-id="com.whatsapp:id/footer_end_call_btn"]'
+        if not self.is_present(end_call_button, implicit_wait=1):
             # tap screen to make call button visible
             background = '//android.widget.RelativeLayout[@resource-id="com.whatsapp:id/call_screen"]'
             self.driver.find_element(by=AppiumBy.XPATH, value=background).click()
