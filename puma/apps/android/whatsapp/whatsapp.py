@@ -10,7 +10,7 @@ from puma.apps.android.appium_actions import supported_version, AndroidAppiumAct
 WHATSAPP_PACKAGE = 'com.whatsapp'
 
 
-@supported_version("2.24.20.89")
+@supported_version("2.24.23.78")
 class WhatsappActions(AndroidAppiumActions):
     def __init__(self,
                  device_udid,
