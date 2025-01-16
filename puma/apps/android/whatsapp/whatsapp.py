@@ -302,6 +302,9 @@ class WhatsappActions(AndroidAppiumActions):
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/input_attach_button").click()
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/pickfiletype_location_holder").click()
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/live_location_btn").click()
+        dialog = '//android.widget.LinearLayout[@resource-id="com.whatsapp:id/location_new_user_dialog_container"]'
+        if self.is_present(dialog):
+            self.driver.find_element(by=AppiumBy.XPATH, value="//android.widget.Button[@text='Continue']").click()
         if caption is not None:
             self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/comment").send_keys(caption)
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/send").click()
@@ -332,7 +335,7 @@ class WhatsappActions(AndroidAppiumActions):
         self._if_chat_go_to_chat(chat)
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/input_attach_button").click()
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/pickfiletype_contact_holder").click()
-        self.scroll_to_find_element(text_contains=contact_name).click()
+        self.swipe_to_find_element(f'//android.widget.TextView[@resource-id="com.whatsapp:id/name" and @text="{contact_name}"]').click()
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/next_btn").click()
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/send_btn").click()
 
@@ -366,6 +369,9 @@ class WhatsappActions(AndroidAppiumActions):
                                        'and @text="Updates"]').click()
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value='//android.widget.ImageButton[@content-desc="New status update"]').click()
+        open_camera = '//android.widget.Button[@content-desc="Camera"]'
+        if self.is_present(open_camera):
+            self.driver.find_element(by=AppiumBy.XPATH, value=open_camera).click()
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/shutter").click()
         if caption:
             self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/caption").send_keys(caption)
@@ -604,8 +610,7 @@ class WhatsappActions(AndroidAppiumActions):
         self.select_chat(group_name)
         self.driver.find_element(by=AppiumBy.ID, value="com.whatsapp:id/conversation_contact").click()
         self.scroll_to_find_element(text_equals=participant).click()
-        self.driver.find_element(by=AppiumBy.XPATH, value=
-        f"//*[@resource-id='android:id/select_dialog_listview']//*[@text='Remove {participant}']").click()
+        self.driver.find_element(by=AppiumBy.XPATH, value="//*[starts-with(@text, 'Remove')]").click()
         self.driver.find_element(by=AppiumBy.XPATH, value="//*[@class='android.widget.Button' and @text='OK']").click()
         sleep(5)
         self.return_to_homescreen()
@@ -654,6 +659,6 @@ class WhatsappActions(AndroidAppiumActions):
         """
         self._if_chat_go_to_chat(chat)
         most_recent_view_once = \
-            self.driver.find_elements(by=AppiumBy.ID, value="com.whatsapp:id/view_once_media_type_large")[-1]
+            self.driver.find_elements(by=AppiumBy.XPATH, value='//*[contains(@resource-id, "view_once_media")]')[-1]
         most_recent_view_once.click()
         self.driver.back()
