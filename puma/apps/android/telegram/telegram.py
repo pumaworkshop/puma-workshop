@@ -30,7 +30,6 @@ class TelegramActions(AndroidAppiumActions):
                                       desired_capabilities=desired_capabilities,
                                       implicit_wait=implicit_wait,
                                       appium_server=appium_server)
-        self.package_name = TELEGRAM_WEB_PACKAGE if telegram_web_version else TELEGRAM_PACKAGE
 
     def _currently_at_homescreen(self, **kwargs) -> bool:
         return self.is_present('//android.widget.FrameLayout[@content-desc="New Message"]', **kwargs)
@@ -63,18 +62,23 @@ class TelegramActions(AndroidAppiumActions):
                 self.driver.back()
         print('all conversations loaded!')
 
-    def return_to_homescreen(self, attempts=10):
+    def return_to_homescreen(self, attempts: int = 10, try_restart: bool = True):
         """
         Returns to the start screen of Telegram
         :param attempts: Number of attempts to return to home screen. Avoids an infinite loop when a popup occurs.
         """
-        if self.driver.current_package != self.package_name:
-            self.driver.activate_app(self.package_name)
-        while not self._currently_at_homescreen() and attempts > 0:
+        attempt = 0
+        while not self._currently_at_homescreen() and attempt < attempts:
+            if self.driver.current_package != self.app_package:
+                self.activate_app()
             self.driver.back()
-            attempts -= 1
-        if attempts == 0 and not self._currently_at_homescreen():
-            raise Exception('Tried to return to homescreen but ran out of attempts...')
+            attempt += 1
+        if not self._currently_at_homescreen():
+            if try_restart:
+                self.restart_app()
+                self.return_to_homescreen(attempts, False)
+            else:
+                raise Exception('Tried to return to homescreen but ran out of attempts...')
         self._load_conversation_titles()
         sleep(1)
 
@@ -221,7 +225,7 @@ class TelegramActions(AndroidAppiumActions):
                                  value='//android.widget.ImageView[lower-case(@content-desc)="send"]').click()
         sleep(0.3)  # the animation after sending a picture might throw off the script
 
-    def start_call(self, chat: str = None, video: bool = False):
+    def start_call(self, chat: str = None, video: bool = False) -> bool:
         """
         Makes a call and ends the call after a given number of seconds.
         The call is made to either
@@ -229,6 +233,7 @@ class TelegramActions(AndroidAppiumActions):
             * a given contact name
         :param chat: Optional: name of the conversation to start a call in
         :param video: False (default) for voice call, True for video call.
+        :return: True if call was successfully started
         """
         self._if_chat_go_to_chat(chat)
         if not video:
@@ -240,7 +245,7 @@ class TelegramActions(AndroidAppiumActions):
             self.driver.find_element(by=AppiumBy.XPATH,
                                      value='//android.widget.TextView[lower-case(@text)="video call"]').click()
         # wait a short while (max 2s) for the call to have started
-        self._currently_in_active_call(implicit_wait=2)
+        return self._currently_in_call(implicit_wait=2)
 
     def get_call_status(self) -> Optional[str]:
         """
