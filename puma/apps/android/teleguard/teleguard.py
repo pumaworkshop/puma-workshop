@@ -78,3 +78,16 @@ class TeleguardActions(AndroidAppiumActions):
         text_box_el.click()
         text_box_el.send_keys(message)
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.ImageView[3]').click()
+
+    def add_contact(self, id):
+        """
+        Add a contact by Teleguard ID.
+        :param id: The teleguard ID
+        """
+        hamburger = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View[2]/android.view.View[3]')
+        hamburger.click()
+        add_contact_btn = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageView[@content-desc="Add contact"]')
+        add_contact_btn.click()
+        text_box_el = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText')
+        text_box_el.send_keys(id)
+
