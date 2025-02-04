@@ -29,7 +29,7 @@ def _get_appium_driver(appium_server: str, udid: str, options) -> WebDriver:
         try:
             __drivers[key] = webdriver.Remote(appium_server, options=options)
         except MaxRetryError:
-            print("Connecting to the appium server has failed.\n"
+            logger.error("Connecting to the appium server has failed.\n"
                   "Make sure that the appium server is running!\n"
                   "This can be done by running the `appium` command from the command line.")
             exit(1)
