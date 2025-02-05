@@ -2,9 +2,9 @@ from typing import Dict
 
 from puma.apps.android.appium_actions import AndroidAppiumActions, supported_version
 
-YOUR_APP_PACKAGE = 'com.your.app'
+YOUR_APP_PACKAGE = 'TODO'
 
-@supported_version("1.0.0")
+@supported_version("TODO")
 class YourApp(AndroidAppiumActions):
 
     def __init__(self,
