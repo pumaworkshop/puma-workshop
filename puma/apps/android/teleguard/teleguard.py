@@ -1,3 +1,4 @@
+import inspect
 from time import sleep
 from typing import Dict
 
@@ -7,7 +8,7 @@ from puma.apps.android.appium_actions import supported_version, AndroidAppiumAct
 
 APPLICATION_PACKAGE = 'ch.swisscows.messenger.teleguardapp'
 
-@supported_version("YOUR VERSION") #TODO
+@supported_version("4.0.7")
 class TeleguardActions(AndroidAppiumActions):
     def __init__(self,
                  device_udid,
@@ -17,6 +18,7 @@ class TeleguardActions(AndroidAppiumActions):
         """
         Class with an API for TeleGuard using Appium. Can be used with an emulator or real device attached to the computer.
         """
+        print("Initializing TeleguardActions...")
         AndroidAppiumActions.__init__(self,
                                       device_udid,
                                       APPLICATION_PACKAGE,
@@ -24,8 +26,14 @@ class TeleguardActions(AndroidAppiumActions):
                                       implicit_wait=implicit_wait,
                                       appium_server=appium_server)
         self.package_name = APPLICATION_PACKAGE
+        print("Initialization complete!")
+
 
     def _if_chat_go_to_chat(self, chat: str):
+        """
+        Go to chat if supplied.
+        :param chat: Name of the chat to go to, this is either the contact name or the group name.
+        """
         if chat is not None:
             self.select_chat(chat)
             sleep(1)
@@ -33,10 +41,18 @@ class TeleguardActions(AndroidAppiumActions):
             raise Exception('Expected to be in conversation screen now, but screen contents are unknown')
 
     def _currently_at_homescreen(self) -> bool:
+        """
+        Check whether currently at homescreen of the application.
+        :return: boolean if at homescreen
+        """
         return (self.is_present('//android.view.View[@content-desc="TeleGuard"]') and
                 self.is_present('//android.view.View[@content-desc="Online"]'))
 
     def _currently_in_conversation(self, chat) -> bool:
+        """
+        Check if currently in a given conversation.
+        :return: boolean if in conversation screen or not
+        """
         # Teleguard doesn't contain very descriptive elements, so looking explicitly at the subject of the chat is the
         # only way to identify if you are in the conversation screen. TODO pydoc
         return self.is_present(f'//android.view.View[contains(lower-case(@content-desc), "{chat.lower()}")]')
@@ -63,7 +79,8 @@ class TeleguardActions(AndroidAppiumActions):
         :param chat: (part of) the conversation name to open
         """
         self.return_to_homescreen()
-        xpath = f'//android.widget.ImageView[contains(lower-case(@content-desc), "{chat.lower()}")]'
+        xpath = f'//android.widget.ImageView[contains(lower-case(@content-desc), "{chat.lower()}")] | \
+        //android.view.View[contains(lower-case(@content-desc), "{chat.lower()}")]'
 
         self.driver.find_element(by=AppiumBy.XPATH, value=xpath).click()
 
@@ -84,10 +101,20 @@ class TeleguardActions(AndroidAppiumActions):
         Add a contact by Teleguard ID.
         :param id: The teleguard ID
         """
+        self.return_to_homescreen()
         hamburger = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View[2]/android.view.View[3]')
         hamburger.click()
         add_contact_btn = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageView[@content-desc="Add contact"]')
         add_contact_btn.click()
         text_box_el = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText')
         text_box_el.send_keys(id)
+        invite_btn = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.Button[@content-desc="INVITE"]')
+        invite_btn.click()
 
+    def accept_invite(self):
+        """
+        Accept an invite from another user. If you have multiple invites, the top invite will be accepted.
+        """
+        self.return_to_homescreen()
+        self.swipe_to_find_element('//android.view.View[contains(@content-desc, "You have been invited")]').click()
+        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.Button[@content-desc="ACCEPT INVITE"]').click()
