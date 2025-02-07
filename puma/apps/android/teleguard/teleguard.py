@@ -62,20 +62,19 @@ class TeleguardActions(AndroidAppiumActions):
         Returns to the start screen of Telegram
         :param attempts: Number of attempts to return to home screen. Avoids an infinite loop when a popup occurs.
         """
-        if self.driver.current_package != self.package_name:
-            self.driver.activate_app(self.package_name)
         while not self._currently_at_homescreen() and attempts > 0:
+            if self.driver.current_package != self.app_package:
+                self.activate_app()
             self.driver.back()
             attempts -= 1
-        if attempts == 0 and not self._currently_at_homescreen():
+        if not self._currently_at_homescreen():
             raise Exception('Tried to return to homescreen but ran out of attempts...')
-        sleep(1)
+        sleep(0.5)
 
     def select_chat(self, chat: str):
         """
         Opens a given conversation based on the (partial) name of a chat.
-        For groups or channels, it is advised to use :meth:`TelegramActions.select_group` or
-        :meth:`TelegramActions.select_channel`, as the matching is more explicit
+        Matching is case-insensitive.
         :param chat: (part of) the conversation name to open
         """
         self.return_to_homescreen()
@@ -86,7 +85,9 @@ class TeleguardActions(AndroidAppiumActions):
 
     def send_message(self, message: str, chat: str = None):
         """
-        Send a message in the current or given chat
+        Send a message in the current or given chat.
+        It is recommended to not use the chat param when already in the conversation, as using it will always cause
+        puma to navigate out and back into the conversation.
         :param message: The text message to send
         :param chat: Optional: The chat conversation in which to send this message, if not currently in the desired chat
         """
@@ -96,7 +97,7 @@ class TeleguardActions(AndroidAppiumActions):
         text_box_el.send_keys(message)
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.ImageView[3]').click()
 
-    def add_contact(self, id):
+    def add_contact(self, id: str):
         """
         Add a contact by Teleguard ID.
         :param id: The teleguard ID
@@ -113,7 +114,8 @@ class TeleguardActions(AndroidAppiumActions):
 
     def accept_invite(self):
         """
-        Accept an invite from another user. If you have multiple invites, the top invite will be accepted.
+        Accept an invite from another user. If you have multiple invites, only one invite will be accepted (the topmost
+        invite in the UI).
         """
         self.return_to_homescreen()
         self.swipe_to_find_element('//android.view.View[contains(@content-desc, "You have been invited")]').click()
