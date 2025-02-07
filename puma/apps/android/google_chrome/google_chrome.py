@@ -31,7 +31,7 @@ class GoogleChromeActions(AndroidAppiumActions):
             self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.LinearLayout[@resource-id="com.android.chrome:id/search_box"]').click()
 
         if new_tab:
-            self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="Switch or close tabs"]').click()
+            self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="Switch"]').click()
             self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.TextView[@resource-id="com.android.chrome:id/new_tab_view_desc"]').click()
             self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.LinearLayout[@resource-id="com.android.chrome:id/search_box"]').click()
 
@@ -45,7 +45,7 @@ class GoogleChromeActions(AndroidAppiumActions):
         Bookmarks the current page.
         """
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="Customize and control Google Chrome"]').click()
-        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="Bookmark"]').click()
+        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="bookmark"]').click()
 
     def load_bookmark(self):
         """
@@ -70,6 +70,6 @@ class GoogleChromeActions(AndroidAppiumActions):
         Opens an incognito window and enters the url_string to the address bar.
         :param url_string: the input to pass to the address bar
         """
-        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="Customize and control Google Chrome"]').click()
+        self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="Customize"]').click()
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.TextView[@resource-id="com.android.chrome:id/title" and @text="New Incognito tab"]').click()
         self.go_to(url_string)
