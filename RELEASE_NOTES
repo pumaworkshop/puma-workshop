@@ -1,5 +1,6 @@
-Version 2.5.1
+Version 2.6.0
 -------------
+67. Appium: Add logging upon initialization
 15. Appium: log when appium is not running
 
 Version 2.5.0

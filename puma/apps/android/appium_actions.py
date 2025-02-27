@@ -1,5 +1,6 @@
 import os
 import time
+import warnings
 from datetime import datetime
 from pathlib import Path
 from typing import Dict
@@ -21,7 +22,6 @@ from puma.computer_vision import ocr
 from puma.utils.video_utils import CACHE_FOLDER, log_error_and_raise_exception
 
 __drivers: dict[str, WebDriver] = {}
-
 
 def _get_appium_driver(appium_server: str, udid: str, options) -> WebDriver:
     key = f"{appium_server}${udid}"
@@ -80,7 +80,8 @@ class AndroidAppiumActions:
         self.app_package = app_package
         if desired_capabilities:
             self.options.load_capabilities(desired_capabilities)
-        # connect to appium server
+
+        logger.info("Connecting to Appium driver...")
         self.driver = _get_appium_driver(appium_server, udid, self.options)
 
         # the implicit wait time is how long appium looks for an element (you can try to find an element before it is rendered)
@@ -92,8 +93,9 @@ class AndroidAppiumActions:
         # screen recorder
         self._screen_recorder = None
 
-        # start app
+        logger.info(f"Activating package {self.app_package}...")
         self.activate_app()
+        logger.info(f"App package {self.app_package} activated!")
 
     def activate_app(self):
         self.driver.activate_app(self.app_package)
