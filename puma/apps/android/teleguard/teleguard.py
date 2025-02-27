@@ -18,7 +18,6 @@ class TeleguardActions(AndroidAppiumActions):
         """
         Class with an API for TeleGuard using Appium. Can be used with an emulator or real device attached to the computer.
         """
-        print("Initializing TeleguardActions...")
         AndroidAppiumActions.__init__(self,
                                       device_udid,
                                       APPLICATION_PACKAGE,
@@ -26,7 +25,6 @@ class TeleguardActions(AndroidAppiumActions):
                                       implicit_wait=implicit_wait,
                                       appium_server=appium_server)
         self.package_name = APPLICATION_PACKAGE
-        print("Initialization complete!")
 
 
     def _if_chat_go_to_chat(self, chat: str):
