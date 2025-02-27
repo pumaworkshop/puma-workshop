@@ -48,16 +48,16 @@ class TeleguardActions(AndroidAppiumActions):
         return (self.is_present('//android.view.View[@content-desc="TeleGuard"]') and
                 self.is_present('//android.view.View[@content-desc="Online"]'))
 
-    def _currently_in_conversation(self, chat) -> bool:
+    def _currently_in_conversation(self, chat: str) -> bool:
         """
         Check if currently in a given conversation.
         :return: boolean if in conversation screen or not
         """
-        # Teleguard doesn't contain very descriptive elements, so looking explicitly at the subject of the chat is the
-        # only way to identify if you are in the conversation screen. TODO pydoc
+        # TeleGuard doesn't contain very descriptive elements, so looking explicitly at the subject of the chat is the
+        # only way to identify if you are in the conversation screen.
         return self.is_present(f'//android.view.View[contains(lower-case(@content-desc), "{chat.lower()}")]')
 
-    def return_to_homescreen(self, attempts=10):
+    def return_to_homescreen(self, attempts: int = 10):
         """
         Returns to the start screen of Telegram
         :param attempts: Number of attempts to return to home screen. Avoids an infinite loop when a popup occurs.
@@ -99,7 +99,7 @@ class TeleguardActions(AndroidAppiumActions):
 
     def add_contact(self, id: str):
         """
-        Add a contact by Teleguard ID.
+        Add a contact by TeleGuard ID.
         :param id: The teleguard ID
         """
         self.return_to_homescreen()
