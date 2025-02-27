@@ -24,21 +24,20 @@ from puma.utils.video_utils import CACHE_FOLDER, log_error_and_raise_exception
 
 __drivers: dict[str, WebDriver] = {}
 
-
 def _get_appium_driver(appium_server: str, udid: str, options) -> WebDriver:
     key = f"{appium_server}${udid}"
     if key not in __drivers.keys():
         try:
             __drivers[key] = webdriver.Remote(appium_server, options=options)
         except MaxRetryError:
-            print("Connecting to the appium server has failed.\n"
+            logger.error("Connecting to the Appium server has failed.\n"
                   "Make sure that the appium server is running!\n"
                   "This can be done by running the `appium` command from the command line.")
             # Suppress the warning that is thrown in Jupyter
             warnings.filterwarnings("ignore", category=UserWarning)
             sys.exit(1)
     else:
-        print(f'WARNING: there already was an initialized driver for appium server {appium_server} and udid {udid}. '
+        logger.warning(f'WARNING: there already was an initialized driver for appium server {appium_server} and udid {udid}. '
               'This driver will be used, which might mean your appium capabilities are ignored as these cannot be'
               'altered for a driver that has already been initialized. If you need specific capabilities, please '
               'rewrite your Puma code to ensure the correct capabilities are loaded the first time you connect to '
@@ -84,7 +83,8 @@ class AndroidAppiumActions:
         self.app_package = app_package
         if desired_capabilities:
             self.options.load_capabilities(desired_capabilities)
-        # connect to appium server
+
+        logger.info("Connecting to Appium driver...")
         self.driver = _get_appium_driver(appium_server, udid, self.options)
 
         # the implicit wait time is how long appium looks for an element (you can try to find an element before it is rendered)
@@ -96,8 +96,9 @@ class AndroidAppiumActions:
         # screen recorder
         self._screen_recorder = None
 
-        # start app
+        logger.info(f"Activating package {self.app_package}...")
         self.activate_app()
+        logger.info(f"App package {self.app_package} activated!")
 
     def activate_app(self):
         self.driver.activate_app(self.app_package)
