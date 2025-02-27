@@ -1,5 +1,7 @@
 import os
+import sys
 import time
+import warnings
 from datetime import datetime
 from pathlib import Path
 from typing import Dict
@@ -31,7 +33,9 @@ def _get_appium_driver(appium_server: str, udid: str, options) -> WebDriver:
             logger.error("Connecting to the Appium server has failed.\n"
                   "Make sure that the appium server is running!\n"
                   "This can be done by running the `appium` command from the command line.")
-            exit(1)
+            # Suppress the warning that is thrown in Jupyter
+            warnings.filterwarnings("ignore", category=UserWarning)
+            sys.exit(1)
     else:
         logger.warning(f'WARNING: there already was an initialized driver for appium server {appium_server} and udid {udid}. '
               'This driver will be used, which might mean your appium capabilities are ignored as these cannot be'

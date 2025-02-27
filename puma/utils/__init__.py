@@ -25,11 +25,11 @@ def configure_default_logging():
     now = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
     logging.basicConfig(
         handlers=[
-            logging.FileHandler(Path(LOG_FOLDER) / f'{now}.log'),
+            # logging.FileHandler(Path(LOG_FOLDER) / f'{now}.log'),
             logging.StreamHandler(stdout)
         ],
         level=logging.INFO,
-        format='%(asctime)s [%(levelname)s] [%(name)s] %(message)s',
+        format='[%(levelname)s] %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S')
 
 
