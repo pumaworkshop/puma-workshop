@@ -24,9 +24,3 @@ class OpenCameraActions(AndroidAppiumActions):
         xpath = '//android.widget.ImageButton[@resource-id="net.sourceforge.opencamera:id/take_photo"]'
         shutter = self.driver.find_element(by=AppiumBy.XPATH, value=xpath)
         shutter.click()
-
-    # def switch_camera(self):
-    #     xpath = '//android.widget.ImageButton[@resource-id="net.sourceforge.opencamera:id/switch_camera"]'
-    #     button = self.driver.find_element(by=AppiumBy.XPATH, value=xpath)
-    #     button.click()
-
