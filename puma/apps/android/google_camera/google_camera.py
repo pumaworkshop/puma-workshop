@@ -1,4 +1,3 @@
-import time
 from typing import Dict
 
 from appium.webdriver.common.appiumby import AppiumBy
@@ -31,13 +30,3 @@ class GoogleCameraActions(AndroidAppiumActions):
         button = self.driver.find_element(by=AppiumBy.XPATH, value=xpath)
         button.click()
 
-
-if __name__ == '__main__':
-    with GoogleCameraActions('32131JEHN38079') as alice_camera:
-        alice_camera.switch_camera()
-        time.sleep(1)
-        alice_camera.take_picture()
-        time.sleep(1)
-        alice_camera.switch_camera()
-        time.sleep(1)
-        alice_camera.take_picture()
