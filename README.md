@@ -25,7 +25,7 @@ of existing apps are welcome! If you want to contribute, please read [CONTRIBUTI
     - install [Appium](#Appium)
 2. Connect your Android device (or start an emulator), make sure it is connected properly over ADB (See the section on
    [troubleshooting](#Troubleshooting) if you encounter problems).
-    - :warn: Make sure the phone is set to English, and [all other requirements](#Android-Devices-or-Emulators) are met!
+    - :warn: Make sure the phone is set to English, and [all other requirements](#android-device--s--or-emulators) are met!
 3. Get the UDID of your device by running `adb devices` (in the example below `954724ertyui74125` is the UDID of the
    device):
 
@@ -47,9 +47,21 @@ pip install pumapy
 appium
 ```
 
-Now you can use Puma! The code below is a small example on how to send a WhatsApp message, you can run this on a phone
-that has WhatsApp installed and has a registered WhatsApp account:
+Now you can use Puma! The code below is a small example on how to
 
+```python
+from puma.apps.android.google_maps import GoogleMapsActions
+
+phone = GoogleMapsActions("emulator-5444")
+phone.search_place('eiffel tower')
+```
+
+This is a rather simple application, in the sense that it can be used without any form of registration. Other applications
+need some additional preparation, such as WhatsApp. For this application, you first need to register with a phone number.
+These kind of prerequisites are also described in the application README. The first time you use an application, there
+might be pop-ups explaining the app that Puma does not take into account, as these need to be confirmed only once. You need
+to do this manually the first time while running Puma. After registering, you can send a WhatsApp message to a contact
+with the code below:
 ```python
 from puma.apps.android.whatsapp.whatsapp import WhatsappActions
 
@@ -58,8 +70,8 @@ alice.create_new_chat(contact="<Insert the contact name>", first_message="Hello 
 alice.send_message("Sorry for the spam :)")  # we can send a second message in the open conversation
 ```
 
-Congratulations, you just sent a WhatsApp message without touching your phone!
-You can now explore what other function are possible with Puma in [WhatsApp](puma/apps/android/whatsapp/README.md), or
+Congratulations, you just did a search query in Google Maps and/or sent a WhatsApp message without touching your phone!
+You can now explore what other functions are possible with Puma in [WhatsApp](puma/apps/android/whatsapp/README.md), or
 try a [different application](#supported-apps). Or you could even start working
 on [adding support for a new app](CONTRIBUTING.md).
 
@@ -154,6 +166,7 @@ Create the directory `~/Android/Sdk/` and unzip the platform-tools in this folde
 
 ```shell
 $ echo 'export ANDROID_SDK_ROOT="$HOME/Android/Sdk/"' >> ~/.bashrc
+$ echo 'export PATH="$PATH:$HOME/Android/Sdk/platform-tools"' >> ~/.bashrc
 $ source ~/.bashrc
 ```
 
@@ -168,29 +181,30 @@ Apps are controlled through Appium. See the [Appium website](https://appium.io/d
 how to install Appium, Appium v2.0 or greater is needed to run Puma.
 
 Appium is a NodeJS application which can be installed through NPM.
-If you don't have NPM isntalled, we recommend installing NPM and Node using NVM, an application to manage your NodeJS
+If you don't have NPM installed, we recommend installing NPM and Node using NVM, an application to manage your NodeJS
 installation.
 
 ```shell
 sudo apt install curl
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 nvm install 19.0.0
+source ~/.bashrc # Or restart shell to activate path
 ```
-
 If you have NPM installed you can install Appium:
 
 ```shell
 npm install -g appium
 appium driver install uiautomator2
 ```
-_See [troubleshooting](#installing-appium-with-npm-fails) if installing Appium or npm fails._ 
+
+_See [troubleshooting](#installing-appium-with-npm-fails) if installing Appium or npm fails._
 
 ### Android Device(s) or Emulators
-- 1 or more Android devices or emulators connected to the system where Puma runs, with:
-  - Internet connection
+You can either use a physical Android device or an Android emulator. See [Optional: Android Studio](#optional--android-studio--for-running-an-emulator-) for instructions on installing Android Studio and running an emulator
+- Have the Android device(s) or emulator(s) connected to the system where Puma runs, configured as follows:
+  - Connected to the Internet
   - Language set to English
   - File transfer enabled
-  - Recommended: disable 
   - (Root access is not needed)
 
 You can check if the device is connected:
@@ -200,6 +214,14 @@ You can check if the device is connected:
   894759843jjg99993  device
   ```
 If the status says `device`, the device is connected and available.
+### Optional: Android Studio (for running an emulator)
+For more information about Android Emulators, refer to [the Android developer website](https://developer.android.com/studio/run/managing-avds#about)
+Follow these steps to create and start an Android emulator:
+1. [Install Android Studio](https://developer.android.com/studio/run/managing-avds#createavd).
+2. [Create an Android Virtual Device (avd)](https://developer.android.com/studio/run/managing-avds) We recommend a Pixel with the Playstore enabled, and a recent Android version. For running 1 or a few apps, the default configuration can be used.
+3. [Start the emulator](https://developer.android.com/studio/run/managing-avds#emulator).
+
+If you want to run the emulator from the commandline, refer to [Start the emulator from the command line](https://developer.android.com/studio/run/emulator-commandline).
 
 ### Optional: OCR module
 
@@ -215,7 +237,7 @@ sudo apt install tesseract-ocr
 Or use the Windows installer.
 
 ### Optional: FFMPEG
- 
+
 To use `video_utils.py` you need to install ffmpeg:
 
 ```shell
