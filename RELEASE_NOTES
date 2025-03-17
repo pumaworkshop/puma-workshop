@@ -1,4 +1,4 @@
-Version 2.5.1
+Version 2.6.0
 -------------
 [workshop] Normalize notebooks
 [workshop] Add exercise 5
@@ -6,6 +6,7 @@ Version 2.5.1
 [workshop] Add exercise 3
 [workshop] Add exercise 2
 [workshop] Add exercise 1
+71. Improve README
 67. Appium: Add logging upon initialization
 15. Appium: log when appium is not running
 
