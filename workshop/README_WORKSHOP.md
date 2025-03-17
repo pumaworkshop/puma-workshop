@@ -12,9 +12,16 @@ Before you begin, make sure you have the following:
   1. If provided with a VM that has Puma pre-installed:
      - Have the workshop VM imported and running:
        - On Windows: [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads) and add the provided VM (The green "Add" button on the top right)
-       - On Linux: Install Qemu: `sudo apt-get install qemu-system virt-manager` TODO: ADD VM
+       - On Linux: Install Qemu: `sudo apt-get install qemu-system virt-manager`
+         - Add the image to Qemu:
+           - Open the program 'Virtual Image Manager'
+           - Click on the icon for 'Create a new virtual machine'
+           - Select 'Import existing disk image'
+           - Provide the path to the qcow2 file, for the operating system select 'Generic default (generic)'
+           - For memory select 4096, for cpu select 4
+           - Last, give the machine a name you can recognize it by
        - TODO MacOS
-     - Have Android Studio installed with an emulator running on your host machine (see [Appium section in the Puma README](../README.md#appium))
+     - Have Android Studio installed with an emulator running on your host machine (see [Puma README](../README.md#requirements))
   2. Have all the requirements installed described in the [Puma README](../README.md#requirements) and the [CONTRIBUTING.md](../CONTRIBUTING.md#development-installation), and:
      - Add the following lines to your ipython_config.py file (probably in `~/.ipython/profile_default/`(Linux), or `C:\Users\<YourUserName>\.ipython\profile_default\`(Windows)): 
      ```
