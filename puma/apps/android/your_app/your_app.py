@@ -5,7 +5,7 @@ from puma.apps.android.appium_actions import AndroidAppiumActions, supported_ver
 YOUR_APP_PACKAGE = 'TODO'
 
 @supported_version("TODO")
-class YourApp(AndroidAppiumActions):
+class YourAppActions(AndroidAppiumActions):
 
     def __init__(self,
                  device_udid,
