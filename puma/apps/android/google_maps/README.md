@@ -9,12 +9,15 @@ For detailed information on each method, see the method its PyDoc documentation.
 The application can be downloaded
 in [the Google PlayStore](https://play.google.com/store/apps/details?id=com.google.android.apps.maps).
 
+### Prerequisites
+- The application installed on your device
+
 ### Initialization
 
 Initialization is standard:
 
 ```python
-from puma.apps.android.snapchat.google_maps import GoogleMapsActions
+from puma.apps.android.google_maps import GoogleMapsActions
 
 phone = GoogleMapsActions("emulator-5444")
 ```

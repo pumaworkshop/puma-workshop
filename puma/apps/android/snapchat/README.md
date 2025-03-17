@@ -6,6 +6,10 @@ For detailed information on each method, see the method its PyDoc documentation.
 
 The application can be downloaded in [the Google PlayStore](https://play.google.com/store/apps/details?id=com.snapchat.android).
 
+### Prerequisites
+- The application installed on your device
+- Registration with a phone number
+
 ### Initialization
 
 Initialization is standard:
