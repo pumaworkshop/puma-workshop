@@ -13,7 +13,8 @@ Before you begin, make sure you have the following:
      - Have the workshop VM imported and running:
        - On Windows: [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads) and add the provided VM (The green "Add" button on the top right)
        - On Linux: Install Qemu: `sudo apt-get install qemu-system virt-manager` TODO: ADD VM
-     - Have Android Studio installed with an emulator running on your host machine (see [Puma README](../README.md#requirements))
+       - TODO MacOS
+     - Have Android Studio installed with an emulator running on your host machine (see [Appium section in the Puma README](../README.md#appium))
   2. Have all the requirements installed described in the [Puma README](../README.md#requirements) and the [CONTRIBUTING.md](../CONTRIBUTING.md#development-installation), and:
      - Add the following lines to your ipython_config.py file (probably in `~/.ipython/profile_default/`(Linux), or `C:\Users\<YourUserName>\.ipython\profile_default\`(Windows)): 
      ```
