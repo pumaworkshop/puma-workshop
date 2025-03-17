@@ -41,7 +41,6 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-
 ## Issues
 - Open an issue for bug reports, feature requests, or general feedback.
 - When opening an issue, please provide as much detail as possible, including screenshots, and steps to reproduce for bug reports. If the issue is about a specific app, include its package name and version.
@@ -57,12 +56,6 @@ pip install -r requirements.txt
   3. Submit a pull request to the main repository's `main` branch.
 - Ensure that your code adheres to the project's [coding standards and conventions](#coding-standards).
 - Provide a clear and detailed description of your changes in the pull request description.
-
-
-## Development requirements
-- OS: we test on Windows & Linux
-- [Appium Inspector](https://github.com/appium/appium-inspector)
-- See the [README.md](README.md) for the usage requirements
 
 
 ## Coding Standards
