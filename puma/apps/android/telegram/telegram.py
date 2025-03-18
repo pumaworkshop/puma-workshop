@@ -130,10 +130,12 @@ class TelegramActions(AndroidAppiumActions):
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText[@text="Message"]').send_keys(
             message)
 
+        # The actual send button is not in the same place as the element. The button is at about 75% of the box.
+        # We adjust the location of the click from the middle to the right of the box.
         send_button = self.driver.find_element(by=AppiumBy.XPATH, value='//android.view.View[@content-desc="Send"]')
         top_left = send_button.location['x'], send_button.location['y']
         size = send_button.size['height'], send_button.size['width']
-        location = int(top_left[0] + 0.75* size[1]), int(top_left[1] + 0.5 * size[0])
+        location = int(top_left[0] + 0.75 * size[1]), int(top_left[1] + 0.5 * size[0])
         self.driver.tap([(location)])
 
     def reply_to_message(self, message_to_reply_to: str, reply: str, chat: str = None):
@@ -185,9 +187,9 @@ class TelegramActions(AndroidAppiumActions):
         """
         Opens the embedded camera in the Telegram app, takes a picture, and sends it.
         :param chat: Optional: the conversation in which to send the picture. If not used, we assume a conversation is opened
-        :param caption: Optional: a cpation to include with the picture
+        :param caption: Optional: a caption to include with the picture
         :param wait_time: Optional: time to wait (in seconds) after opening the camera before taking a picture. Default 1s
-        :param front_camera: Optional: whether or not to use the front camera. Default False
+        :param front_camera: Optional: whether to use the front camera. Default False
         """
         self._if_chat_go_to_chat(chat)
         # click the attachment icon
@@ -226,8 +228,15 @@ class TelegramActions(AndroidAppiumActions):
                 self.driver.find_element(by=AppiumBy.XPATH,
                                          value='//android.widget.EditText/../../android.widget.ImageView').click()
         # press send
-        self.driver.find_element(by=AppiumBy.XPATH,
-                                 value='//android.widget.ImageView[lower-case(@content-desc)="send"]').click()
+        # The actual send button is not in the same place as the element. The button is at about 75% of the box.
+        # We adjust the location of the click from the middle to the right bottom corner of the box.
+        send_button = self.driver.find_element(by=AppiumBy.XPATH,
+                                               value='//*[lower-case(@content-desc)="send"]')
+        top_left = send_button.location['x'], send_button.location['y']
+        size = send_button.size['height'], send_button.size['width']
+        location = int(top_left[0] + 0.75 * size[1]), int(top_left[1] + 0.75 * size[0])
+        self.driver.tap([(location)])
+
         sleep(0.3)  # the animation after sending a picture might throw off the script
 
     def start_call(self, chat: str = None, video: bool = False) -> bool:
