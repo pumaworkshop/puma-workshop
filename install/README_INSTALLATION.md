@@ -27,4 +27,4 @@ Apart from the scripts, the workshop setup should be done with some extra files:
 * PyCharm installer
 * Android Studio installer
 * Appium inspector
-* all installation files to maximize offline functionality
+* all installation mentioned above files to maximize offline functionality
