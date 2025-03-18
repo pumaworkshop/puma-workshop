@@ -14,16 +14,27 @@ IF "%ANDROID_SDK_ROOT%"=="" (
 
 :: Check if adb.exe exists in the expected location
 IF NOT EXIST "%ANDROID_SDK_ROOT%\platform-tools\adb.exe" (
-    echo adb.exe not found. Downloading Android SDK Platform Tools...
+    echo adb.exe not found. Setting up Android SDK Platform Tools...
 
-    :: Download Android SDK Platform Tools
-    powershell -Command "Invoke-WebRequest 'https://dl.google.com/android/repository/platform-tools-latest-windows.zip' -OutFile 'platform-tools.zip'"
+    :: Check if platform-tools.zip already exists
+    IF NOT EXIST "platform-tools.zip" (
+        echo platform-tools.zip not found. Downloading...
+
+        :: Download Android SDK Platform Tools
+        powershell -Command "Invoke-WebRequest 'https://dl.google.com/android/repository/platform-tools-latest-windows.zip' -OutFile 'platform-tools.zip'"
+        set "downloaded_zip=y"
+    ) ELSE (
+        echo platform-tools.zip already exists. Skipping download.
+    )
 
     :: Unzip the downloaded file
+    echo Installing platform-tools...
     powershell -Command "Expand-Archive -Path 'platform-tools.zip' -DestinationPath '%LOCALAPPDATA%\Android\Sdk'"
 
-    :: Clean up
-    del platform-tools.zip
+    :: Clean up only if the zip was downloaded
+    IF defined downloaded_zip (
+        del platform-tools.zip
+    )
 
     echo Android SDK Platform Tools setup completed.
 ) ELSE (
