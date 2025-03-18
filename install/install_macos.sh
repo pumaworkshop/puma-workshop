@@ -10,11 +10,12 @@ echo "Starting setup of Android SDK Platform Tools, Node.js, Appium, and Git for
 
 # Set environment variables
 source "$current_dir"/macos/set_environment_variables.sh
-echo $
+echo $SHELL_PROFILE
+#TODO check if shell profile is sourced and can be passed to install git and to install homebrew
 # Install Git
 "$current_dir"/macos/install_git.sh
 
-
+#TODO move to homebrew and use $SHELL_PROFILE instead of teh ones below
 echo >> /Users/angelina/.zprofile
 echo "eval $("/opt/homebrew/bin/brew" shellenv)" >> /Users/angelina/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
