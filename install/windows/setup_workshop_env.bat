@@ -27,7 +27,38 @@ call venv\Scripts\activate.bat
 echo Installing requirements...
 pip install -r requirements.txt
 
+:: jupyter notebook configuration: working dir and auto reload
+:: Set the path to the user's home directory
+echo setting jupyter notebook settings
+
+set USERPROFILE=%HOMEPATH%
+
+:: Define the path to the ipython_config.py file
+set CONFIG_FILE=%USERPROFILE%\.ipython\profile_default\ipython_config.py
+
+:: Create the directory if it doesn't exist
+if not exist "%USERPROFILE%\.ipython" (
+    mkdir "%USERPROFILE%\.ipython"
+)
+if not exist "%USERPROFILE%\.ipython\profile_default" (
+    mkdir "%USERPROFILE%\.ipython\profile_default"
+)
+
+:: Create the file if it doesn't exist
+if not exist "%CONFIG_FILE%" (
+    type nul > "%CONFIG_FILE%"
+)
+
+:: Append the configuration lines to the file
+echo import os >> "%CONFIG_FILE%"
+echo os.chdir('/path/to/puma-workshop') >> "%CONFIG_FILE%"
+echo c.InteractiveShellApp.extensions = ['autoreload'] >> "%CONFIG_FILE%"
+echo c.InteractiveShellApp.exec_lines = ['%%autoreload 2'] >> "%CONFIG_FILE%"
+
+echo Configuration added to ipython_config.py.
+
 :: Deactivate the virtual environment
 deactivate
+
 
 echo Setup completed.
