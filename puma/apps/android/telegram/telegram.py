@@ -132,10 +132,7 @@ class TelegramActions(AndroidAppiumActions):
 
         # The actual send button is not in the same place as the element. The button is at about 75% of the box.
         # We adjust the location of the click from the middle to the right of the box.
-        send_button = self.driver.find_element(by=AppiumBy.XPATH, value='//android.view.View[@content-desc="Send"]')
-        top_left = send_button.location['x'], send_button.location['y']
-        size = send_button.size['height'], send_button.size['width']
-        location = int(top_left[0] + 0.75 * size[1]), int(top_left[1] + 0.5 * size[0])
+        location = self._find_button_location(0.75, 0.5, '//android.view.View[@content-desc="Send"]')
         self.driver.tap([(location)])
 
     def reply_to_message(self, message_to_reply_to: str, reply: str, chat: str = None):
@@ -230,11 +227,7 @@ class TelegramActions(AndroidAppiumActions):
         # press send
         # The actual send button is not in the same place as the element. The button is at about 75% of the box.
         # We adjust the location of the click from the middle to the right bottom corner of the box.
-        send_button = self.driver.find_element(by=AppiumBy.XPATH,
-                                               value='//*[lower-case(@content-desc)="send"]')
-        top_left = send_button.location['x'], send_button.location['y']
-        size = send_button.size['height'], send_button.size['width']
-        location = int(top_left[0] + 0.75 * size[1]), int(top_left[1] + 0.75 * size[0])
+        location = self._find_button_location(0.75, 0.75, '//*[lower-case(@content-desc)="send"]')
         self.driver.tap([(location)])
 
         sleep(0.3)  # the animation after sending a picture might throw off the script
@@ -341,3 +334,11 @@ class TelegramActions(AndroidAppiumActions):
             sleep(1)
         if not self._currently_in_conversation():
             raise Exception('Expected to be in conversation screen now, but screen contents are unknown')
+
+    def _find_button_location(self, width_ratio: float, height_ratio: float, xpath: str):
+        send_button = self.driver.find_element(by=AppiumBy.XPATH,
+                                               value=xpath)
+        top_left = send_button.location['x'], send_button.location['y']
+        size = send_button.size['height'], send_button.size['width']
+        location = int(top_left[0] + width_ratio * size[1]), int(top_left[1] + height_ratio * size[0])
+        return location
