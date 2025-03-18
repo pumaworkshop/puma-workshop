@@ -20,3 +20,11 @@ In this fork, the installation scripts contain some specific steps that are only
 
 The script is supposed to be used by users that haven't done any setup, not even checking out the git repository. The
 script will do this for them.
+
+## Required files
+Apart from the scripts, the workshop setup should be done with some extra files:
+
+* PyCharm installer
+* Android Studio installer
+* Appium inspector
+* all installation files to maximize offline functionality
