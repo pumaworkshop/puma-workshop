@@ -129,7 +129,12 @@ class TelegramActions(AndroidAppiumActions):
         self._if_chat_go_to_chat(chat)
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText[@text="Message"]').send_keys(
             message)
-        self.driver.find_element(by=AppiumBy.XPATH, value='//android.view.View[@content-desc="Send"]').click()
+
+        send_button = self.driver.find_element(by=AppiumBy.XPATH, value='//android.view.View[@content-desc="Send"]')
+        top_left = send_button.location['x'], send_button.location['y']
+        size = send_button.size['height'], send_button.size['width']
+        location = int(top_left[0] + 0.75* size[1]), int(top_left[1] + 0.5 * size[0])
+        self.driver.tap([(location)])
 
     def reply_to_message(self, message_to_reply_to: str, reply: str, chat: str = None):
         """
