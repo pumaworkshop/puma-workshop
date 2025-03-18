@@ -5,6 +5,7 @@ set "git_success=false"
 set "python_success=false"
 set "adb_success=false"
 set "node_appium_success=false"
+set "checkout_workshop_success=false"
 
 :: Run Git installation script
 echo Running Git installation...
@@ -42,6 +43,15 @@ IF %ERRORLEVEL% EQU 0 (
     echo Node.js and Appium installation failed.
 )
 
+:: Run workshop setup
+echo Running workshop environment setup...
+call windows\setup_workshop_env.bat
+IF %ERRORLEVEL% EQU 0 (
+    set "checkout_workshop_success=true"
+) ELSE (
+    echo Workshop environment setup failed.
+)
+
 :: Summary of installations
 echo Installation Summary:
 echo ----------------------
@@ -67,4 +77,10 @@ IF "%node_appium_success%"=="true" (
     echo Node.js and Appium installation succeeded.
 ) ELSE (
     echo Node.js and Appium installation failed.
+)
+
+IF "%checkout_workshop_success%"=="true" (
+    echo Workshop environment setup succeeded.
+) ELSE (
+    echo Workshop environment setup failed.
 )
