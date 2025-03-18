@@ -110,7 +110,7 @@ chmod +x $APPIUM_INSPECTOR_SCRIPT
 
 # Add to PATH if not already there
 if ! echo $PATH | grep -q "$USER_BIN_DIR"; then
-    echo "export PATH=\$PATH:\$USER_BIN_DIR" >> $SHELL_PROFILE
+    echo "export PATH=\$PATH:$USER_BIN_DIR" >> $SHELL_PROFILE
     export PATH=$PATH:$USER_BIN_DIR
 fi
 
