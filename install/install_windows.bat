@@ -1,5 +1,13 @@
 @echo off
 
+:: Check for administrator rights
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo This script requires administrative privileges. Please run as administrator.
+    pause
+    exit /b 1
+)
+
 :: Initialize success flags
 set "git_success=false"
 set "python_success=false"
