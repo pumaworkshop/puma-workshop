@@ -1,5 +1,13 @@
 @echo off
 
+:: Check for administrator rights
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo This script requires administrative privileges. Please run as administrator.
+    pause
+    exit /b 1
+)
+
 :: Check if Node.js is installed
 where node >nul 2>nul
 IF %ERRORLEVEL% NEQ 0 (
@@ -23,6 +31,9 @@ IF %ERRORLEVEL% NEQ 0 (
     IF defined downloaded_node (
         del node-installer.msi
     )
+
+    :: Set the PATH variable to include npm
+    set PATH=%PATH%;C:\Program Files\nodejs
 
     echo Node.js installation completed.
 ) ELSE (
