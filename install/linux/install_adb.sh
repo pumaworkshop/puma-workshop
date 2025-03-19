@@ -4,7 +4,10 @@
 set -e
 
 echo "Starting install of android-sdk and platform-tools"
-
+if command -v adb &> /dev/null; then
+  echo "[INFO] ADB is already installed. Skipping installation"
+  exit 0
+fi
 HOME_DIR=$HOME
 ANDROID_SDK_DIR=$HOME_DIR/android-sdk
 PLATFORM_TOOLS_DIR=$ANDROID_SDK_DIR/platform-tools

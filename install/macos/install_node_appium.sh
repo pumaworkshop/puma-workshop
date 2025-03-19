@@ -19,6 +19,5 @@ nvm alias default 19
 
 echo "Installing Appium..."
 npm install -g appium
-
-appium driver install uiautomator2 #TODO check if this works without sourcing SHELL_PROFILE first
+appium driver install uiautomator2
 

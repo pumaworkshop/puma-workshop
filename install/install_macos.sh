@@ -7,18 +7,13 @@ set -e
 echo "Starting setup of Android SDK Platform Tools, Node.js, Appium, and Git for macOS..."
 
 # Set environment variables
-#"$current_dir"/macos/set_environment_variables.sh TODO move to adb.sh
 # Install Brew
 "$current_dir"/macos/install_brew.sh
 # Install Git
 "$current_dir"/macos/install_git.sh
 #TODO clone puma
 "$current_dir"/macos/install_adb.sh
-
-
-
-
-
+"$current_dir"/macos/install_node_appium.sh
 
 
 echo "Installation complete!"
