@@ -1,7 +1,7 @@
 @echo off
 
 :: Check if Python 3 is installed
-where python >nul 2>nul
+python --version >nul 2>nul
 IF %ERRORLEVEL% NEQ 0 (
     echo Python 3 is not installed. Downloading Python 3...
 
