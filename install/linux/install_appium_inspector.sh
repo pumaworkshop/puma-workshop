@@ -29,6 +29,6 @@ chmod +x $APPIUM_INSPECTOR_SCRIPT
 
 # Add to PATH if not already there
 if ! echo $PATH | grep -q "$USER_BIN_DIR"; then
-    echo "export PATH=\$PATH:$USER_BIN_DIR" >> $SHELL_PROFILE
+    echo "export PATH=\$PATH:$USER_BIN_DIR" >> $SHELL_PROFILE #TODO this is out of scope? Use get_shell from macos
     export PATH=$PATH:$USER_BIN_DIR
 fi
