@@ -1,39 +1,12 @@
 #!/bin/bash
-
+CURRENT_DIR=$(dirname "$(realpath "$0")")
 # Determine the current shell
-CURRENT_SHELL=$(ps -p $$ -o args=)
 
-# Initialize SHELL_PROFILE variable
-SHELL_PROFILE=""
-
+source "$CURRENT_DIR"/macos/get_shell.sh
+shell=$(default_shell)
+SHELL_PROFILE=$(shell_profile $shell)
 # Check the current shell and set the appropriate profile file
-case $CURRENT_SHELL in
-    *bash*)
-        SHELL_PROFILE="$HOME/.bash_profile"
-        if [ ! -f "$SHELL_PROFILE" ]; then
-            SHELL_PROFILE="$HOME/.bashrc"
-        fi
-        ;;
-    *zsh*)
-        SHELL_PROFILE="$HOME/.zshrc"
-        ;;
-    *ksh*)
-        SHELL_PROFILE="$HOME/.kshrc"
-        ;;
-    *fish*)
-        SHELL_PROFILE="$HOME/.config/fish/config.fish"
-        ;;
-    *dash*)
-        SHELL_PROFILE="$HOME/.profile"
-        ;;
-    *sh*)
-        SHELL_PROFILE="$HOME/.profile"
-        ;;
-    *)
-        echo "Unsupported shell: $CURRENT_SHELL"
-        exit 1
-        ;;
-esac
+
 
 # Check if the profile file exists, if not, create it
 if [ ! -f "$SHELL_PROFILE" ]; then
