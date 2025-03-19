@@ -13,6 +13,8 @@ echo "Starting setup of Android SDK Platform Tools, Node.js, Appium, and Git for
 # Install Git
 "$current_dir"/macos/install_git.sh
 #TODO clone puma
+"$current_dir"/macos/install_adb.sh
+
 
 
 

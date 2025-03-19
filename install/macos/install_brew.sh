@@ -2,7 +2,7 @@
 CURRENT_DIR=$(dirname "$(realpath "$0")")
 source "$CURRENT_DIR"/get_shell.sh
 shell=$(default_shell)
-SHELL_PROFILE=$(shell_profile $shell)
+SHELL_PROFILE=$(shell_profile "$shell")
 
 # Check if Homebrew is installed
 if ! command -v brew &> /dev/null; then
