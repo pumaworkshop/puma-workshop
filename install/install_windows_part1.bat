@@ -1,10 +1,5 @@
 @echo off
-set CURRENT_DIR=%cd%
-echo %CURRENT_DIR%
 cd /d "%~dp0"
-set CURRENT_DIR=%cd%
-echo %CURRENT_DIR%
-pause
 
 :: Check for administrator rights
 net session >nul 2>&1
@@ -19,8 +14,6 @@ set "git_success=false"
 set "python_success=false"
 set "adb_success=false"
 set "node_success=false"
-set "appium_success=false"
-set "checkout_workshop_success=false"
 
 :: Run Git installation script
 echo Running Git installation...
@@ -57,27 +50,6 @@ IF %ERRORLEVEL% EQU 0 (
 ) ELSE (
     echo Node.js installation failed.
 )
-pause
-
-:: Run Appium installation script
-echo Running Appium installation...
-call windows\install_appium.bat
-IF %ERRORLEVEL% EQU 0 (
-    set "appium_success=true"
-) ELSE (
-    echo Appium installation failed.
-)
-pause
-
-:: Run workshop setup
-echo Running workshop environment setup...
-call windows\setup_workshop_env.bat
-IF %ERRORLEVEL% EQU 0 (
-    set "checkout_workshop_success=true"
-) ELSE (
-    echo Workshop environment setup failed.
-)
-pause
 
 :: Summary of installations
 echo Installation Summary:
@@ -106,15 +78,4 @@ IF "%node_success%"=="true" (
     echo Node.js installation failed.
 )
 
-IF "%appium_success%"=="true" (
-    echo Appium installation succeeded.
-) ELSE (
-    echoAppium installation failed.
-)
-
-IF "%checkout_workshop_success%"=="true" (
-    echo Workshop environment setup succeeded.
-) ELSE (
-    echo Workshop environment setup failed.
-)
 pause

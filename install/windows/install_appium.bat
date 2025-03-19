@@ -9,14 +9,6 @@ IF %ERRORLEVEL% NEQ 0 (
 ) ELSE (
     echo Appium is already installed.
 )
-
-:: Check if uiautomator2 driver is installed
-appium driver list --installed 2>&1 | findstr /C:"uiautomator2" >nul
-IF %ERRORLEVEL% NEQ 0 (
-    echo uiautomator2 driver is not installed. Installing uiautomator2 driver...
-    call appium driver install uiautomator2
-) ELSE (
-    echo uiautomator2 driver is already installed.
-)
+call appium driver install uiautomator2
 
 echo Appium installation completed.
