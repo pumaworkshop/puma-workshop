@@ -17,6 +17,7 @@ IF NOT EXIST "%ANDROID_SDK_ROOT%\platform-tools\adb.exe" (
     echo adb.exe not found. Setting up Android SDK Platform Tools...
 
     :: Check if platform-tools.zip already exists
+    :: TODO: location of install file needs to be robust, currently it's broken when running from the main install scripts
     IF NOT EXIST "platform-tools.zip" (
         echo platform-tools.zip not found. Downloading...
 
