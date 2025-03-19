@@ -6,20 +6,26 @@ set -e
 echo "Installing git..."
 sudo apt install git
 
-if test -d $HOME/directory; then
+cd ~
+
+if ! test -d $HOME/directory; then
  mkdir "puma-workshop"
+ cd puma-workshop
  git clone https://github.com/pumaworkshop/puma-workshop puma-workshop
 fi
 
-cd puma-workshop
+cd ~/puma-workshop/puma-workshop
 
 echo "Setting up a virtual environment..."
+sudo apt install python3-venv
+sudo apt install python3-pip
 python3 -m venv venv
+chmod 777 ./venv/bin/activate
 
-sh venv/bin/activate
+./venv/bin/activate
 
 echo "Installing requirements..."
-pip install -r requirements.txt
+./venv/bin/pip3 install -r requirements.txt
 
 echo "Setting up jupyter notebook settings"
 export CONFIG_FILE=$HOME/.ipython/profile_default/ipython_config.py
@@ -41,7 +47,5 @@ if ! test -f $HOME/.ipython/profile_default/ipython_config.py; then
 EOF
   echo "Configuration added to ipython_config.py"
 fi
-
-deactivate
 
 echo "Setup completed"
