@@ -8,6 +8,7 @@ echo "Starting setup of Android SDK Platform Tools, Node.js, and Appium for Linu
 sh ./linux/install_adb.sh
 sh ./linux/install_node_appium.sh
 sh ./linux/install_appium_inspector.sh
+sh ./linux/setup_workshop_env.sh
 
 echo "Installation complete!"
 echo "To verify the installation, please open a new terminal and run:"
