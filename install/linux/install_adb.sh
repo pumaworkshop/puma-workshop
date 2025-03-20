@@ -10,7 +10,7 @@ if command -v adb &> /dev/null; then
 fi
 HOME_DIR=$HOME
 ANDROID_SDK_DIR=$HOME_DIR/android-sdk
-PLATFORM_TOOLS_DIR=$ANDROID_SDK_DIR/platform-tools
+PLATFORM_TOOLS_DIR=$ANDROID_SDK_DIR/platform-tools # TODO remove
 TEMP_DIR=$(mktemp -d)
 
 # Create Android SDK directory

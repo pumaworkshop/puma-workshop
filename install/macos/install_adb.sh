@@ -9,8 +9,7 @@ if command -v adb &> /dev/null; then
   exit 0
 fi
 
-HOME_DIR=$HOME
-ANDROID_SDK_DIR=$HOME_DIR/android-sdk
+ANDROID_SDK_DIR=$HOME/android-sdk
 TEMP_DIR=$(mktemp -d)
 CURRENT_DIR=$(dirname "$(realpath "$0")")
 
@@ -23,7 +22,7 @@ PLATFORM_TOOLS_URL="https://dl.google.com/android/repository/platform-tools-late
 curl -L $PLATFORM_TOOLS_URL -o "$TEMP_DIR"/platform-tools.zip
 
 echo "Extracting Platform Tools to $ANDROID_SDK_DIR..."
-unzip -q $TEMP_DIR/platform-tools.zip -d "$ANDROID_SDK_DIR"
+unzip -q "$TEMP_DIR"/platform-tools.zip -d "$ANDROID_SDK_DIR"
 
 # Set up environment variables
 echo "Setting up environment variables..."

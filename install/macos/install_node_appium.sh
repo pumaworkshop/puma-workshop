@@ -17,7 +17,11 @@ nvm install 19
 nvm use 19
 nvm alias default 19
 
-echo "Installing Appium..."
-npm install -g appium
-appium driver install uiautomator2
+if ! command -v appium &> /dev/null; then
+  echo "Installing Appium..."
+  npm install -g appium
+  appium driver install uiautomator2
+else
+  echo "Appium is already installed"
+fi
 

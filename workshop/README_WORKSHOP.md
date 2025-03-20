@@ -34,3 +34,7 @@ Before you begin, make sure you have the following:
 - The exercises are available as [Jupyter Notebooks](https://docs.jupyter.org/en/latest/start/index.html), in thus
 project, run `jupyter notebook`. This will open a browser window in which you can navigate to the first exercise and
 get started.
+
+### Set Up Appium Inspector
+Before you can use Appium Inspector, you first need to configure the capabilities. See the [Appium Inspector section in
+the CONTRIBUTING.md](../CONTRIBUTING.md#example-writing-new-appium-actions) for a JSON snippet.

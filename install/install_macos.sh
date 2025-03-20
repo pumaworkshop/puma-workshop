@@ -14,8 +14,9 @@ echo "Starting setup of Android SDK Platform Tools, Node.js, Appium, and Git for
 #TODO clone puma
 "$current_dir"/macos/install_adb.sh
 "$current_dir"/macos/install_node_appium.sh
+"$current_dir"/macos/install_appium_inspector.sh
 
-
+#TODO actually check instead of print
 echo "Installation complete!"
 echo "To verify the installation, please open a new terminal and run:"
 echo "- adb version (to check Android SDK Platform Tools)"
