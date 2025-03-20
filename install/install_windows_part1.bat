@@ -1,11 +1,19 @@
 @echo off
+cd /d "%~dp0"
+
+:: Check for administrator rights
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo This script requires administrative privileges. Please run as administrator.
+    pause
+    exit /b 1
+)
 
 :: Initialize success flags
 set "git_success=false"
 set "python_success=false"
 set "adb_success=false"
-set "node_appium_success=false"
-set "checkout_workshop_success=false"
+set "node_success=false"
 
 :: Run Git installation script
 echo Running Git installation...
@@ -34,22 +42,13 @@ IF %ERRORLEVEL% EQU 0 (
     echo ADB installation failed.
 )
 
-:: Run Node.js and Appium installation script
-echo Running Node.js and Appium installation...
-call windows\install_node_appium.bat
+:: Run Node.js installation script
+echo Running Node.js installation...
+call windows\install_node.bat
 IF %ERRORLEVEL% EQU 0 (
-    set "node_appium_success=true"
+    set "node_success=true"
 ) ELSE (
-    echo Node.js and Appium installation failed.
-)
-
-:: Run workshop setup
-echo Running workshop environment setup...
-call windows\setup_workshop_env.bat
-IF %ERRORLEVEL% EQU 0 (
-    set "checkout_workshop_success=true"
-) ELSE (
-    echo Workshop environment setup failed.
+    echo Node.js installation failed.
 )
 
 :: Summary of installations
@@ -73,14 +72,10 @@ IF "%adb_success%"=="true" (
     echo ADB installation failed.
 )
 
-IF "%node_appium_success%"=="true" (
-    echo Node.js and Appium installation succeeded.
+IF "%node_success%"=="true" (
+    echo Node.js installation succeeded.
 ) ELSE (
-    echo Node.js and Appium installation failed.
+    echo Node.js installation failed.
 )
 
-IF "%checkout_workshop_success%"=="true" (
-    echo Workshop environment setup succeeded.
-) ELSE (
-    echo Workshop environment setup failed.
-)
+pause
