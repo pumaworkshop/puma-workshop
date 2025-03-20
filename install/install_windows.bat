@@ -1,5 +1,5 @@
 @echo off
-cd /d "%~dp0"
+cd /d "%~dp0\windows"
 
 :: Initialize success flags
 set "git_success=false"
@@ -12,7 +12,7 @@ set "appium_inspector_install_success=false"
 
 :: Run Git installation script
 echo Running Git installation...
-call windows\install_git.bat
+call install_git.bat
 IF %ERRORLEVEL% EQU 0 (
     set "git_success=true"
 ) ELSE (
@@ -21,7 +21,7 @@ IF %ERRORLEVEL% EQU 0 (
 
 :: Run Python installation script
 echo Running Python installation...
-call windows\install_python.bat
+call install_python.bat
 IF %ERRORLEVEL% EQU 0 (
     set "python_success=true"
 ) ELSE (
@@ -30,7 +30,7 @@ IF %ERRORLEVEL% EQU 0 (
 
 :: Run ADB installation script
 echo Running ADB installation...
-call windows\install_adb.bat
+call install_adb.bat
 IF %ERRORLEVEL% EQU 0 (
     set "adb_success=true"
 ) ELSE (
@@ -39,7 +39,7 @@ IF %ERRORLEVEL% EQU 0 (
 
 :: Run Node.js installation script
 echo Running Node.js installation...
-call windows\install_node.bat
+call install_node.bat
 IF %ERRORLEVEL% EQU 0 (
     set "node_success=true"
 ) ELSE (
@@ -48,7 +48,7 @@ IF %ERRORLEVEL% EQU 0 (
 
 :: Install Appium
 echo Running Appium installation...
-call windows\install_appium.bat
+call install_appium.bat
 IF %ERRORLEVEL% EQU 0 (
     set "appium_install_success=true"
 ) ELSE (
@@ -57,7 +57,7 @@ IF %ERRORLEVEL% EQU 0 (
 
 :: Install Appium Inspector
 echo Running Appium Inspector installation...
-call windows\install_appium_inspector.bat
+call install_appium_inspector.bat
 IF %ERRORLEVEL% EQU 0 (
     set "appium_inspector_install_success=true"
 ) ELSE (
@@ -65,6 +65,7 @@ IF %ERRORLEVEL% EQU 0 (
 )
 
 :: Run workshop setup
+cd /d "%~dp0"
 echo Running workshop environment setup...
 call windows\setup_workshop_env.bat
 IF %ERRORLEVEL% EQU 0 (
@@ -74,6 +75,8 @@ IF %ERRORLEVEL% EQU 0 (
 )
 
 :: Summary of installations
+echo
+echo ----------------------
 echo Installation Summary:
 echo ----------------------
 IF "%git_success%"=="true" (
