@@ -23,27 +23,24 @@ chmod 777 ./venv/bin/activate
 ./venv/bin/activate
 
 echo "Installing requirements..."
-./venv/bin/pip3 install -r requirements.txt
+./venv/bin/pip3 install -r requirements.txt #TODO pip should work after activating venv
 
 echo "Setting up jupyter notebook settings"
-export CONFIG_FILE=$HOME/.ipython/profile_default/ipython_config.py
+config_dir="$HOME/.ipython/profile_default"
+export CONFIG_FILE="$config_dir/ipython_config.py"
 
-if ! test -d $HOME/.ipython/; then
-  mkdir "$HOME/.ipython/"
+if ! test -d "$(dirname "$config_dir")"; then
+  mkdir -p "$config_dir"
 fi
 
-if ! test -d $HOME/.ipython/profile_default/; then
-  mkdir "$HOME/.ipython/profile_default/"
-fi
-
-if ! test -f $HOME/.ipython/profile_default/ipython_config.py; then
-  cat > $HOME/.ipython/profile_default/ipython_config.py << EOF
-  import os
-  os.chdir('~/puma-workshop')
-  c.InteractiveShellApp.extensions = ['autoreload'] >> "%CONFIG_FILE%"
-  c.InteractiveShellApp.exec_lines = ['%%autoreload 2'] >> "%CONFIG_FILE%"
+# Add configuration to
+cat >> "$CONFIG_FILE" << 'EOF'
+import os
+os.chdir(os.path.expanduser('~/puma-workshop'))
+c.InteractiveShellApp.extensions = ['autoreload']
+c.InteractiveShellApp.exec_lines = ['%autoreload 2']
 EOF
-  echo "Configuration added to ipython_config.py"
-fi
 
-echo "Setup completed"
+echo "Configuration added to ipython_config.py"
+
+echo "Puma setup completed"
