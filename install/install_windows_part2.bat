@@ -3,6 +3,7 @@ cd /d "%~dp0"
 
 set "checkout_workshop_success=false"
 set "appium_install_success=false"
+set "appium_inspector_install_success=false"
 
 :: Install Appium
 echo Running Appium installation...
@@ -11,6 +12,15 @@ IF %ERRORLEVEL% EQU 0 (
     set "appium_install_success=true"
 ) ELSE (
     echo Appium installation failed.
+)
+
+:: Install Appium Inspector
+echo Running Appium Inspector installation...
+call windows\install_appium_inspector.bat
+IF %ERRORLEVEL% EQU 0 (
+    set "appium_inspector_install_success=true"
+) ELSE (
+    echo Appium Inspector installation failed.
 )
 
 :: Run workshop setup
@@ -29,6 +39,11 @@ IF "%appium_install_success%"=="true" (
     echo Appium installation succeeded.
 ) ELSE (
     echo Appium installation failed.
+)
+IF "%appium_inspector_install_success%"=="true" (
+    echo Appium Inspector installation succeeded.
+) ELSE (
+    echo Appium Inspector installation failed.
 )
 IF "%checkout_workshop_success%"=="true" (
     echo Workshop environment setup succeeded.
