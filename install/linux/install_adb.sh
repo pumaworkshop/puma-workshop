@@ -8,7 +8,7 @@ if command -v adb &> /dev/null; then
   echo "[INFO] ADB is already installed. Skipping installation"
   exit 0
 fi
-ANDROID_SDK_DIR="$HOME/android-sdk"
+ANDROID_SDK_DIR="$HOME/Android/Sdk"
 TEMP_DIR=$(mktemp -d)
 
 # Create Android SDK directory
@@ -26,8 +26,8 @@ unzip -q "$TEMP_DIR"/platform-tools.zip -d "$ANDROID_SDK_DIR"
 echo "Setting up environment variables..."
 ENV_SETUP="
 # Android SDK Environment Variables
-export ANDROID_HOME=\$HOME/android-sdk
-export ANDROID_SDK_ROOT=\$HOME/android-sdk
+export ANDROID_HOME=\$HOME/Android/Sdk
+export ANDROID_SDK_ROOT=\$HOME/Android/Sdk
 export PATH=\$PATH:\$ANDROID_HOME/platform-tools
 "
 

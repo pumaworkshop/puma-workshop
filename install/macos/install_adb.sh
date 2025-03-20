@@ -9,7 +9,7 @@ if command -v adb &> /dev/null; then
   exit 0
 fi
 
-ANDROID_SDK_DIR=$HOME/android-sdk
+ANDROID_SDK_DIR=$HOME/Android/Sdk
 TEMP_DIR=$(mktemp -d)
 
 # Create Android SDK directory
@@ -22,13 +22,13 @@ curl -L $PLATFORM_TOOLS_URL -o "$TEMP_DIR"/platform-tools.zip
 
 echo "Extracting Platform Tools to $ANDROID_SDK_DIR..."
 unzip -q "$TEMP_DIR"/platform-tools.zip -d "$ANDROID_SDK_DIR"
-
+# TODO check rc file when adb was already installed
 # Set up environment variables
 echo "Setting up environment variables..."
 ENV_SETUP="
 # Android SDK Environment Variables
-export ANDROID_HOME=\$HOME/android-sdk
-export ANDROID_SDK_ROOT=\$HOME/android-sdk
+export ANDROID_HOME=\$HOME/Android/Sdk
+export ANDROID_SDK_ROOT=\$HOME/Android/Sdk
 export PATH=\$PATH:\$ANDROID_HOME/platform-tools
 "
 
