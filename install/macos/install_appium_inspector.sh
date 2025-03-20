@@ -5,7 +5,7 @@ CURRENT_DIR=$(dirname "$(realpath "$0")")
 # Download and setup Appium Inspector
 echo "Setting up Appium Inspector..."
 APPIUM_INSPECTOR_DIR="$HOME/.appium-inspector"
-mkdir -p $APPIUM_INSPECTOR_DIR
+mkdir -p "$APPIUM_INSPECTOR_DIR"
 
 # Create launcher script
 USER_BIN_DIR="$HOME/bin"
@@ -16,12 +16,17 @@ if [ -f "$APPIUM_INSPECTOR_SCRIPT" ]; then
         echo "Appium Inspector is already installed."
         exit 0
 fi
-# Download Appium Inspector for macOS
-APPIUM_INSPECTOR_URL="https://github.com/appium/appium-inspector/releases/download/v2024.12.1/Appium-Inspector-2024.12.1-mac-arm64.dmg"
-APPIUM_INSPECTOR_FILE="$APPIUM_INSPECTOR_DIR/Appium-Inspector.dmg"
+#TODO TEST
+if [ -f "$CURRENT_DIR/Appium-inspector.dmg" ]; then
+   cp "$CURRENT_DIR/Appium-inspector.dmg" APPIUM_INSPECTOR_FILE
+else
+  # Download Appium Inspector for macOS
+  APPIUM_INSPECTOR_URL="https://github.com/appium/appium-inspector/releases/download/v2024.12.1/Appium-Inspector-2024.12.1-mac-arm64.dmg"
+  APPIUM_INSPECTOR_FILE="$APPIUM_INSPECTOR_DIR/Appium-Inspector.dmg"
 
-echo "Downloading Appium Inspector for macOS..."
-curl -L $APPIUM_INSPECTOR_URL -o "$APPIUM_INSPECTOR_FILE"
+  echo "Downloading Appium Inspector for macOS..."
+  curl -L $APPIUM_INSPECTOR_URL -o "$APPIUM_INSPECTOR_FILE"
+fi
 
 # Mount the DMG file
 MOUNT_POINT=$(hdiutil attach "$APPIUM_INSPECTOR_FILE" | grep Volumes |  awk -F '\t' '{print $3}')
@@ -54,13 +59,12 @@ EOF
 chmod +x "$APPIUM_INSPECTOR_SCRIPT"
 
 # Add to PATH if not already there
-source "$CURRENT_DIR"/get_shell.sh
-shell=$(default_shell)
-SHELL_PROFILE=$(shell_profile "$shell")
+source "$CURRENT_DIR"/../common/get_shell.sh
+SHELL_PROFILE=$(shell_profile)
 
 if [ -n "$SHELL_PROFILE" ]; then
     if ! echo "$PATH" | grep -q "$USER_BIN_DIR"; then
-        echo "export PATH=\$PATH:$USER_BIN_DIR" >> $SHELL_PROFILE
+        echo "export PATH=\$PATH:$USER_BIN_DIR" >> "$SHELL_PROFILE"
         export PATH=$PATH:$USER_BIN_DIR
         echo "Added $USER_BIN_DIR to PATH in $SHELL_PROFILE"
     else

@@ -11,7 +11,6 @@ fi
 
 ANDROID_SDK_DIR=$HOME/android-sdk
 TEMP_DIR=$(mktemp -d)
-CURRENT_DIR=$(dirname "$(realpath "$0")")
 
 # Create Android SDK directory
 mkdir -p "$ANDROID_SDK_DIR"
@@ -35,9 +34,9 @@ export PATH=\$PATH:\$ANDROID_HOME/platform-tools
 
 echo "Setting environment variables"
 
-source "$CURRENT_DIR"/get_shell.sh
-shell=$(default_shell)
-SHELL_PROFILE=$(shell_profile "$shell")
+current_dir=$(dirname "$(realpath "$0")")
+source "$current_dir"/../common/get_shell.sh
+SHELL_PROFILE=$(shell_profile)
 
 if [ -n "$SHELL_PROFILE" ]; then
     # Check if variables already exist in the profile

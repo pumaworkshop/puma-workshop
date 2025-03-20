@@ -1,18 +1,8 @@
 #!/bin/bash
-#TODO move to common so linux can use it as well?
-
-default_shell() {
-    echo "$SHELL"
-}
-
-current_shell() {
-  basename "$(ps -p $$ -o comm=)"
-}
 
 shell_profile() {
-  local shell=$1 #TODO check if this can be inlined with $SHELL
   SHELL_PROFILE=""
-  case $shell in
+  case "$SHELL" in
     *bash*)
         SHELL_PROFILE="$HOME/.bash_profile"
         if [ ! -f "$SHELL_PROFILE" ]; then

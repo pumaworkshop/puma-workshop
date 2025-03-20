@@ -1,25 +1,23 @@
 #!/bin/bash
-
 # Exit on error
 set -e
 
-echo "Installing git..."
+echo "Installing Git..."
 sudo apt install git
-
 cd ~
 
-if ! test -d $HOME/directory; then
- mkdir "puma-workshop"
- cd puma-workshop
- git clone https://github.com/pumaworkshop/puma-workshop puma-workshop
+#TODO install python 3.10
+puma_dir="$HOME/puma-workshop"
+if ! test -d "$puma_dir"; then
+ git clone https://github.com/pumaworkshop/puma-workshop "$puma_dir"
 fi
 
-cd ~/puma-workshop/puma-workshop
+cd "$puma_dir"
 
 echo "Setting up a virtual environment..."
 sudo apt install python3-venv
 sudo apt install python3-pip
-python3 -m venv venv
+python3 -m venv venv #TODO python 3.10
 chmod 777 ./venv/bin/activate
 
 ./venv/bin/activate

@@ -6,9 +6,13 @@ CURRENT_DIR=$(dirname "$(realpath "$0")")
 
 # Install Brew
 "$CURRENT_DIR"/install_brew.sh
+
 # Install Git
 echo "Installing Git..."
 brew install git
+
+# Install Python3.10
+brew install python@3.10
 
 puma_dir="$HOME/puma-workshop"
 if ! test -d "$puma_dir"; then
@@ -18,7 +22,7 @@ fi
 cd "$puma_dir"
 
 echo "Setting up a virtual environment..."
-python3 -m venv venv
+python3.10 -m venv venv
 
 source venv/bin/activate
 

@@ -1,6 +1,7 @@
 # Installation script instructions
 The installation scripts aim to make Puma setup easier. Simply run the script of your OS, and everything should be
 installed.
+Please install **Android Studio first**, as this takes the longest.
 
 ## Offline functionality
 Where possible, the scripts support using installation files. Which files depend on the OS.
@@ -12,7 +13,9 @@ When the required file with the correct name is placed next to the script, nothi
 * Git installer: git-installer.exe
 * NodeJS installer: node-installer.msi
 
-#TODO Linux &Mac
+### MacOS
+* Appium inspector: Appium-Inspector.dmg
+
 # Workshop-specific steps
 In this fork, the installation scripts contain some specific steps that are only relevant to the workshop:
 * Setup of Jupyter notebook settings
@@ -25,7 +28,7 @@ script will do this for them.
 ## Required files
 Apart from the scripts, the workshop setup should be done with some extra files:
 
-* PyCharm installer
+* PyCharm installer (or other IDE)
 * Android Studio installer
-* Appium inspector
+
 * All installation mentioned above files to maximize offline functionality

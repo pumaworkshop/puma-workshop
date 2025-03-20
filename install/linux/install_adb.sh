@@ -8,9 +8,7 @@ if command -v adb &> /dev/null; then
   echo "[INFO] ADB is already installed. Skipping installation"
   exit 0
 fi
-HOME_DIR=$HOME
-ANDROID_SDK_DIR=$HOME_DIR/android-sdk
-PLATFORM_TOOLS_DIR=$ANDROID_SDK_DIR/platform-tools # TODO remove
+ANDROID_SDK_DIR="$HOME/android-sdk"
 TEMP_DIR=$(mktemp -d)
 
 # Create Android SDK directory
@@ -19,10 +17,10 @@ mkdir -p $ANDROID_SDK_DIR
 # Download and extract Android SDK Platform Tools
 echo "Downloading Android SDK Platform Tools..."
 PLATFORM_TOOLS_URL="https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
-curl -L $PLATFORM_TOOLS_URL -o $TEMP_DIR/platform-tools.zip
+curl -L $PLATFORM_TOOLS_URL -o "$TEMP_DIR"/platform-tools.zip
 
 echo "Extracting Platform Tools to $ANDROID_SDK_DIR..."
-unzip -q $TEMP_DIR/platform-tools.zip -d $ANDROID_SDK_DIR
+unzip -q "$TEMP_DIR"/platform-tools.zip -d "$ANDROID_SDK_DIR"
 
 # Set up environment variables
 echo "Setting up environment variables..."
@@ -35,13 +33,9 @@ export PATH=\$PATH:\$ANDROID_HOME/platform-tools
 
 echo "Setting environment variables"
 
-# Add environment variables to shell profile
-SHELL_PROFILE=""
-if [ -f "$HOME/.bashrc" ]; then
-    SHELL_PROFILE="$HOME/.bashrc"
-elif [ -f "$HOME/.zshrc" ]; then
-    SHELL_PROFILE="$HOME/.zshrc"
-fi
+current_dir=$(dirname "$(realpath "$0")")
+source "$current_dir"/../common/get_shell.sh
+SHELL_PROFILE=$(shell_profile)
 
 if [ -n "$SHELL_PROFILE" ]; then
     # Check if variables already exist in the profile
@@ -57,10 +51,7 @@ else
     echo "$ENV_SETUP"
 fi
 
-# Apply environment variables to current session
-export ANDROID_HOME=$HOME/android-sdk
-export ANDROID_SDK_ROOT=$HOME/android-sdk
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+source "$SHELL_PROFILE"
 
 echo "Cleaning up temporary files..."
-rm -rf $TEMP_DIR
+rm -rf "$TEMP_DIR"

@@ -4,7 +4,7 @@
 set -e
 
 echo "Starting setup of Android SDK Platform Tools, Node.js, and Appium for Linux..."
-#TODO use paths relative to current file(see CURRENT_DIR in install_macos.sh
+#TODO use paths relative to current file(see CURRENT_DIR in install_macos.sh, remove sh
 sh ./linux/install_adb.sh
 sh ./linux/install_node_appium.sh
 sh ./linux/install_appium_inspector.sh

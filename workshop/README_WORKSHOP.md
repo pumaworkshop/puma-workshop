@@ -8,6 +8,7 @@ how to use Puma and how to contribute to Puma.
 Before you begin, make sure you have the following:
 
 - Familiarity with Python
+- Have Android Studio installed with an emulator running on your host machine (see [Puma README](../README.md#requirements))
 - Either: 
   1. If provided with a VM that has Puma pre-installed:
      - Have the workshop VM imported and running:
@@ -20,21 +21,19 @@ Before you begin, make sure you have the following:
            - Provide the path to the qcow2 file, for the operating system select 'Generic default (generic)'
            - For memory select 4096, for cpu select 4
            - Last, give the machine a name you can recognize it by
-       - TODO MacOS
-     - Have Android Studio installed with an emulator running on your host machine (see [Puma README](../README.md#requirements))
-  2. Install the requirements with the installation scripts in [the install folder](../install) described in the [Puma README](../README.md#requirements) and the [CONTRIBUTING.md](../CONTRIBUTING.md#development-installation), and:
-     - Add the following lines to your ipython_config.py file (probably in `~/.ipython/profile_default/`(Linux), or `C:\Users\<YourUserName>\.ipython\profile_default\`(Windows)): 
-     ```
-       import os
-       os.chdir('/path/to/puma-workshop')
-       c.InteractiveShellApp.extensions = ['autoreload']
-       c.InteractiveShellApp.exec_lines = ['%autoreload 2']
-     ``` 
-      This is for auto reloading altered classes into the notebook, and making sure the working directory is always the project root.
-- The exercises are available as [Jupyter Notebooks](https://docs.jupyter.org/en/latest/start/index.html), in this
+     
+  2. - Install the requirements with the installation scripts in [the install folder](../install)
+  
+
+### Run Exercises with Jupyter
+The exercises are available as [Jupyter Notebooks](https://docs.jupyter.org/en/latest/start/index.html), in this
 project, run `jupyter notebook`. This will open a browser window in which you can navigate to the first exercise and
 get started.
 
 ### Set Up Appium Inspector
 Before you can use Appium Inspector, you first need to configure the capabilities. See the [Appium Inspector section in
 the CONTRIBUTING.md](../CONTRIBUTING.md#example-writing-new-appium-actions) for a JSON snippet.
+
+### Set Up an emulator in Android Studio
+1. New project > No Activity > Finish 
+2. Tools > Device Manager > + >  Create Virtual Device > Pixel 9 > Finish
