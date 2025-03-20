@@ -1,23 +1,18 @@
 @echo off
-cd /d "%~dp0"
-
-:: Check for administrator rights
-net session >nul 2>&1
-if %errorLevel% neq 0 (
-    echo This script requires administrative privileges. Please run as administrator.
-    pause
-    exit /b 1
-)
+cd /d "%~dp0\windows"
 
 :: Initialize success flags
 set "git_success=false"
 set "python_success=false"
 set "adb_success=false"
 set "node_success=false"
+set "checkout_workshop_success=false"
+set "appium_install_success=false"
+set "appium_inspector_install_success=false"
 
 :: Run Git installation script
 echo Running Git installation...
-call windows\install_git.bat
+call install_git.bat
 IF %ERRORLEVEL% EQU 0 (
     set "git_success=true"
 ) ELSE (
@@ -26,7 +21,7 @@ IF %ERRORLEVEL% EQU 0 (
 
 :: Run Python installation script
 echo Running Python installation...
-call windows\install_python.bat
+call install_python.bat
 IF %ERRORLEVEL% EQU 0 (
     set "python_success=true"
 ) ELSE (
@@ -35,7 +30,7 @@ IF %ERRORLEVEL% EQU 0 (
 
 :: Run ADB installation script
 echo Running ADB installation...
-call windows\install_adb.bat
+call install_adb.bat
 IF %ERRORLEVEL% EQU 0 (
     set "adb_success=true"
 ) ELSE (
@@ -44,14 +39,44 @@ IF %ERRORLEVEL% EQU 0 (
 
 :: Run Node.js installation script
 echo Running Node.js installation...
-call windows\install_node.bat
+call install_node.bat
 IF %ERRORLEVEL% EQU 0 (
     set "node_success=true"
 ) ELSE (
     echo Node.js installation failed.
 )
 
+:: Install Appium
+echo Running Appium installation...
+call install_appium.bat
+IF %ERRORLEVEL% EQU 0 (
+    set "appium_install_success=true"
+) ELSE (
+    echo Appium installation failed.
+)
+
+:: Install Appium Inspector
+echo Running Appium Inspector installation...
+call install_appium_inspector.bat
+IF %ERRORLEVEL% EQU 0 (
+    set "appium_inspector_install_success=true"
+) ELSE (
+    echo Appium Inspector installation failed.
+)
+
+:: Run workshop setup
+cd /d "%~dp0"
+echo Running workshop environment setup...
+call windows\setup_workshop_env.bat
+IF %ERRORLEVEL% EQU 0 (
+    set "checkout_workshop_success=true"
+) ELSE (
+    echo Workshop environment setup failed.
+)
+
 :: Summary of installations
+echo
+echo ----------------------
 echo Installation Summary:
 echo ----------------------
 IF "%git_success%"=="true" (
@@ -76,6 +101,21 @@ IF "%node_success%"=="true" (
     echo Node.js installation succeeded.
 ) ELSE (
     echo Node.js installation failed.
+)
+IF "%appium_install_success%"=="true" (
+    echo Appium installation succeeded.
+) ELSE (
+    echo Appium installation failed.
+)
+IF "%appium_inspector_install_success%"=="true" (
+    echo Appium Inspector installation succeeded.
+) ELSE (
+    echo Appium Inspector installation failed.
+)
+IF "%checkout_workshop_success%"=="true" (
+    echo Workshop environment setup succeeded.
+) ELSE (
+    echo Workshop environment setup failed.
 )
 
 pause

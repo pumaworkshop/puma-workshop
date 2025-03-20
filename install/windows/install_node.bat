@@ -1,15 +1,7 @@
 @echo off
 
-:: Check for administrator rights
-net session >nul 2>&1
-if %errorLevel% neq 0 (
-    echo This script requires administrative privileges. Please run as administrator.
-    pause
-    exit /b 1
-)
-
 :: Check if Node.js is installed
-where node >nul 2>nul
+node --version >nul 2>nul
 IF %ERRORLEVEL% NEQ 0 (
     echo Node.js is not installed. Installing Node.js...
 
@@ -24,7 +16,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
     :: Install Node.js
     echo Installing nodeJS...
-    start /wait "" msiexec /i "node-installer.msi" /quiet /norestart
+    start /wait "" "node-installer.msi" /passive
 
     :: Clean up
     IF defined downloaded_node (
