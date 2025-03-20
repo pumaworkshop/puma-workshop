@@ -22,7 +22,7 @@ Before you begin, make sure you have the following:
            - Last, give the machine a name you can recognize it by
        - TODO MacOS
      - Have Android Studio installed with an emulator running on your host machine (see [Puma README](../README.md#requirements))
-  2. Have all the requirements installed described in the [Puma README](../README.md#requirements) and the [CONTRIBUTING.md](../CONTRIBUTING.md#development-installation), and:
+  2. Install the requirements with the installation scripts in [the install folder](../install) described in the [Puma README](../README.md#requirements) and the [CONTRIBUTING.md](../CONTRIBUTING.md#development-installation), and:
      - Add the following lines to your ipython_config.py file (probably in `~/.ipython/profile_default/`(Linux), or `C:\Users\<YourUserName>\.ipython\profile_default\`(Windows)): 
      ```
        import os
@@ -31,7 +31,7 @@ Before you begin, make sure you have the following:
        c.InteractiveShellApp.exec_lines = ['%autoreload 2']
      ``` 
       This is for auto reloading altered classes into the notebook, and making sure the working directory is always the project root.
-- The exercises are available as [Jupyter Notebooks](https://docs.jupyter.org/en/latest/start/index.html), in thus
+- The exercises are available as [Jupyter Notebooks](https://docs.jupyter.org/en/latest/start/index.html), in this
 project, run `jupyter notebook`. This will open a browser window in which you can navigate to the first exercise and
 get started.
 
