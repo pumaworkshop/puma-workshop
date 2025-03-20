@@ -34,6 +34,9 @@ get started.
 Before you can use Appium Inspector, you first need to configure the capabilities. See the [Appium Inspector section in
 the CONTRIBUTING.md](../CONTRIBUTING.md#example-writing-new-appium-actions) for a JSON snippet.
 
-### Set Up an emulator in Android Studio
-1. New project > No Activity > Finish 
-2. Tools > Device Manager > + >  Create Virtual Device > Pixel 9 > Finish
+### Run an emulator in Android Studio
+1. `New project` > `No Activity` > `Finish`
+2. Go to `Tools` > `Device Manager`. If there is already a device listed, you can run it by clicking the `play button`. 
+If no device is listed, proceed with the steps below:
+3. 3.`+` > `Create Virtual Device` > `Pixel 9` (or any other with the Google PlayStore icon) > `Finish`.
+4. Run by clicking the `Play` button
