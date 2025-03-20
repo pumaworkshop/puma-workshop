@@ -1,14 +1,19 @@
 #!/bin/bash
+CURRENT_DIR=$(dirname "$(realpath "$0")")
 
 # Exit on error
 set -e
 
 echo "Starting setup of Android SDK Platform Tools, Node.js, and Appium for Linux..."
-#TODO use paths relative to current file(see CURRENT_DIR in install_macos.sh, remove sh
-sh ./linux/install_adb.sh
-sh ./linux/install_node_appium.sh
-sh ./linux/install_appium_inspector.sh
-sh ./linux/setup_workshop_env.sh
+now=$(date +"%Y%m%d_%H:%M:%S")
+mkdir -p "$CURRENT_DIR/logs"
+log_path="$CURRENT_DIR/logs/$now.log"
+touch "$log_path"
+
+"$CURRENT_DIR"/linux/install_adb.sh | tee -a "$log_path"
+"$CURRENT_DIR"/linux/install_node_appium.sh | tee -a "$log_path"
+"$CURRENT_DIR"/linux/install_appium_inspector.sh | tee -a "$log_path"
+"$CURRENT_DIR"/linux/setup_workshop_env.sh | tee -a "$log_path"
 
 echo "Installation complete!"
 echo "To verify the installation, please open a new terminal and run:"

@@ -5,14 +5,15 @@ CURRENT_DIR=$(dirname "$(realpath "$0")")
 set -e
 
 echo "Starting setup of Android SDK Platform Tools, Node.js, Appium, and Git for macOS..."
+now=$(date +"%Y%m%d_%H:%M:%S")
+mkdir -p "$CURRENT_DIR/logs"
+log_path="$CURRENT_DIR/logs/$now.log"
+touch "$log_path"
 
-# Set environment variables
-
-#TODO clone puma
-"$CURRENT_DIR"/macos/install_adb.sh
-"$CURRENT_DIR"/macos/install_node_appium.sh
-"$CURRENT_DIR"/macos/install_appium_inspector.sh
-"$CURRENT_DIR"/macos/setup_workshop_env.sh
+"$CURRENT_DIR"/macos/install_adb.sh | tee -a "$log_path"
+"$CURRENT_DIR"/macos/install_node_appium.sh | tee -a "$log_path"
+"$CURRENT_DIR"/macos/install_appium_inspector.sh | tee -a "$log_path"
+"$CURRENT_DIR"/macos/setup_workshop_env.sh | tee -a "$log_path"
 
 #TODO actually check instead of print
 echo "Installation complete!"
