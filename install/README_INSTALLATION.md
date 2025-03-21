@@ -1,14 +1,14 @@
 # Installation script instructions
 
-Execute the following steps to set up your machine for the Puma workshop. Isntall Android Studio first as this takes the
+Execute the following steps to set up your machine for the Puma workshop. Install Android Studio first as this takes the
 longest:
-1. Install Android Studio, download it here: https://redirector.gvt1.com/edgedl/android/studio/install/2024.3.1.13/android-studio-2024.3.1.13-windows.exe
+1. Install Android Studio, download it here: https://developer.android.com/studio
 2. Setup an Android emulator:
    * when opening Android Studio, in the `Welcome to Android studio` window, click on `More actions`
    * click on virtual device manager
    * click the `+``symbol to add a new device
    * follow the steps to add a new device. Pick any phone model you like. When picking a system image, choose one with Google APIs.
-3. Install a Python IDE. We recommend Pycharm, but if you have a preference, use the one you like.
+3. Install a Python IDE. We recommend [Pycharm](https://www.jetbrains.com/pycharm/download), but if you have a preference, use the one you like.
 4. Run the Puma install script for your OS (`install_windows.bat`, `install_linux.sh` or `install_macos.sh`)
 
 The script should install all requirements for Puma, and checks out the Puma workshop repository in the scripts
