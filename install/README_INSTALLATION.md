@@ -11,8 +11,8 @@ longest:
 3. Install a Python IDE. We recommend Pycharm, but if you have a preference, use the one you like.
 4. Run the Puma install script for your OS (`install_windows.bat`, `install_linux.sh` or `install_macos.sh`)
 
-The script should install all requirements for Puma, and checks out the Puma workshop repository int he scripts
-directory.
+The script should install all requirements for Puma, and checks out the Puma workshop repository in the scripts
+directory on windows, or in your home directory on MacOS and Linux.
 
 ## Offline functionality
 Where possible, the scripts support using installation files. Which files depend on the OS.

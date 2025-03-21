@@ -16,13 +16,13 @@ if [ -f "$APPIUM_INSPECTOR_SCRIPT" ]; then
         echo "Appium Inspector is already installed."
         exit 0
 fi
-#TODO TEST
+
+APPIUM_INSPECTOR_FILE="$APPIUM_INSPECTOR_DIR/Appium-Inspector.dmg"
 if [ -f "$CURRENT_DIR/Appium-inspector.dmg" ]; then
    cp "$CURRENT_DIR/Appium-inspector.dmg" APPIUM_INSPECTOR_FILE
 else
   # Download Appium Inspector for macOS
-  APPIUM_INSPECTOR_URL="https://github.com/appium/appium-inspector/releases/download/v2024.12.1/Appium-Inspector-2024.12.1-mac-arm64.dmg"
-  APPIUM_INSPECTOR_FILE="$APPIUM_INSPECTOR_DIR/Appium-Inspector.dmg"
+  APPIUM_INSPECTOR_URL="https://github.com/appium/appium-inspector/releases/download/v2025.3.1/Appium-Inspector-2025.3.1-mac-arm64.dmg"
 
   echo "Downloading Appium Inspector for macOS..."
   curl -L $APPIUM_INSPECTOR_URL -o "$APPIUM_INSPECTOR_FILE"
