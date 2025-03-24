@@ -1,7 +1,5 @@
 @echo off
 
-:: Set the GitHub repository URL and the local directory to clone into
-set "REPO_URL=https://github.com/pumaworkshop/puma-workshop"
 set "CURRENT_DIR=%~dp0"
 set "PUMA_ROOT=%CURRENT_DIR%..\.."
 cd /d "%PUMA_ROOT%"
