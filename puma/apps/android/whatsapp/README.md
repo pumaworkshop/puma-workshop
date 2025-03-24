@@ -1,10 +1,14 @@
 # WhatsApp Messenger - Android
 
 WhatsApp Messenger is an instant messaging VoIP service owned by Meta.
-Puma supports a wide range of actions in WhatsApp, listed below.
+Puma supports a wide range of actions in WhatsApp, listed below. Registration with a phone number is required.
 For detailed information on each method, see the method its PyDoc documentation.
 
 The application can be downloaded in [the Google PlayStore](https://play.google.com/store/apps/details?id=com.whatsapp).
+
+### Prerequisites
+- The application installed on your device
+- Registration with a phone number
 
 ### Initialization
 

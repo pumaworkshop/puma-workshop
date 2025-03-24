@@ -1,5 +1,7 @@
 Version 2.6.0
 -------------
+75. Telegram: Fix sending messages and pictures for version 11.8.x
+71. Improve README
 67. Appium: Add logging upon initialization
 15. Appium: log when appium is not running
 
