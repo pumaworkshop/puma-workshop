@@ -6,18 +6,9 @@ set "git_success=false"
 set "python_success=false"
 set "adb_success=false"
 set "node_success=false"
-set "checkout_workshop_success=false"
+set "setup_python_env_success=false"
 set "appium_install_success=false"
 set "appium_inspector_install_success=false"
-
-:: Run Git installation script
-echo Running Git installation...
-call install_git.bat
-IF %ERRORLEVEL% EQU 0 (
-    set "git_success=true"
-) ELSE (
-    echo Git installation failed.
-)
 
 :: Run Python installation script
 echo Running Python installation...
@@ -64,14 +55,14 @@ IF %ERRORLEVEL% EQU 0 (
     echo Appium Inspector installation failed.
 )
 
-:: Run workshop setup
-cd /d "%~dp0"
-echo Running workshop environment setup...
+:: Run python setup
+cd /d "%CURRENT_DIR%"
+echo Running python environment setup...
 call windows\setup_python_env.bat
 IF %ERRORLEVEL% EQU 0 (
-    set "checkout_workshop_success=true"
+    set "setup_python_env_success=true"
 ) ELSE (
-    echo Workshop environment setup failed.
+    echo Python environment setup failed.
 )
 
 :: Summary of installations
