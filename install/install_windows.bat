@@ -1,10 +1,4 @@
 @echo off
-set LOGFILE="%~dp0\install.log"
-call :LOG > %LOGFILE% 2>&1
-exit /B
-
-:LOG
-
 cd /d "%~dp0\windows"
 
 :: Initialize success flags
