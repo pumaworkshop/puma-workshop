@@ -83,12 +83,12 @@ if [[ -z "$SUPPORTED_PYTHON" ]]; then
     echo "Error: No supported Python version found."
     exit 1
 fi
-# We can now use $SUPPORTED_PYTHON to run commands with the supported Python version
 
 # Go to puma dir
 PUMA_ROOT="$CURRENT_DIR/../.."
 cd "$PUMA_ROOT"
 
+# We can now use $SUPPORTED_PYTHON to run commands with the supported Python version
 echo "Setting up a virtual environment..."
 sudo apt install "$SUPPORTED_PYTHON-venv"
 sudo apt install python3-pip
@@ -98,6 +98,6 @@ chmod 777 ./venv/bin/activate
 source venv/bin/activate
 
 echo "Installing requirements..."
-pip install -r requirements.txt #TODO pip install should work after activating venv
+pip install -r requirements.txt
 
 echo "Puma setup completed"
