@@ -13,7 +13,7 @@ touch "$log_path"
 "$CURRENT_DIR"/linux/install_adb.sh | tee -a "$log_path"
 "$CURRENT_DIR"/linux/install_node_appium.sh | tee -a "$log_path"
 "$CURRENT_DIR"/linux/install_appium_inspector.sh | tee -a "$log_path"
-"$CURRENT_DIR"/linux/setup_workshop_env.sh | tee -a "$log_path"
+"$CURRENT_DIR"/linux/setup_python_env.sh | tee -a "$log_path"
 
 echo "Installation complete!"
 echo "To verify the installation, please open a new terminal and run:"

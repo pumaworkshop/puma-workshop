@@ -67,7 +67,7 @@ IF %ERRORLEVEL% EQU 0 (
 :: Run workshop setup
 cd /d "%~dp0"
 echo Running workshop environment setup...
-call windows\setup_workshop_env.bat
+call windows\setup_python_env.bat
 IF %ERRORLEVEL% EQU 0 (
     set "checkout_workshop_success=true"
 ) ELSE (
