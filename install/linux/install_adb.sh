@@ -42,6 +42,8 @@ then
   echo "[INFO] ADB is already installed. Skipping installation"
   exit 0
 fi
+
+ANDROID_SDK_DIR=$HOME/Android/Sdk
 TEMP_DIR=$(mktemp -d)
 
 # Create Android SDK directory
