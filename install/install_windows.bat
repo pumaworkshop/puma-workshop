@@ -2,7 +2,6 @@
 cd /d "%~dp0\windows"
 
 :: Initialize success flags
-set "git_success=false"
 set "python_success=false"
 set "adb_success=false"
 set "node_success=false"
@@ -56,9 +55,8 @@ IF %ERRORLEVEL% EQU 0 (
 )
 
 :: Run python setup
-cd /d "%CURRENT_DIR%"
 echo Running python environment setup...
-call windows\setup_python_env.bat
+call setup_python_env.bat
 IF %ERRORLEVEL% EQU 0 (
     set "setup_python_env_success=true"
 ) ELSE (
@@ -70,11 +68,6 @@ echo
 echo ----------------------
 echo Installation Summary:
 echo ----------------------
-IF "%git_success%"=="true" (
-    echo Git installation succeeded.
-) ELSE (
-    echo Git installation failed.
-)
 
 IF "%python_success%"=="true" (
     echo Python installation succeeded.
@@ -104,9 +97,9 @@ IF "%appium_inspector_install_success%"=="true" (
     echo Appium Inspector installation failed.
 )
 IF "%checkout_workshop_success%"=="true" (
-    echo Workshop environment setup succeeded.
+    echo Puma environment setup succeeded.
 ) ELSE (
-    echo Workshop environment setup failed.
+    echo Puma environment setup failed.
 )
 
 pause
