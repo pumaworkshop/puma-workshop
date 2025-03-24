@@ -21,8 +21,6 @@ of existing apps are welcome! If you want to contribute, please read [CONTRIBUTI
 ## Getting started
 
 1. Install all required software (see the [requirements](#requirements) section).
-    - install [ADB](#ADB)
-    - install [Appium](#Appium)
 2. Connect your Android device (or start an emulator), make sure it is connected properly over ADB (See the section on
    [troubleshooting](#Troubleshooting) if you encounter problems).
     - :warn: Make sure the phone is set to English, and [all other requirements](#Android-Devices-or-Emulators) are met!
@@ -132,58 +130,10 @@ argument only once, and then sticking to `send_message` without the secondary ar
 
 ## Requirements
 
-### OS
+## Install dependencies
 
-Puma is developed and tested on Linux and Windows. MacOS is not tested by us, but might work.
-
-### Python
-
-Puma is tested on Python 3.10 and 3.11, we haven't tested other versions.
-Download Python [here](https://www.python.org/downloads/) or install it using apt:
-```shell
-sudo apt install python3.11
-```
-
-### ADB
-
-Puma uses ADB to connect to Android devices for some features, both directly and through Appium.
-To install ADB, download [the Android Sdk Platform Tools](https://developer.android.com/tools/releases/platform-tools).
-Create the directory `~/Android/Sdk/` and unzip the platform-tools in this folder, so the absolute path to adb becomes
-`~/Android/Sdk/platform-tools/adb`. Then create the environmental value `ANDROID_SDK_ROOT` with the value
-`~/Android/Sdk/`:
-
-```shell
-$ echo 'export ANDROID_SDK_ROOT="$HOME/Android/Sdk/"' >> ~/.bashrc
-$ source ~/.bashrc
-```
-
-> :warning: When running your Appium script from an IDE, you might get the error `Could not determine ANDROID_SDK_ROOT.`
-> This is because the IDE might not load the environment variables correctly. Since Puma then defaults to ~/Android/Sdk,
-> you will not need to do anything if you followed the steps above, and you can ignore this message. If you really want
-> to use another location, please refer to you IDE specific documentation how to set environment variables.
-
-### Appium
-
-Apps are controlled through Appium. See the [Appium website](https://appium.io/docs/en/2.0/quickstart/install/) or below
-how to install Appium, Appium v2.0 or greater is needed to run Puma.
-
-Appium is a NodeJS application which can be installed through NPM.
-If you don't have NPM isntalled, we recommend installing NPM and Node using NVM, an application to manage your NodeJS
-installation.
-
-```shell
-sudo apt install curl
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-nvm install 19.0.0
-```
-
-If you have NPM installed you can install Appium:
-
-```shell
-npm install -g appium
-appium driver install uiautomator2
-```
-_See [troubleshooting](#installing-appium-with-npm-fails) if installing Appium or npm fails._ 
+First off, run the installation scripts in the `install` folder.
+See [the installation manual](install/README_INSTALLATION.md) for more details.
 
 ### Android Device(s) or Emulators
 - 1 or more Android devices or emulators connected to the system where Puma runs, with:
