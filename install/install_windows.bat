@@ -96,7 +96,7 @@ IF "%appium_inspector_install_success%"=="true" (
 ) ELSE (
     echo Appium Inspector installation failed.
 )
-IF "%checkout_workshop_success%"=="true" (
+IF "%setup_python_env_success%"=="true" (
     echo Puma environment setup succeeded.
 ) ELSE (
     echo Puma environment setup failed.
