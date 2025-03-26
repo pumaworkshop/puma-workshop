@@ -1,3 +1,7 @@
+Version 2.6.1
+-------------
+78. Fix Windows logging to file
+
 Version 2.6.0
 -------------
 75. Telegram: Fix sending messages and pictures for version 11.8.x
