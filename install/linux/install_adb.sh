@@ -1,26 +1,8 @@
 #!/bin/bash
-
 # Exit on error
 set -e
 
 echo "Starting install of android-sdk and platform-tools"
-if command -v adb &> /dev/null; then
-  echo "[INFO] ADB is already installed. Skipping installation"
-  exit 0
-fi
-ANDROID_SDK_DIR="$HOME/Android/Sdk"
-TEMP_DIR=$(mktemp -d)
-
-# Create Android SDK directory
-mkdir -p $ANDROID_SDK_DIR
-
-# Download and extract Android SDK Platform Tools
-echo "Downloading Android SDK Platform Tools..."
-PLATFORM_TOOLS_URL="https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
-curl -L $PLATFORM_TOOLS_URL -o "$TEMP_DIR"/platform-tools.zip
-
-echo "Extracting Platform Tools to $ANDROID_SDK_DIR..."
-unzip -q "$TEMP_DIR"/platform-tools.zip -d "$ANDROID_SDK_DIR"
 
 # Set up environment variables
 echo "Setting up environment variables..."
@@ -52,6 +34,28 @@ else
 fi
 
 source "$SHELL_PROFILE"
+
+# setup adb
+ANDROID_SDK_DIR="$HOME/Android/Sdk"
+if [ -e "$ANDROID_SDK_DIR/platform-tools/adb" ]
+then
+  echo "[INFO] ADB is already installed. Skipping installation"
+  exit 0
+fi
+
+ANDROID_SDK_DIR=$HOME/Android/Sdk
+TEMP_DIR=$(mktemp -d)
+
+# Create Android SDK directory
+mkdir -p "$ANDROID_SDK_DIR"
+
+# Download and extract Android SDK Platform Tools
+echo "Downloading Android SDK Platform Tools..."
+PLATFORM_TOOLS_URL="https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
+curl -L $PLATFORM_TOOLS_URL -o "$TEMP_DIR"/platform-tools.zip
+
+echo "Extracting Platform Tools to $ANDROID_SDK_DIR..."
+unzip -q "$TEMP_DIR"/platform-tools.zip -d "$ANDROID_SDK_DIR"
 
 echo "Cleaning up temporary files..."
 rm -rf "$TEMP_DIR"
