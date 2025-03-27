@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
-from os import makedirs, environ
-from os.path import dirname, abspath, isdir, expanduser
+from os import makedirs
+from os.path import dirname, abspath
 from pathlib import Path
 from sys import stdout
 
@@ -22,7 +22,7 @@ makedirs(CACHE_FOLDER, exist_ok=True)
 
 # logging helpers
 def configure_default_logging():
-    now = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
+    now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     logging.basicConfig(
         handlers=[
             logging.FileHandler(Path(LOG_FOLDER) / f'{now}.log'),
