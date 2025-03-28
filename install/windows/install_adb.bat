@@ -41,13 +41,3 @@ IF NOT EXIST "%ANDROID_SDK_ROOT%\platform-tools\adb.exe" (
 ) ELSE (
     echo Android SDK is already set up correctly.
 )
-
-
-:: Check if 'adb --version' works
-adb --version >nul 2>&1
-IF %ERRORLEVEL% NEQ 0 (
-    echo adb is not recognized as command. Adding %ANDROID_HOME%\platform-tools to the PATH...
-    SETX PATH "%PATH%;%ANDROID_HOME%\platform-tools"
-) ELSE (
-    echo adb is already recognized. No changes needed.
-)
