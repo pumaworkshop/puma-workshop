@@ -7,3 +7,4 @@ install/install_linux.sh text eol=lf
 install/linux/*.sh text eol=lf
 install/install_macos.sh text eol=lf
 install/macos/*.sh text eol=lf
+install/common/*.sh text eol=lf
