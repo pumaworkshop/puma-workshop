@@ -7,10 +7,15 @@ set "APPIUM_INSPECTOR_URL=https://github.com/appium/appium-inspector/releases/do
 set "DOWNLOAD_PATH=Appium-Inspector.exe"
 
 :: Set the path to check for the installed Appium Inspector executable
-set "APPIUM_INSPECTOR_EXECUTABLE=C:\Program Files\Appium Inspector\Appium Inspector.exe"
+set "local_path=C:\Users\%USERNAME%\AppData\Local\Programs\Appium Inspector\Appium Inspector.exe"
+set "program_files_path=C:\Program Files\Appium Inspector\Appium Inspector.exe"
 
 :: Check if Appium Inspector is already installed
-IF NOT EXIST "%APPIUM_INSPECTOR_EXECUTABLE%" (
+if exist "%local_path%" (
+    echo Appium Inspector is installed at %local_path%.
+) else if exist "%program_files_path%" (
+    echo Appium Inspector is installed at %program_files_path%.
+) else (
     :: Check if the Appium Inspector executable already exists
     if not exist "%DOWNLOAD_PATH%" (
         echo Appium Inspector not found. Downloading...
@@ -29,6 +34,4 @@ IF NOT EXIST "%APPIUM_INSPECTOR_EXECUTABLE%" (
     echo Appium Inspector installation completed.
 
     echo Setup completed.
-) ELSE (
-    echo Appium Inspector is already installed.
 )
