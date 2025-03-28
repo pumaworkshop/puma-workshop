@@ -17,6 +17,7 @@ IF %ERRORLEVEL% NEQ 0 (
     :: Install Git
     echo Installing git...
     start /wait "" "git-installer.exe" /SILENT
+    set "PATH=C:\Program Files\Git\cmd;%PATH%"
 
     :: Clean up
     IF defined downloaded_git (
