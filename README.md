@@ -210,6 +210,18 @@ If the status of your device is `unauthorized`, make sure USB debugging is enabl
 If you do not get the pop-up, reset USB debugging authorisation in `Settings > Developer options > Revoke USB debugging
 authorisations` and reconnect the device and run `adb devices` again.
 
+### Android Emulator won't start in Android Studio
+We have encountered this in MacOS, but it could also occor on other platforms.
+If you encounter an issue where the Android Emulator won't start, it might be due to the location where Android Studio
+installs system images. By default, Android Studio installs system images in the `$HOME/Library/Android/Sdk` directory.
+However, our configuration may expect the SDK to be located in a different directory, such as
+`$HOME/Android/Sdk`.
+
+A workaround is to create a symbolic link:
+```bash
+ln -s $HOME/Library/Android/Sdk/system-images $HOME/Android/Sdk/system-images
+```
+
 ### Installing Appium with npm fails
 If you are behind a proxy and the appium install hangs, make sure to configure your `~/.npmrc` with the following
 settings.
