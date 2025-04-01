@@ -28,11 +28,13 @@ class GoogleChromeActions(AndroidAppiumActions):
         :param new_tab: whether to open a new tab first
         """
         search_box_xpath = '//android.widget.LinearLayout[@resource-id="com.android.chrome:id/search_box"]'
+        # search_box_xpath = '//android.widget.EditText[@resource-id="com.android.chrome:id/search_box_text"]'
         if self.is_present(search_box_xpath):
             self.driver.find_element(by=AppiumBy.XPATH, value=search_box_xpath).click()
 
         if new_tab:
             switch_tab_xpath = '//android.widget.ImageButton[@content-desc="Switch"]'
+            # switch_tab_xpath = '//android.widget.ImageButton[contains(@content-desc, "Switch")]'
             new_tab_xpath = '//android.widget.TextView[@resource-id="com.android.chrome:id/new_tab_view_desc"]'
             self.driver.find_element(by=AppiumBy.XPATH, value=switch_tab_xpath).click()
             self.driver.find_element(by=AppiumBy.XPATH, value=new_tab_xpath).click()
@@ -50,6 +52,7 @@ class GoogleChromeActions(AndroidAppiumActions):
         """
         three_dots_xpath = '//android.widget.ImageButton[@content-desc="Customize and control Google Chrome"]'
         bookmark_xpath = '//android.widget.ImageButton[@content-desc="bookmark"]'
+        # bookmark_xpath = '//android.widget.ImageButton[lower-case(@content-desc)="bookmark"]'
         self.driver.find_element(by=AppiumBy.XPATH, value=three_dots_xpath).click()
         self.driver.find_element(by=AppiumBy.XPATH, value=bookmark_xpath).click()
 
@@ -82,6 +85,7 @@ class GoogleChromeActions(AndroidAppiumActions):
         :param url_string: the input to pass to the address bar
         """
         three_dots_xpath = '//android.widget.ImageButton[@content-desc="Customize"]'
+        # three_dots_xpath = '//android.widget.ImageButton[contains(@content-desc, "Customize")]'
         incognito_tab_xpath = '//android.widget.TextView[@resource-id="com.android.chrome:id/title" and @text="New Incognito tab"]'
         self.driver.find_element(by=AppiumBy.XPATH, value=three_dots_xpath).click()
         self.driver.find_element(by=AppiumBy.XPATH, value=incognito_tab_xpath).click()
