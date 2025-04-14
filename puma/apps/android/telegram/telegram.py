@@ -93,15 +93,23 @@ class TelegramActions(AndroidAppiumActions):
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value=f'//android.view.ViewGroup[starts-with(lower-case(@text), "{chat.lower()}")]').click()
 
-    def select_chat(self, chat: str):
+    def select_chat(self, chat):
         """
-        Opens a given conversation based on the (partial) name of a chat.
+        Opens a given conversation based on the (partial) name of a chat, or opens the chat at the passed index
+        Note that the index is 1 based, so the first chat is index 1.
         For groups or channels, it is advised to use :meth:`TelegramActions.select_group` or
         :meth:`TelegramActions.select_channel`, as the matching is more explicit
         :param chat: (part of) the conversation name to open
         """
         self.return_to_homescreen()
-        xpath = f'//android.view.ViewGroup[starts-with(lower-case(@content-desc), "{chat.lower()}")]'
+        if type(chat) is str:
+            xpath = f'//android.view.ViewGroup[starts-with(lower-case(@content-desc), "{chat.lower()}")]'
+        elif type(chat) is int:
+            xpath = f'//androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[{chat}]'
+                      # //androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[1]
+        else:
+            raise ValueError(f'Argument was of type {type(chat)}, but needs to be str or int')
+
         self.driver.find_element(by=AppiumBy.XPATH, value=xpath).click()
         if not self._currently_in_conversation(implicit_wait=1):
             raise RuntimeError("Conversation was not opened after clicking the conversation")
@@ -120,7 +128,7 @@ class TelegramActions(AndroidAppiumActions):
         """
         self.select_chat(f'Channel. {channel_name}')
 
-    def send_message(self, message: str, chat: str = None):
+    def send_message(self, message: str, chat):
         """
         Send a message in the current or given chat
         :param message: The text message to send
@@ -328,7 +336,7 @@ class TelegramActions(AndroidAppiumActions):
             raise Exception('Expected to be in a call, but could not detect call screen!')
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@content-desc="Flip"]').click()
 
-    def _if_chat_go_to_chat(self, chat: str):
+    def _if_chat_go_to_chat(self, chat):
         if chat is not None:
             self.select_chat(chat)
             sleep(1)
