@@ -2,7 +2,7 @@ from typing import Dict
 
 from appium.webdriver.common.appiumby import AppiumBy
 
-from puma.apps.android.appium_actions import AndroidAppiumActions
+from puma.apps.android.appium_actions import AndroidAppiumActions, supported_version
 
 GOOGLE_CAMERA_PACKAGE = 'com.google.android.GoogleCamera'
 
