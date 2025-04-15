@@ -1,6 +1,6 @@
 Version 2.7.0
 -------------
-91. Add support for selecting chat by index
+91. Telegram: Add support for selecting chat by index
 83. Remove old workshop folder
 81. Add section about problems with starting emulators to troubleshooting
 78. Fix Windows logging to file

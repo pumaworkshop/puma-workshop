@@ -93,13 +93,13 @@ class TelegramActions(AndroidAppiumActions):
         self.driver.find_element(by=AppiumBy.XPATH,
                                  value=f'//android.view.ViewGroup[starts-with(lower-case(@text), "{chat.lower()}")]').click()
 
-    def select_chat(self, chat):
+    def select_chat(self, chat: str | int):
         """
         Opens a given conversation based on the (partial) name of a chat, or opens the chat at the passed index
         Note that the index is 1 based, so the first chat is index 1.
         For groups or channels, it is advised to use :meth:`TelegramActions.select_group` or
         :meth:`TelegramActions.select_channel`, as the matching is more explicit
-        :param chat: (part of) the conversation name to open or the index of the chat to open
+        :param chat: (part of) the conversation name to open or the 1-based index of the chat to open
         """
         self.return_to_homescreen()
         if type(chat) is str:
@@ -127,11 +127,11 @@ class TelegramActions(AndroidAppiumActions):
         """
         self.select_chat(f'Channel. {channel_name}')
 
-    def send_message(self, message: str, chat):
+    def send_message(self, message: str, chat: str | int):
         """
         Send a message in the current or given chat
         :param message: The text message to send
-        :param chat: Optional: The chat conversation in which to send this message, if not currently in the desired chat
+        :param chat: Optional: The chat conversation in which to send this message, if not currently in the desired chat. This is either the (partial) chat name or the index of the chat on the home screen.
         """
         self._if_chat_go_to_chat(chat)
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText[@text="Message"]').send_keys(
@@ -335,7 +335,7 @@ class TelegramActions(AndroidAppiumActions):
             raise Exception('Expected to be in a call, but could not detect call screen!')
         self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.FrameLayout[@content-desc="Flip"]').click()
 
-    def _if_chat_go_to_chat(self, chat):
+    def _if_chat_go_to_chat(self, chat: str | int):
         if chat is not None:
             self.select_chat(chat)
             sleep(1)
