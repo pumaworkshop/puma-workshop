@@ -5,6 +5,7 @@ from typing import Dict
 from appium.webdriver.common.appiumby import AppiumBy
 
 from puma.apps.android.appium_actions import supported_version, AndroidAppiumActions
+from puma.apps.android.teleguard import logger
 
 APPLICATION_PACKAGE = 'ch.swisscows.messenger.teleguardapp'
 
@@ -32,11 +33,14 @@ class TeleguardActions(AndroidAppiumActions):
         Go to chat if supplied.
         :param chat: Name of the chat to go to, this is either the contact name or the group name.
         """
-        if chat is not None:
+        if chat is None:
+            logger.warning("No chat was supplied. Assuming you are in the correct conversation screen now.")
+        else:
             self.select_chat(chat)
             sleep(1)
-        if not self._currently_in_conversation(chat):
-            raise Exception('Expected to be in conversation screen now, but screen contents are unknown')
+            if not self._currently_in_conversation(chat):
+                raise Exception('Expected to be in conversation screen now, but screen contents are unknown')
+
 
     def _currently_at_homescreen(self) -> bool:
         """
