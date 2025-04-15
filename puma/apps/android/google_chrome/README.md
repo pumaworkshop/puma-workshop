@@ -1,5 +1,3 @@
-from puma.apps.android.google_chrome.google_chrome import GoogleChromeActions
-
 # Google Chrome - Android
 
 Google Chrome is a web browser owned by Google.
