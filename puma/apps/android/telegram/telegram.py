@@ -99,14 +99,13 @@ class TelegramActions(AndroidAppiumActions):
         Note that the index is 1 based, so the first chat is index 1.
         For groups or channels, it is advised to use :meth:`TelegramActions.select_group` or
         :meth:`TelegramActions.select_channel`, as the matching is more explicit
-        :param chat: (part of) the conversation name to open
+        :param chat: (part of) the conversation name to open or the index of the chat to open
         """
         self.return_to_homescreen()
         if type(chat) is str:
             xpath = f'//android.view.ViewGroup[starts-with(lower-case(@content-desc), "{chat.lower()}")]'
         elif type(chat) is int:
             xpath = f'//androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[{chat}]'
-                      # //androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[1]
         else:
             raise ValueError(f'Argument was of type {type(chat)}, but needs to be str or int')
 
