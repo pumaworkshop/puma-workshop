@@ -133,7 +133,7 @@ class TelegramActions(AndroidAppiumActions):
 
         # The actual send button is not in the same place as the element. The button is at about 75% of the box.
         # We adjust the location of the click from the middle to the right of the box.
-        # TODO: clicking the correct spot in the bounding box is no longer necessary because the click box is now the same size as the button
+        # TODO: clicking the correct spot in the bounding box is no longer necessary because the click box is now the same size as the button (issue 97)
         location = self._find_button_location(0.75, 0.5, '//android.view.View[@content-desc="Send"]')
         self.driver.tap([(location)])
 
@@ -229,7 +229,7 @@ class TelegramActions(AndroidAppiumActions):
         # press send
         # The actual send button is not in the same place as the element. The button is at about 75% of the box.
         # We adjust the location of the click from the middle to the right bottom corner of the box.
-        # TODO: clicking the correct spot in the bounding box is no longer necessary because the click box is now the same size as the button
+        # TODO: clicking the correct spot in the bounding box is no longer necessary because the click box is now the same size as the button (issue 97)
         location = self._find_button_location(0.75, 0.75, '//*[lower-case(@content-desc)="send"]')
         self.driver.tap([(location)])
 
