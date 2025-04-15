@@ -125,6 +125,9 @@ class TestTelegram(unittest.TestCase):
         time.sleep(1)
         self.bob.end_call()
 
+    def test_select_chat_by_index(self):
+        self.alice.select_chat(1)
+
 
 if __name__ == '__main__':
     unittest.main()
