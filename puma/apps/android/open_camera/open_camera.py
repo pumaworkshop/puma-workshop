@@ -63,7 +63,7 @@ class OpenCameraActions(AndroidAppiumActions):
         switch_camera_button = self.driver.find_element(by=AppiumBy.XPATH, value=xpath)
         switch_camera_button.click()
 
-    def take_video(self, duration):
+    def take_video(self, duration:int):
         """
         Takes a video of a given duration
         """
