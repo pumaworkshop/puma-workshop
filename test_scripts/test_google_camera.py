@@ -4,7 +4,7 @@ from puma.apps.android.google_camera.google_camera import GoogleCameraActions
 
 # Fill in the udid below. Run ADB devices to see the udids.
 device_udids = {
-    "Alice": "emulator-5554"
+    "Alice": ""
 }
 
 
