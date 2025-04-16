@@ -7,7 +7,7 @@ from puma.apps.android.appium_actions import AndroidAppiumActions, supported_ver
 GOOGLE_CHROME_PACKAGE = 'com.android.chrome'
 
 @supported_version("124.0.6367.219")
-class GoogleChromeActions(AndroidAppiumActions):
+class GoogleChromeActionsTutorial(AndroidAppiumActions):
     def __init__(self,
                  device_udid,
                  desired_capabilities: Dict[str, str] = None,
@@ -32,7 +32,7 @@ class GoogleChromeActions(AndroidAppiumActions):
             self.driver.find_element(by=AppiumBy.XPATH, value=search_box_xpath).click()
 
         if new_tab:
-            switch_tab_xpath = '//android.widget.ImageButton[contains(@content-desc, "Switch")]'
+            switch_tab_xpath = '//android.widget.ImageButton[@content-desc="Switch"]'
             new_tab_xpath = '//android.widget.TextView[@resource-id="com.android.chrome:id/new_tab_view_desc"]'
             self.driver.find_element(by=AppiumBy.XPATH, value=switch_tab_xpath).click()
             self.driver.find_element(by=AppiumBy.XPATH, value=new_tab_xpath).click()
@@ -49,7 +49,7 @@ class GoogleChromeActions(AndroidAppiumActions):
         Bookmarks the current page.
         """
         three_dots_xpath = '//android.widget.ImageButton[@content-desc="Customize and control Google Chrome"]'
-        bookmark_xpath = '//android.widget.ImageButton[lower-case(@content-desc)="bookmark"]'
+        bookmark_xpath = '//android.widget.ImageButton[@content-desc="bookmark"]'
         self.driver.find_element(by=AppiumBy.XPATH, value=three_dots_xpath).click()
         self.driver.find_element(by=AppiumBy.XPATH, value=bookmark_xpath).click()
 
@@ -81,7 +81,7 @@ class GoogleChromeActions(AndroidAppiumActions):
         Opens an incognito window and enters the url_string to the address bar.
         :param url_string: the input to pass to the address bar
         """
-        three_dots_xpath = '//android.widget.ImageButton[contains(@content-desc, "Customize")]'
+        three_dots_xpath = '//android.widget.ImageButton[@content-desc="Customize"]'
         incognito_tab_xpath = '//android.widget.TextView[@resource-id="com.android.chrome:id/title" and @text="New Incognito tab"]'
         self.driver.find_element(by=AppiumBy.XPATH, value=three_dots_xpath).click()
         self.driver.find_element(by=AppiumBy.XPATH, value=incognito_tab_xpath).click()
