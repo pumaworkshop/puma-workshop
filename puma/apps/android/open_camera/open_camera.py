@@ -86,7 +86,7 @@ class OpenCameraActions(AndroidAppiumActions):
         y = zoom_slider.location.get('y')
         width = zoom_slider.size.get('width')
         height = zoom_slider.size.get('height')
-        # we need to click slightly inside the bounds of the slider, so we don't use the full height
+        # We need to click slightly inside the bounds of the slider, so we don't use the full height
         height = int(0.95 * height)
         x_to_tap = x + (width // 2)
         y_to_tap = y + (height * (1 - zoom_amount))
