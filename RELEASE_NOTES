@@ -1,22 +1,18 @@
+Version 2.8.0
+-------------
+100. Add tutorial
+
 Version 2.7.0
 -------------
-[workshop] Add solutions
-94. [workshop] Create test code for Google Camera and Open Camera
-93. [workshop] Move your_app to the workshop folder
-95. [workshop] Use correct AppImage link for Linux install script, check documentation, add appium inspector capability set to exercise 3
+91. Telegram: Add support for selecting chat by index
+89. Teleguard: Use hint property instead of text property for finding Telegram chat EditText
+83. Remove old workshop folder
 81. Add section about problems with starting emulators to troubleshooting
 78. Fix Windows logging to file
 74. Create install scripts for Linux, MacOS, and Windows
 
 Version 2.6.0
 -------------
-72. [workshop] Improve exercises by removing typos and removing mention of SSH key
-[workshop] Normalize notebooks
-[workshop] Add exercise 5
-[workshop] Add exercise 4
-[workshop] Add exercise 3
-[workshop] Add exercise 2
-[workshop] Add exercise 1
 75. Telegram: Fix sending messages and pictures for version 11.8.x
 71. Improve README
 67. Appium: Add logging upon initialization
