@@ -260,7 +260,7 @@ first do a test run by executing the test script for your application.
 ### My application is not present on the device
 Install the APK on the device you want to use.
 When using an emulator, this can be done by dragging the APK file onto the emulator, this automatically installs the APK on the device.
-Alternatively, you could use `adb install`. See the [developer docs](https://developer.android.com/tools/adb#move)
+For physical devices as well as emulators, you could use `adb install`. See the [developer docs](https://developer.android.com/tools/adb#move)
 
 ### Pop-ups break my code!
 Some applications have pop-ups which appear the first time that the application is opened.
