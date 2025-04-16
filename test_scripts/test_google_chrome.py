@@ -32,8 +32,10 @@ class TestGoogleChrome(unittest.TestCase):
     def test_new_tab(self):
         self.alice.go_to("www.google.com", new_tab=True)
 
-    def test_bookmark(self):
+    def test_save_bookmark(self):
         self.alice.bookmark_page()
+
+    def test_load_bookmark(self):
         self.alice.load_bookmark()
 
     def test_incognito(self):
