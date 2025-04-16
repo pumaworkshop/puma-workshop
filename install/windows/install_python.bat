@@ -17,17 +17,14 @@ IF %ERRORLEVEL% NEQ 0 (
 
     :: Install Python 3
     echo Installing Python...
-    echo The installer will now ask for administrator rights
     start /wait "" "python-installer.exe" /quiet InstallAllUsers=1 PrependPath=1
-    set "PATH=C:\Program Files\Python312;C:\Program Files\Python312\Scripts;%PATH%"
 
     :: Clean up
     IF defined downloaded_python (
         del python-installer.exe
     )
 
-    echo Python 3 installed, version:
-    python --version
+    echo Python 3 installation completed.
 ) ELSE (
     echo Python 3 is already installed.
 )

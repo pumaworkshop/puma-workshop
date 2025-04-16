@@ -13,7 +13,7 @@ touch "$log_path"
 "$CURRENT_DIR"/macos/install_adb.sh | tee -a "$log_path"
 "$CURRENT_DIR"/macos/install_node_appium.sh | tee -a "$log_path"
 "$CURRENT_DIR"/macos/install_appium_inspector.sh | tee -a "$log_path"
-"$CURRENT_DIR"/macos/setup_workshop_env.sh | tee -a "$log_path"
+"$CURRENT_DIR"/macos/setup_python_env.sh | tee -a "$log_path"
 
 #TODO actually check instead of print
 echo "Installation complete!"
