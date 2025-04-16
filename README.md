@@ -23,7 +23,7 @@ of existing apps are welcome! If you want to contribute, please read [CONTRIBUTI
 1. Install all required software (see the [requirements](#requirements) section).
 2. Connect your Android device (or start an emulator), make sure it is connected properly over ADB (See the section on
    [troubleshooting](#Troubleshooting) if you encounter problems).
-    - :warn: Make sure the phone is set to English, and [all other requirements](#android-device--s--or-emulators) are met!
+    - :warn: Make sure the phone is set to English, and [all other requirements](#android-devices-or-emulators) are met!
 3. Get the UDID of your device by running `adb devices` (in the example below `954724ertyui74125` is the UDID of the
    device):
 
