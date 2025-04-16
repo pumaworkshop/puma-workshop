@@ -65,7 +65,7 @@ class OpenCameraActions(AndroidAppiumActions):
 
     def take_video(self, duration : int):
         """
-        Takes a video of a given duration
+        Takes a video of a given duration.
         """
         self._switch_to_video_mode()
         self._click_shutter()
