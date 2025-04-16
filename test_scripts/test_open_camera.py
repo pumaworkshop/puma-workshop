@@ -4,7 +4,7 @@ from puma.apps.android.open_camera.open_camera import OpenCameraActions
 
 # Fill in the udid below. Run ADB devices to see the udids.
 device_udids = {
-    "Alice": "48201FDAP005AA"
+    "Alice": ""
 }
 
 
