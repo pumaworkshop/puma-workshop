@@ -1,5 +1,8 @@
 Version 2.7.0
 -------------
+94. [workshop] Create test code for Google Camera and Open Camera
+93. [workshop] Move your_app to the workshop folder
+95. [workshop] Use correct AppImage link for Linux install script, check documentation, add appium inspector capability set to exercise 3
 81. Add section about problems with starting emulators to troubleshooting
 78. Fix Windows logging to file
 74. Create install scripts for Linux, MacOS, and Windows

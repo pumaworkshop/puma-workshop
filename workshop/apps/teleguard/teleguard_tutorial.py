@@ -1,16 +1,15 @@
-import inspect
 from time import sleep
 from typing import Dict
 
 from appium.webdriver.common.appiumby import AppiumBy
 
 from puma.apps.android.appium_actions import supported_version, AndroidAppiumActions
-from puma.apps.android.teleguard import logger
+from workshop.apps.teleguard import tutorial_logger
 
 APPLICATION_PACKAGE = 'ch.swisscows.messenger.teleguardapp'
 
 @supported_version("4.0.7")
-class TeleguardActions(AndroidAppiumActions):
+class TeleguardActionsTutorial(AndroidAppiumActions):
     def __init__(self,
                  device_udid,
                  desired_capabilities: Dict[str, str] = None,
@@ -34,7 +33,7 @@ class TeleguardActions(AndroidAppiumActions):
         :param chat: Name of the chat to go to, this is either the contact name or the group name.
         """
         if chat is None:
-            logger.warning("No chat was supplied. Assuming you are in the correct conversation screen now.")
+            tutorial_logger.warning("No chat was supplied. Assuming you are in the correct conversation screen now.")
         else:
             self.select_chat(chat)
             sleep(1)
