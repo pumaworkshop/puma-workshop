@@ -5,7 +5,7 @@ from test_scripts.test_google_maps import device_udids
 
 # Fill in the udid below. Run ADB devices to see the udids.
 device_udids = {
-    "Alice": "emulator-5554"
+    "Alice": ""
 }
 
 
