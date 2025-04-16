@@ -1,6 +1,6 @@
 # Open Camera - Android
 
-Google Camera is an open source camera application for Android.
+Open Camera is an open source camera application for Android.
 
 Puma supports taking pictures and video, switching between front and rear camera, and zooming.
 
