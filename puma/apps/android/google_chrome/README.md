@@ -18,7 +18,7 @@ phone = GoogleChromeActions("emulator-5554")
 
 ### Navigating the UI
 
-You can go to a new web, add a bookmark and enter incognito mode:
+You can go to a new web page, add a bookmark and enter incognito mode:
 
 ```python
 phone.go_to("google.com")
