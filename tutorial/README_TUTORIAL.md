@@ -1,6 +1,6 @@
-# Puma Workshop
+# Puma puma
 
-Welcome to the Puma workshop! This section of the repository is dedicated to guiding you through the process of learning
+Welcome to the Puma tutorial! This section of the repository is dedicated to guiding you through the process of learning
 how to use Puma and how to contribute to Puma. 
 
 ### Prerequisites

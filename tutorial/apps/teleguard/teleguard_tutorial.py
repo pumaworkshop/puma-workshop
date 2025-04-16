@@ -4,7 +4,7 @@ from typing import Dict
 from appium.webdriver.common.appiumby import AppiumBy
 
 from puma.apps.android.appium_actions import supported_version, AndroidAppiumActions
-from workshop.apps.teleguard import tutorial_logger
+from tutorial.apps.teleguard import tutorial_logger
 
 APPLICATION_PACKAGE = 'ch.swisscows.messenger.teleguardapp'
 
