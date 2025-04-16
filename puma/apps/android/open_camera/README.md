@@ -4,7 +4,7 @@ Google Camera is an open source camera application for Android.
 
 Puma supports taking pictures and video, switching between front and rear camera, and zooming.
 
-The app can be installed rom [the Play Store](https://play.google.com/store/apps/details?id=net.sourceforge.opencamera)
+The app can be installed from [the Play Store](https://play.google.com/store/apps/details?id=net.sourceforge.opencamera)
 or [F-Droid](https://f-droid.org/packages/net.sourceforge.opencamera/).
 
 ## Prerequisites
