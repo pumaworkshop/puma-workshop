@@ -16,7 +16,7 @@ class TestGoogleChrome(unittest.TestCase):
 
     Prerequisites:
     - All prerequisites mentioned in the README.
-    - Phone with Google Chrome installed
+    - Phone or emulator with Google Chrome installed
     """
 
     @classmethod
