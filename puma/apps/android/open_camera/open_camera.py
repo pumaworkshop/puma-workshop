@@ -50,7 +50,7 @@ class OpenCameraActions(AndroidAppiumActions):
 
     def take_picture(self):
         """
-        Takes a picture
+        Takes a picture.
         """
         self._switch_to_photo_mode()
         self._click_shutter()
