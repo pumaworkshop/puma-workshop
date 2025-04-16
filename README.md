@@ -256,3 +256,14 @@ a view-once photo.
 Because this only occurs the first time, it is not handled by the code. The advice is when running into this problem,
 manually click `Ok` on the pop-up and try again. To ensure this does not happen in the middle of your test data script,
 first do a test run by executing the test script for your application.
+
+### My application is not present on the device
+Install the APK on the device you want to use.
+When using an emulator, this can be done by dragging the APK file onto the emulator, this automatically installs the APK on the device.
+For physical devices as well as emulators, you could use `adb install`. See the [developer docs](https://developer.android.com/tools/adb#move)
+
+### Pop-ups break my code!
+Some applications have pop-ups which appear the first time that the application is opened.
+Puma does not handle these pop-ups, these should be manually clicked once to remove them.
+The same holds for pop-ups that request permissions, these should be manually clicked.
+Note: If your app has other pop-ups that happen regularly, Puma should support these.
