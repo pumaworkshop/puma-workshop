@@ -1,5 +1,6 @@
 Version 2.7.0
 -------------
+93. [workshop] Move your_app to the workshop folder
 95. [workshop] Use correct AppImage link for Linux install script, check documentation, add appium inspector capability set to exercise 3
 81. Add section about problems with starting emulators to troubleshooting
 78. Fix Windows logging to file
