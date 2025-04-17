@@ -23,7 +23,7 @@ class GoogleCameraActions(AndroidAppiumActions):
 
     def take_picture(self):
         """
-        Takes a single picture
+        Takes a single picture.
         """
         xpath = '//android.widget.ImageButton[@resource-id="com.google.android.GoogleCamera:id/shutter_button"]'
         shutter = self.driver.find_element(by=AppiumBy.XPATH, value=xpath)
