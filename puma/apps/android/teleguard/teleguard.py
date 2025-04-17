@@ -61,7 +61,7 @@ class TeleguardActions(AndroidAppiumActions):
 
     def return_to_homescreen(self, attempts: int = 10):
         """
-        Returns to the start screen of Telegram
+        Returns to the start screen of Telegram.
         :param attempts: Number of attempts to return to home screen. Avoids an infinite loop when a popup occurs.
         """
         while not self._currently_at_homescreen() and attempts > 0:
