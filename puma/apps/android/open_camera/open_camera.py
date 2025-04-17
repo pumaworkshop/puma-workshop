@@ -32,7 +32,7 @@ class OpenCameraActions(AndroidAppiumActions):
 
     def _switch_to_photo_mode(self):
         """
-        If in video mode, switches to photo mode
+        If in video mode, switches to photo mode.
         """
         photo_mode_button = '//android.widget.ImageButton[@content-desc="Switch to photo mode"]'
         if self.is_present(photo_mode_button):
