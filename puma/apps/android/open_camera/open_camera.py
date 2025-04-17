@@ -24,7 +24,7 @@ class OpenCameraActions(AndroidAppiumActions):
 
     def _click_shutter(self):
         """
-        Presses the shutter to take a picture or start/stop recording
+        Presses the shutter to take a picture or start/stop recording.
         """
         xpath = '//android.widget.ImageButton[@resource-id="net.sourceforge.opencamera:id/take_photo"]'
         shutter = self.driver.find_element(by=AppiumBy.XPATH, value=xpath)
