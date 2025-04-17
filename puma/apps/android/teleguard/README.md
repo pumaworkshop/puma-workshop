@@ -1,4 +1,4 @@
-Telegram Messenger - Android
+# TeleGuard Messenger - Android
 
 TeleGuard Messenger is a messaging app developed by Swisscows.
 Puma supports part of the features of TeleGuard.
