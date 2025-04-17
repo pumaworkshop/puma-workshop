@@ -31,7 +31,7 @@ class GoogleCameraActions(AndroidAppiumActions):
 
     def switch_camera(self):
         """
-        Switches between the front and rear camera
+        Switches between the front and rear camera.
         """
         xpath = '//android.widget.ImageButton[@resource-id="com.google.android.GoogleCamera:id/camera_switch_button"]'
         button = self.driver.find_element(by=AppiumBy.XPATH, value=xpath)
