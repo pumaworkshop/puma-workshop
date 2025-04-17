@@ -1,5 +1,5 @@
 # Puma - Programmable Utility for Mobile Automation
-
+![](images/Logo.svg)
 Puma is a Python library for executing app-specific actions on mobile devices such as sending a message or starting a
 call. The goal is that you can focus on *what* should happen rather than *how* this should happen, so rather than write
 code to "tap on Bob's conversation on Alice's phone, enter the message, and press send", you can simply write "send a
