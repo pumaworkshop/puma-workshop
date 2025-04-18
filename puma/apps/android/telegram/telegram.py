@@ -134,7 +134,8 @@ class TelegramActions(AndroidAppiumActions):
         :param chat: Optional: The chat conversation in which to send this message, if not currently in the desired chat. This is either the (partial) chat name or the index of the chat on the home screen.
         """
         self._if_chat_go_to_chat(chat)
-        message_editText = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText[@hint="Message"]')
+        message_editText_xpath = '//android.widget.EditText[@text="Message" or @hint="Message"]'
+        message_editText = self.driver.find_element(by=AppiumBy.XPATH, value=message_editText_xpath)
         message_editText.clear()
         message_editText.send_keys(message)
 
