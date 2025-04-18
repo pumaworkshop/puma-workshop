@@ -1,3 +1,7 @@
+Version 2.7.1
+-------------
+102. Fix sending Telegram text messages, and disable default logging config
+
 Version 2.7.0
 -------------
 91. Telegram: Add support for selecting chat by index
